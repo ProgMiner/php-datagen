@@ -1,0 +1,27 @@
+{
+    "name": "progminer/php-datagen",
+    "description": "Code generator for making data classes on PHP",
+    "type": "project",
+    "keywords": ["data", "class", "generator"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ProgMiner",
+            "email": "eridan200@mail.ru"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "symfony/console": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "PHPDataGen\\": "app"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}
