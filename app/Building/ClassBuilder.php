@@ -24,6 +24,8 @@ SOFTWARE. */
 
 namespace PHPDataGen\Building;
 
+use PHPDataGen\Model\ClassModel;
+
 /**
  * Class builder
  */
@@ -104,9 +106,22 @@ class ClassBuilder {
     }
 
     /**
-     * Builds class
+     * Builds class model
+     *
+     * @return ClassModel
      */
-    public function build() {
-        // TODO
+    public function build(): ClassModel {
+        $model = new ClassModel();
+
+        $model->name = $this->name;
+        $model->extends = $this->extends;
+        $model->implements = $this->implements;
+
+        $model->fields = [];
+        foreach ($this->fields as $field) {
+            $model->fields[] = $field->build();
+        }
+
+        return $model;
     }
 }

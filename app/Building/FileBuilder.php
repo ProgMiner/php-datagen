@@ -24,6 +24,8 @@ SOFTWARE. */
 
 namespace PHPDataGen\Building;
 
+use PHPDataGen\Model\FileModel;
+
 /**
  * File builder
  */
@@ -96,9 +98,21 @@ class FileBuilder {
     }
 
     /**
-     * Builds file
+     * Builds file model
+     *
+     * @return FileModel
      */
-    public function build() {
-        // TODO
+    public function build(): FileModel {
+        $model = new FileModel();
+
+        $model->namespace = $this->namespace;
+        $model->uses = $this->uses;
+
+        $model->classes = [];
+        foreach ($this->classes as $class) {
+            $model->classes[] = $class->build();
+        }
+
+        return $model;
     }
 }

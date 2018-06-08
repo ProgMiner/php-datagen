@@ -24,6 +24,8 @@ SOFTWARE. */
 
 namespace PHPDataGen\Building;
 
+use PHPDataGen\Model\FieldModel;
+
 /**
  * Field builder
  */
@@ -160,9 +162,22 @@ class FieldBuilder {
     }
 
     /**
-     * Builds class
+     * Builds field model
+     *
+     * @return FieldModel
      */
-    public function build() {
-        // TODO
+    public function build(): FieldModel {
+        $model = new FieldModel();
+
+        $model->name = $this->name;
+        $model->editable = $this->editable;
+        $model->direct = $this->direct;
+        $model->type = $this->type;
+        $model->validators = $this->validators;
+        $model->hasDefault = $this->hasDefault;
+        $model->filterDefault = $this->filterDefault;
+        $model->default = $this->default;
+
+        return $model;
     }
 }
