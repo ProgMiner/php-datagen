@@ -69,5 +69,5 @@ class FieldModel {
     /**
      * @var string Default value
      */
-    public $defualt = null;
+    public $default = null;
 }

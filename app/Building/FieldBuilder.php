@@ -69,7 +69,7 @@ class FieldBuilder {
     /**
      * @var string Default value
      */
-    protected $defualt = null;
+    protected $default = null;
 
     /**
      * Sets field name

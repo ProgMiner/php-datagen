@@ -35,7 +35,7 @@ class FileBuilder {
     protected $namespace = '';
 
     /**
-     * @var string[] File uses
+     * @var array(string => string) File uses (class name => full class name)
      */
     protected $uses = [];
 

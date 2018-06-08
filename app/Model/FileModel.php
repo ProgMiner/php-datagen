@@ -35,7 +35,7 @@ class FileModel {
     public $namespace = '';
 
     /**
-     * @var string[] File uses
+     * @var array(string => string) File uses (class name => full class name)
      */
     public $uses = [];
 
@@ -43,4 +43,16 @@ class FileModel {
      * @var ClassModel[] Classes contained in file
      */
     public $classes = [];
+
+    public function getClassPath(string $className): string {
+        if (isset($this->uses[$className])) {
+            return $this->uses[$className];
+        }
+
+        if (empty($this->namespace)) {
+            return "\\{$className}";
+        }
+
+        return "\\{$this->namespace}\\{$className}";
+    }
 }
