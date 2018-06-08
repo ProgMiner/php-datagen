@@ -64,7 +64,19 @@ class FileBuilder {
      * @return static $this
      */
     public function addUse(string $use) {
-        // TODO
+        $className = explode('\\', $use);
+        $className = array_pop($className);
+
+        if (is_null($className)) {
+            throw new \UnexpectedValueException("Invalid use \"$use\"");
+        }
+
+        if (isset($this->uses[$className])) {
+            throw new \Exception("Class name \"$className\" is already used");
+        }
+
+        $this->uses[$className] = $use;
+
         return $this;
     }
 
@@ -76,7 +88,10 @@ class FileBuilder {
      * @return static $this
      */
     public function addClass(ClassBuilder $class) {
-        // TODO
+        if (!in_array($class, $this->classes)) {
+            $this->classes[] = $class;
+        }
+
         return $this;
     }
 

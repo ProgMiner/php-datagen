@@ -81,7 +81,10 @@ class ClassBuilder {
      * @return static $this
      */
     public function addImplements(string $interface): ClassBuilder {
-        // TODO
+        if (!in_array($interface, $this->implements)) {
+            $this->implements[] = $interface;
+        }
+
         return $this;
     }
 
@@ -93,7 +96,10 @@ class ClassBuilder {
      * @return static $this
      */
     public function addField(FieldBuilder $field): ClassBuilder {
-        // TODO
+        if (!in_array($field, $this->fields)) {
+            $this->fields[] = $field;
+        }
+
         return $this;
     }
 

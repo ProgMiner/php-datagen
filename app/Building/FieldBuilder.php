@@ -152,7 +152,10 @@ class FieldBuilder {
      * @return static $this
      */
     public function addValidator(string $validator): FieldBuilder {
-        // TODO
+        if (!in_array($validator, $this->validators)) {
+            $this->validators[] = $validator;
+        }
+
         return $this;
     }
 
