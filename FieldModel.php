@@ -26,14 +26,14 @@ $classBuilder->setName('FieldModel')->
         (new FieldBuilder())->
             setName('editable')->
             setType('bool')->
-            setDefault(false)
+            setDefault('false')
     )->
 
     addField(
         (new FieldBuilder())->
             setName('direct')->
             setType('bool')->
-            setDefault(false)
+            setDefault('false')
     )->
 
     addField(
@@ -52,14 +52,14 @@ $classBuilder->setName('FieldModel')->
         (new FieldBuilder())->
             setName('hasDefault')->
             setType('bool')->
-            setDefault(false)
+            setDefault('false')
     )->
 
     addField(
         (new FieldBuilder())->
             setName('filterDefault')->
             setType('bool')->
-            setDefault(true)
+            setDefault('true')
     )->
 
     addField(

@@ -94,7 +94,7 @@ class Compiler {
             $result .= "\$this->{$fieldModel->name} = ";
 
             if ($fieldModel->filterDefault) {
-                $result .= "\$this->validate_{$fieldModel->name}(".var_export($fieldModel->default, true).')';
+                $result .= "\$this->validate_{$fieldModel->name}({$fieldModel->default})";
             } else {
                 $result .= $fieldModel->default;
             }

@@ -65,7 +65,7 @@ class FieldModel {
     public $filterDefault = true;
 
     /**
-     * @var string Default value
+     * @var string Default value expression
      */
     public $default = null;
 }

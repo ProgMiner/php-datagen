@@ -69,7 +69,7 @@ class FieldBuilder {
     protected $filterDefault = true;
 
     /**
-     * @var mixed Default value
+     * @var string Default value expression
      */
     protected $default = null;
 
@@ -134,13 +134,13 @@ class FieldBuilder {
     }
 
     /**
-     * Sets default value
+     * Sets default value expression
      *
-     * @param string $default New default field value
+     * @param string $default New default field value expression
      *
      * @return static $this
      */
-    public function setDefault($default): FieldBuilder {
+    public function setDefault(string $default): FieldBuilder {
         $this->default = $default;
         $this->hasDefault = true;
         return $this;
