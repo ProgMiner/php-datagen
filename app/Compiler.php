@@ -71,7 +71,7 @@ class Compiler {
         $result .= " {\n";
 
         // TODO Library use disabling
-        $result .= "use \PHPDataGen\DataClassTrait;\n";
+        $result .= "use \\PHPDataGen\\DataClassTrait;\n";
 
         foreach ($classModel->fields as $fieldModel) {
             if ($fieldModel->direct) {
@@ -104,7 +104,8 @@ class Compiler {
 
         $result .= <<<'EOF'
 foreach ($init as $field => $value) {
-    $this->$field = $this->validate_$field($value);
+    $validate = "validate_$field";
+    $this->$field = $this->$validate($value);
 }
 }
 

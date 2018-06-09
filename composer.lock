@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ProgMiner/php-datagen-lib.git",
-                "reference": "d5e50993dd37e91a2c692f6fae5765a42f5d0a96"
+                "reference": "16b7f9dbfc3ae54a2c807fda1f24745f7825cf48"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ProgMiner/php-datagen-lib/zipball/d5e50993dd37e91a2c692f6fae5765a42f5d0a96",
-                "reference": "d5e50993dd37e91a2c692f6fae5765a42f5d0a96",
+                "url": "https://api.github.com/repos/ProgMiner/php-datagen-lib/zipball/16b7f9dbfc3ae54a2c807fda1f24745f7825cf48",
+                "reference": "16b7f9dbfc3ae54a2c807fda1f24745f7825cf48",
                 "shasum": ""
             },
             "type": "library",
@@ -45,7 +45,7 @@
                 "source": "https://github.com/ProgMiner/php-datagen-lib/tree/master",
                 "issues": "https://github.com/ProgMiner/php-datagen-lib/issues"
             },
-            "time": "2018-06-09T01:07:42+00:00"
+            "time": "2018-06-09T01:45:50+00:00"
         },
         {
             "name": "symfony/console",
