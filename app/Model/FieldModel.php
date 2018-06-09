@@ -37,7 +37,7 @@ class FieldModel {
     /**
      * @var bool Is editable
      */
-    public $editable = null;
+    public $editable = false;
 
     /**
      * @var bool Has direct access from self class
@@ -45,9 +45,7 @@ class FieldModel {
     public $direct = false;
 
     /**
-     * @var string Type name
-     *
-     * TODO Make types enum
+     * @var Type Field type
      */
     public $type = 'mixed';
 

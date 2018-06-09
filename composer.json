@@ -13,8 +13,15 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "symfony/console": "^4.0"
+        "symfony/console": "^4.0",
+        "progminer/php-datagen-lib": "dev-master"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:ProgMiner/php-datagen-lib.git"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "PHPDataGen\\": "app"

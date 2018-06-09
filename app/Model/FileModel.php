@@ -44,7 +44,18 @@ class FileModel {
      */
     public $classes = [];
 
+    /**
+     * Converts short class name to full by uses and namespace
+     *
+     * @param string $className Short class name
+     *
+     * @return string Full class name
+     */
     public function getClassPath(string $className): string {
+        if ($className[0] === '\\') {
+            return $className;
+        }
+
         if (isset($this->uses[$className])) {
             return $this->uses[$className];
         }

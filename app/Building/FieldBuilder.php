@@ -24,6 +24,8 @@ SOFTWARE. */
 
 namespace PHPDataGen\Building;
 
+use PHPDataGen\Type;
+
 use PHPDataGen\Model\FieldModel;
 
 /**
@@ -39,7 +41,7 @@ class FieldBuilder {
     /**
      * @var bool Is editable
      */
-    protected $editable = null;
+    protected $editable = false;
 
     /**
      * @var bool Has direct access from self class
@@ -48,8 +50,6 @@ class FieldBuilder {
 
     /**
      * @var string Type name
-     *
-     * TODO Make types enum
      */
     protected $type = 'mixed';
 
@@ -69,7 +69,7 @@ class FieldBuilder {
     protected $filterDefault = true;
 
     /**
-     * @var string Default value
+     * @var mixed Default value
      */
     protected $default = null;
 
@@ -140,7 +140,7 @@ class FieldBuilder {
      *
      * @return static $this
      */
-    public function setDefault(string $default): FieldBuilder {
+    public function setDefault($default): FieldBuilder {
         $this->default = $default;
         $this->hasDefault = true;
         return $this;
@@ -172,7 +172,7 @@ class FieldBuilder {
         $model->name = $this->name;
         $model->editable = $this->editable;
         $model->direct = $this->direct;
-        $model->type = $this->type;
+        $model->type = new Type($this->type);
         $model->validators = $this->validators;
         $model->hasDefault = $this->hasDefault;
         $model->filterDefault = $this->filterDefault;

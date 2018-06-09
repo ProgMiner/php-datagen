@@ -25,13 +25,16 @@ SOFTWARE. */
 namespace PHPDataGen;
 
 use PHPDataGen\Model\FileModel;
+use PHPDataGen\Model\ClassModel;
 
 /**
  * Compiler
  */
 class Compiler {
 
-    // TODO
+    /**
+     * @var array(string => string) Array of validator functions
+     */
     protected $validators = [];
 
     public function compile(FileModel $fileModel): string {
@@ -48,7 +51,8 @@ class Compiler {
     }
 
     protected function compileClass(ClassModel $classModel, FileModel $fileModel): string {
-        $result = "class {$classModel->name}";
+        // TODO Custom naming
+        $result = "class Data_{$classModel->name}";
 
         if (!is_null($classModel->extends)) {
             $result .= ' extends '.$fileModel->getClassPath($classModel->extends);
@@ -66,6 +70,9 @@ class Compiler {
 
         $result .= " {\n";
 
+        // TODO Library use disabling
+        $result .= "use \PHPDataGen\DataClassTrait;\n";
+
         foreach ($classModel->fields as $fieldModel) {
             if ($fieldModel->direct) {
                 $result .= 'protected';
@@ -73,7 +80,8 @@ class Compiler {
                 $result .= 'private';
             }
 
-            $result .= " {$fieldModel->name} = null;\n";
+            // TODO Direct default value set
+            $result .= " \${$fieldModel->name} = null;\n";
         }
 
         $result .= "public function __construct(array \$init = []) {\n";
@@ -86,7 +94,7 @@ class Compiler {
             $result .= "\$this->{$fieldModel->name} = ";
 
             if ($fieldModel->filterDefault) {
-                $result .= "\$this->validate_{$fieldModel->name}({$fieldModel->default})";
+                $result .= "\$this->validate_{$fieldModel->name}(".var_export($fieldModel->default, true).')';
             } else {
                 $result .= $fieldModel->default;
             }
@@ -99,10 +107,35 @@ foreach ($init as $field => $value) {
     $this->$field = $this->validate_$field($value);
 }
 }
+
 EOF;
 
         foreach ($classModel->fields as $fieldModel) {
-            // TODO getters, setters, validators
+            $fieldModel->type->fixClassName($fileModel);
+
+            $result .= "public function get_{$fieldModel->name}(){$fieldModel->type->makeReturnTypeTip()} { return \$this->{$fieldModel->name}; }\n";
+
+            if (!$fieldModel->type->isMixed() || !empty($fieldModel->validation)) {
+                $result .= "protected function validate_{$fieldModel->name}".
+                        "({$fieldModel->type->makeArgumentTypeTip()}\$value){$fieldModel->type->makeReturnTypeTip()} {\n";
+
+                foreach ($fieldModel->validators as $validator) {
+                    if (!isset($this->validators[$validator])) {
+                        throw new \Exception("Validator \"{$validator}\" is not exists");
+                    }
+
+                    $result .= "\$value = {$this->validators[$validator]}(\$value);\n";
+                }
+
+                $result .= "return \$value;\n}\n";
+            }
+
+            if ($fieldModel->editable) {
+                $result .= "public function set_{$fieldModel->name}".
+                        "({$fieldModel->type->makeArgumentTypeTip()}\$value) { ".
+                        "\$this->{$fieldModel->name} = \$this->validate_{$fieldModel->name}(\$value);".
+                        "}\n";
+            }
         }
 
         $result .= '}';
