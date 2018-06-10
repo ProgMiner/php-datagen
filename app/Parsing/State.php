@@ -22,48 +22,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-namespace PHPDataGen\Model;
+namespace PHPDataGen\Parsing;
 
 /**
- * File model
+ * Parsing state
  */
-class FileModel {
+abstract class State {
 
-    /**
-     * @var string File namespace
-     */
-    public $namespace = null;
-
-    /**
-     * @var array(string => string) File uses (class name => full class name)
-     */
-    public $uses = [];
-
-    /**
-     * @var ClassModel[] Classes contained in file
-     */
-    public $classes = [];
-
-    /**
-     * Converts short class name to full by uses and namespace
-     *
-     * @param string $className Short class name
-     *
-     * @return string Full class name
-     */
-    public function getClassPath(string $className): string {
-        if ($className[0] === '\\') {
-            return $className;
-        }
-
-        if (isset($this->uses[$className])) {
-            return $this->uses[$className];
-        }
-
-        if (is_null($this->namespace)) {
-            return "\\{$className}";
-        }
-
-        return "\\{$this->namespace}\\{$className}";
-    }
+    public function step(string &$next): State;
 }

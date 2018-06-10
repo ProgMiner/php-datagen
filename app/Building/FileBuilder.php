@@ -34,7 +34,7 @@ class FileBuilder {
     /**
      * @var string File namespace
      */
-    protected $namespace = '';
+    protected $namespace = null;
 
     /**
      * @var array(string => string) File uses (class name => full class name)
@@ -54,6 +54,10 @@ class FileBuilder {
      * @return static $this
      */
     public function setNamespace(string $namespace) {
+        if (!is_null($this->namespace)) {
+            throw new \Exception('Namespace already setted');
+        }
+
         $this->namespace = $namespace;
         return $this;
     }
@@ -61,23 +65,26 @@ class FileBuilder {
     /**
      * Adds used class name in uses array
      *
-     * @param string $use Used class name
+     * @param string $use   Used class name
+     * @param string $alias Alias for class name
      *
      * @return static $this
      */
-    public function addUse(string $use) {
-        $className = explode('\\', $use);
-        $className = array_pop($className);
+    public function addUse(string $use, string $alias = null) {
+        if (is_null($alias)) {
+            $alias = explode('\\', $use);
+            $alias = array_pop($alias);
+        }
 
-        if (is_null($className)) {
+        if (is_null($alias)) {
             throw new \UnexpectedValueException("Invalid use \"$use\"");
         }
 
-        if (isset($this->uses[$className])) {
-            throw new \Exception("Class name \"$className\" is already used");
+        if (isset($this->uses[$alias])) {
+            throw new \Exception("Class name \"$alias\" is already used");
         }
 
-        $this->uses[$className] = $use;
+        $this->uses[$alias] = $use;
 
         return $this;
     }

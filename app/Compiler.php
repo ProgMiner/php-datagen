@@ -40,8 +40,10 @@ class Compiler {
     public function compile(FileModel $fileModel): string {
         $result = "<?php\n";
 
-        // TODO Custom data class location
-        $result .= "namespace {$fileModel->namespace};\n";
+        if (!is_null($fileModel->namespace)) {
+            // TODO Custom data class location
+            $result .= "namespace {$fileModel->namespace};\n";
+        }
 
         foreach ($fileModel->classes as $class) {
             $result .= $this->compileClass($class, $fileModel)."\n";

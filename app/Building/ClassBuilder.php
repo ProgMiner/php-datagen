@@ -59,6 +59,10 @@ class ClassBuilder {
      * @return static $this
      */
     public function setName(string $name): ClassBuilder {
+        if (!is_null($this->name)) {
+            throw new \Exception('Name already setted');
+        }
+
         $this->name = $name;
         return $this;
     }
@@ -71,6 +75,10 @@ class ClassBuilder {
      * @return static $this
      */
     public function setExtends(string $extends): ClassBuilder {
+        if (!is_null($this->extends)) {
+            throw new \Exception('Extends already setted');
+        }
+
         $this->extends = $extends;
         return $this;
     }
@@ -82,7 +90,7 @@ class ClassBuilder {
      *
      * @return static $this
      */
-    public function addImplements(string $interface): ClassBuilder {
+    public function addImplement(string $interface): ClassBuilder {
         if (!in_array($interface, $this->implements)) {
             $this->implements[] = $interface;
         }
