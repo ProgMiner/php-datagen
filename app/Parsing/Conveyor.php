@@ -95,13 +95,17 @@ class Conveyor {
      * If required is true throws Exception
      *
      * @param string $operator Operator
+     * @param bool   $skip     Skip operator? Default is true
      * @param bool   $required Is operator required? Default is false
      *
      * @return Operator finded
      */
-    public function readOperator(string $operator, bool $required = false): bool {
+    public function readOperator(string $operator, bool $skip = true, bool $required = false): bool {
         if (strpos($this->next, $operator) === 0) {
-            $this->move(strlen($operator));
+            if ($skip) {
+                $this->move(strlen($operator));
+            }
+
             return true;
         }
 

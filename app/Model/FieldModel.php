@@ -55,11 +55,6 @@ class FieldModel {
     public $validators = [];
 
     /**
-     * @var bool Has field default value?
-     */
-    public $hasDefault = false;
-
-    /**
      * @var bool Apply validators to default value?
      */
     public $filterDefault = true;

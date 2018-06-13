@@ -59,11 +59,6 @@ class FieldBuilder {
     protected $validators = [];
 
     /**
-     * @var bool Has field default value?
-     */
-    protected $hasDefault = false;
-
-    /**
      * @var bool Apply validators to default value?
      */
     protected $filterDefault = true;
@@ -141,8 +136,11 @@ class FieldBuilder {
      * @return static $this
      */
     public function setDefault(string $default): FieldBuilder {
+        if (isset($this->default)) {
+            throw new \Exception('Default value is already setted');
+        }
+
         $this->default = $default;
-        $this->hasDefault = true;
         return $this;
     }
 
@@ -174,7 +172,6 @@ class FieldBuilder {
         $model->direct = $this->direct;
         $model->type = new Type($this->type);
         $model->validators = $this->validators;
-        $model->hasDefault = $this->hasDefault;
         $model->filterDefault = $this->filterDefault;
         $model->default = $this->default;
 

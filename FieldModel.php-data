@@ -2,56 +2,14 @@ namespace PHPDataGen\Model;
 
 class FieldModel {
 
+    val name: string;
+
+    val editable: bool = false;
+    val direct:   bool = false;
+
+    val type:       string;
+    val validators: array;
+
+    val filterDefault: bool = true;
+    val default:       string;
 }
-/*
-    addField(
-        (new FieldBuilder())->
-            setName('name')->
-            setType('string')
-    )->
-
-    addField(
-        (new FieldBuilder())->
-            setName('editable')->
-            setType('bool')->
-            setDefault('false')
-    )->
-
-    addField(
-        (new FieldBuilder())->
-            setName('direct')->
-            setType('bool')->
-            setDefault('false')
-    )->
-
-    addField(
-        (new FieldBuilder())->
-            setName('type')->
-            setType('string')
-    )->
-
-    addField(
-        (new FieldBuilder())->
-            setName('validators')->
-            setType('array')
-    )->
-
-    addField(
-        (new FieldBuilder())->
-            setName('hasDefault')->
-            setType('bool')->
-            setDefault('false')
-    )->
-
-    addField(
-        (new FieldBuilder())->
-            setName('filterDefault')->
-            setType('bool')->
-            setDefault('true')
-    )->
-
-    addField(
-        (new FieldBuilder())->
-            setName('default')
-    );
-*/

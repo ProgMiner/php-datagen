@@ -125,13 +125,14 @@ class ClassState implements State {
 
         case 5:
             if (
-                    $conveyor->readOperator('direct') ||
-                    $conveyor->readOperator('val')    ||
-                    $conveyor->readOperator('var')
+                    $conveyor->readOperator('direct', false) ||
+                    $conveyor->readOperator('val',    false) ||
+                    $conveyor->readOperator('var',    false)
             ) {
-                $this->state = 6;
-
                 $this->field = new FieldState($this);
+                $this->field->step($conveyor);
+
+                $this->state = 6;
                 return $this->field;
             }
 
@@ -142,6 +143,13 @@ class ClassState implements State {
             }
 
             throw new \Exception('Close bracket not found');
+
+        case 6:
+            $this->builder->addField($this->field->getBuilder());
+            $this->field = null;
+
+            $this->state = 5;
+            return $this;
         }
     }
 }

@@ -89,7 +89,7 @@ class Compiler {
         $result .= "public function __construct(array \$init = []) {\n";
 
         foreach ($classModel->fields as $fieldModel) {
-            if (!$fieldModel->hasDefault) {
+            if (!isset($fieldModel->default)) {
                 continue;
             }
 
