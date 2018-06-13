@@ -1,0 +1,12 @@
+namespace Foo;
+
+use Foo\Bar;
+use Foo\Baz as A;
+
+class Test extends \B implements Bar, A {
+
+}
+
+class Test1 extends C {
+
+}

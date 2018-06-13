@@ -30,70 +30,55 @@ namespace PHPDataGen\Parsing;
 class Parser {
 
     /**
-     * Reads namespace (Foo\Bar\Baz sequence) from parser conveyor
-     * Shifts parser coveyor on namespace length
-     *
-     * @param &string $next Parser conveyor string
-     *
-     * @return string Namespace
+     * @var Conveyor Parsing conveyor
      */
-    public static function readNamespace(string &$next): string {
-        if (preg_match('/^[a-z_][\w\\]*\w/i', $next, $matches) === 1) {
-            $next = substr($next, strlen($matches[0]));
+    protected $conveyor = null;
 
-            return $matches[0];
-        }
+    /**
+     * @var State Parser state
+     */
+    protected $state = null;
 
-        throw new \Exception('Namespace not found');
+    public function __construct(string $source) {
+        $this->conveyor = new Conveyor($source);
+        $this->state = new FileState();
     }
 
     /**
-     * Reads class name from parser conveyor
-     * Shifts parser coveyor on class name length
-     *
-     * @param &string $next Parser conveyor string
-     *
-     * @return string Class name
+     * Runs full parsing
      */
-    public static function readClassname(string &$next): string {
-        if (preg_match('/^[a-z_]\w*/i', $next, $matches) === 1) {
-            $next = substr($next, strlen($matches[0]));
-
-            return $matches[0];
+    public function parse() {
+        while($this->conveyor->length() > 0) {
+            $this->step();
         }
-
-        throw new \Exception('Class name not found');
     }
 
     /**
-     * Reads extended class name (\Foo\Bar\Baz sequence or regular) from parser conveyor
-     * Shifts parser coveyor on extended class name length
-     *
-     * @param &string $next Parser conveyor string
-     *
-     * @return string Extended class name
+     * Runs one step of parsing
      */
-    public static function readExtendedClassname(string &$next): string {
-        if (preg_match('/^(\\[a-z_]\w*)+/i', $next, $matches) === 1) {
-            $next = substr($next, strlen($matches[0]));
+    public function step() {
+        $this->conveyor->skipSpaces();
+        $this->state = $this->state->step($this->conveyor);
 
-            return $matches[0];
-        }
-
-        return static::readClassname($next);
+        $this->conveyor->skipSpaces();
+        $this->conveyor->skipComment();
     }
 
     /**
-     * Reads semicolon from parser conveyor
-     * Shifts parser coveyor on one symbol
+     * Returns parser conveyor
      *
-     * @param &string $next Parser conveyor string
+     * @return Conveyor
      */
-    public static function readSemicolon(string &$next) {
-        if (strpos($next, ';') === 0) {
-            return;
-        }
+    public function getConveyor(): Conveyor {
+        return $this->conveyor;
+    }
 
-        throw new \Exception('Semicolon not found');
+    /**
+     * Returns current parser state
+     *
+     * @return State
+     */
+    public function getCurrentState(): State {
+        return $this->state;
     }
 }

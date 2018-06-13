@@ -35,6 +35,11 @@ class Conveyor {
     protected $next = null;
 
     /**
+     * @var int Next string length
+     */
+    protected $length = 0;
+
+    /**
      * @var int Current cursor line
      */
     protected $line = 0;
@@ -49,6 +54,16 @@ class Conveyor {
      */
     public function __construct(string $source) {
         $this->next = $source;
+        $this->length = strlen($source);
+    }
+
+    /**
+     * Returns next string length
+     *
+     * @return int
+     */
+    public function length(): int {
+        return $this->length;
     }
 
     /**
@@ -72,6 +87,7 @@ class Conveyor {
         }
 
         $this->next = substr($this->next, $offset);
+        $this->length -= $offset;
     }
 
     /**
@@ -90,6 +106,7 @@ class Conveyor {
         }
 
         if ($required) {
+            // TODO Parsing exception class
             throw new \Exception("$operator not found at {$this->line} line {$this->row} row");
         }
 
@@ -100,7 +117,20 @@ class Conveyor {
      * Moves conveyor to next not-space symbol
      */
     public function skipSpaces() {
-        if (preg_match('/^\s*/', $this->next, $matches) === 1) {
+        if (preg_match('/^\\s*/', $this->next, $matches) === 1) {
+            $this->move(strlen($matches[0]));
+        }
+    }
+
+    /**
+     * Skips comment if exists
+     */
+    public function skipComment() {
+        if (preg_match('/^\\/\\*[\\s\\S]*\\*\\//', $this->next, $matches) === 1) {
+            $this->move(strlen($matches[0]));
+        }
+
+        if (preg_match('/^\\/\\/.*/', $this->next, $matches) === 1) {
             $this->move(strlen($matches[0]));
         }
     }
@@ -112,7 +142,7 @@ class Conveyor {
      * @return string Namespace
      */
     public function readNamespace(): string {
-        if (preg_match('/^[a-z_][\w\\]*\w/i', $this->next, $matches) === 1) {
+        if (preg_match('/^[a-z_][\\w\\\\]*\\w/i', $this->next, $matches) === 1) {
             $this->move(strlen($matches[0]));
 
             return $matches[0];
@@ -128,7 +158,7 @@ class Conveyor {
      * @return string Class name
      */
     public function readClassname(): string {
-        if (preg_match('/^[a-z_]\w*/i', $this->next, $matches) === 1) {
+        if (preg_match('/^[a-z_]\\w*/i', $this->next, $matches) === 1) {
             $this->move(strlen($matches[0]));
 
             return $matches[0];
@@ -144,13 +174,13 @@ class Conveyor {
      * @return string Extended class name
      */
     public function readExtendedClassname(): string {
-        if (preg_match('/^(\\[a-z_]\w*)+/i', $this->next, $matches) === 1) {
+        if (preg_match('/^(\\\\[a-z_]\\w*)+/i', $this->next, $matches) === 1) {
             $this->move(strlen($matches[0]));
 
             return $matches[0];
         }
 
-        return static::readClassname($next);
+        return $this->readClassname();
     }
 
     /**

@@ -29,7 +29,7 @@ use PHPDataGen\Building\FileBuilder;
 /**
  * File parsing state
  */
-class FileState extends State {
+class FileState implements State {
 
     /**
      * @var FileBuilder Builder
@@ -68,53 +68,50 @@ class FileState extends State {
         return $this->builder;
     }
 
-    public function step(string &$next): State {
+    public function step(Conveyor $conveyor): State {
         switch ($this->state) {
         case 0:
-            if (strpos($next, 'namespace') === 0) {
+            if ($conveyor->readOperator('namespace')) {
                 $this->state = 1;
 
-                $next = substr($next, 9);
                 return $this;
             }
 
-            if (strpos($next, 'use') === 0) {
+            if ($conveyor->readOperator('use')) {
                 $this->state = 3;
 
-                $next = substr($next, 3);
                 return $this;
             }
 
-            if (strpos($next, 'class') === 0) {
-                $this->state = 6;
+            if ($conveyor->readOperator('class')) {
                 $this->class = new ClassState($this);
 
-                $next = substr($next, 5);
+                $this->state = 6;
                 return $this->class;
             }
 
-        return parent::step($next);
+            return $this;
 
         case 1:
-            $this->builder->setNamespace(Parser::readNamespace($next));
+            $this->builder->setNamespace($conveyor->readNamespace());
 
             $this->state = 2;
             return $this;
 
         case 2:
-            Parser::readSemicolon($next);
+            $conveyor->readSemicolon();
 
             $this->state = 0;
             return $this;
 
         case 3:
-            $this->useBuffer = Parser::readNamespace($next);
+            $this->useBuffer = $conveyor->readNamespace();
 
             $this->state = 5;
             return $this;
 
         case 4:
-            $this->builder->addUse($this->useBuffer, Parser::readClassname($next));
+            $this->builder->addUse($this->useBuffer, $conveyor->readClassname());
             $this->useBuffer = null;
 
             $this->state = 5;
@@ -122,19 +119,19 @@ class FileState extends State {
 
         case 5:
             if (is_null($this->useBuffer)) {
-                Parser::readSemicolon($next);
+                $conveyor->readSemicolon();
+
+                $this->state = 0;
                 return $this;
             }
 
-            if (strpos($next, 'as') === 0) {
+            if ($conveyor->readOperator('as')) {
                 $this->state = 4;
-
-                $next = substr($next, 2);
             } else {
                 $this->builder->addUse($this->useBuffer);
+                $this->useBuffer = null;
             }
 
-            Parser::readSemicolon($next);
             return $this;
 
         case 6:

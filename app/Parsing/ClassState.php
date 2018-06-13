@@ -29,7 +29,7 @@ use PHPDataGen\Building\ClassBuilder;
 /**
  * Class parsing state
  */
-class ClassState extends State {
+class ClassState implements State {
 
     /**
      * @var State Parent state
@@ -72,55 +72,51 @@ class ClassState extends State {
         return $this->builder;
     }
 
-    public function step(string &$next): State {
+    public function step(Conveyor $conveyor): State {
         switch ($this->state) {
         case 0:
-            $this->builder->setName(Parser::readClassname($next));
+            $this->builder->setName($conveyor->readClassname());
 
             $this->state = 1;
             return $this;
 
         case 1:
-            if (strpos($next, 'extends') === 0) {
+            if ($conveyor->readOperator('extends')) {
                 $this->state = 2;
 
-                $next = substr($next, 7);
                 return $this;
             }
 
-            if (strpos($next, 'implements') === 0) {
+            if ($conveyor->readOperator('implements')) {
                 $this->state = 3;
 
-                $next = substr($next, 10);
                 return $this;
             }
 
-            if (strpos($next, '{') === 0) {
+            if ($conveyor->readOperator('{')) {
                 $this->state = 5;
 
-                $next = substr($next, 1);
                 return $this;
             }
 
             throw new \Exception('Open bracket not found');
 
         case 2:
-            $this->builder->setExtends(Parser::readExtendedClassname($next));
+            $this->builder->setExtends($conveyor->readExtendedClassname());
 
             $this->state = 1;
             return $this;
 
         case 3:
-            $this->builder->addImplement(Parser::readExtendedClassname($next));
+            $this->builder->addImplement($conveyor->readExtendedClassname());
 
             $this->state = 4;
             return $this;
 
         case 4:
-            if (strpos($next, ',') === 0) {
+            if ($conveyor->readOperator(',')) {
                 $this->state = 3;
 
-                $next = substr($next, 1);
                 return $this;
             }
 
@@ -129,9 +125,9 @@ class ClassState extends State {
 
         case 5:
             if (
-                    strpos($next, 'direct') === 0 ||
-                    strpos($next, 'val')    === 0 ||
-                    strpos($next, 'var')    === 0
+                    $conveyor->readOperator('direct') ||
+                    $conveyor->readOperator('val')    ||
+                    $conveyor->readOperator('var')
             ) {
                 $this->state = 6;
 
@@ -139,8 +135,8 @@ class ClassState extends State {
                 return $this->field;
             }
 
-            if (strpos($next, '}') === 0) {
-                $next = substr($next, 1);
+            if ($conveyor->readOperator('}')) {
+                $this->parent->step($conveyor);
 
                 return $this->parent;
             }

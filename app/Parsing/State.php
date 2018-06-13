@@ -27,7 +27,7 @@ namespace PHPDataGen\Parsing;
 /**
  * Parsing state
  */
-abstract class State {
+interface State {
 
-    public function step(string &$next): State;
+    public function step(Conveyor $conveyor): State;
 }
