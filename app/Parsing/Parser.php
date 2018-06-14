@@ -39,9 +39,12 @@ class Parser {
      */
     protected $state = null;
 
-    public function __construct(string $source) {
-        $this->conveyor = new Conveyor($source);
+    /**
+     * @param Conveyor $conveyor Parser conveyor
+     */
+    public function __construct(Conveyor $conveyor) {
         $this->state = new FileState();
+        $this->conveyor = $conveyor;
     }
 
     /**
