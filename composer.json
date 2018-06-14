@@ -30,5 +30,8 @@
     "config": {
         "optimize-autoloader": true,
         "sort-packages": true
-    }
+    },
+    "bin": [
+        "php-datagen"
+    ]
 }
