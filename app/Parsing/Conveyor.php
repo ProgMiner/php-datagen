@@ -171,7 +171,7 @@ class Conveyor {
      * @return string Namespace
      */
     public function readNamespace(): string {
-        if (preg_match('/^[a-z_][\\w\\\\]*\\w/i', $this->next, $matches) === 1) {
+        if (preg_match('/^[a-z_]\\w*(\\\\[a-z_]\\w*)*/i', $this->next, $matches) === 1) {
             $this->move(strlen($matches[0]));
 
             return $matches[0];

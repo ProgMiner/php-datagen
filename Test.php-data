@@ -1,8 +1,4 @@
-namespace fjdjb98\988hhgg;
-
-use 6847\fufu9gyfug;
-
-class 9Test {
+class Test {
 
     val A;
     val A1: string;
@@ -21,7 +17,7 @@ class 9Test {
     direct val C;
     direct val C1: string;
     direct val C2 = "Foo";
-    direct val C3 := "Fee"
+    direct val C3 := "Fee";
     direct val C4: string = "Bar";
     direct val C5: string := "Baz";
 

@@ -148,20 +148,25 @@ class FieldState implements State {
         case 7:
             $matches = [];
 
+            $fail = false;
             if ($conveyor->readOperator('```')) {
                 if (preg_match('/^([\\s\\S]*?)```/', $conveyor, $matches) !== 1) {
-                    throw new \Exception('Error occured while default value parsing');
+                    $fail = true;
                 }
             } elseif ($conveyor->readOperator('`')) {
                 if (preg_match('/^(.*?)`/', $conveyor, $matches) !== 1) {
-                    throw new \Exception('Error occured while default value parsing');
+                    $fail = true;
                 }
             } else {
                 if (preg_match('/^(.*?);/', $conveyor, $matches) !== 1) {
-                    throw new \Exception('Error occured while default value parsing');
+                    $fail = true;
+                } else {
+                    $matches[0] = substr($matches[0], 0, strlen($matches[1]));
                 }
+            }
 
-                $matches[0] = substr($matches[0], 0, strlen($matches[1]));
+            if ($fail) {
+                throw $conveyor->makeException('Error occured while default value parsing');
             }
 
             $conveyor->move(strlen($matches[0]));
