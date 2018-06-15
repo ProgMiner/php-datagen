@@ -8,6 +8,8 @@ if (file_exists(__DIR__.'/../../autoload.php')) {
 }
 
 $app = new Symfony\Component\Console\Application('PHP-DataGen', '0.2-alpha');
+
+// TODO Build, config commands
  // $app->add(new PHPDataGen\Commands\);
 
 $app->run();

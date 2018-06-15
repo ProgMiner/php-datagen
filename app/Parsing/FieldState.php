@@ -96,7 +96,7 @@ class FieldState implements State {
             throw new \Exception('Expected val/var operator');
 
         case 2:
-            $this->builder->setName($conveyor->readClassname());
+            $this->builder->setName($conveyor->readName());
 
             $this->state = 3;
             return $this;
@@ -140,7 +140,7 @@ class FieldState implements State {
             return $this;
 
         case 6:
-            $this->builder->addValidator($conveyor->readClassname());
+            $this->builder->addValidator($conveyor->readName());
 
             $this->state = 5;
             return $this;

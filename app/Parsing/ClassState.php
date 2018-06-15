@@ -75,7 +75,7 @@ class ClassState implements State {
     public function step(Conveyor $conveyor): State {
         switch ($this->state) {
         case 0:
-            $this->builder->setName($conveyor->readClassname());
+            $this->builder->setName($conveyor->readName());
 
             $this->state = 1;
             return $this;

@@ -111,7 +111,7 @@ class FileState implements State {
             return $this;
 
         case 4:
-            $this->builder->addUse($this->useBuffer, $conveyor->readClassname());
+            $this->builder->addUse($this->useBuffer, $conveyor->readName());
             $this->useBuffer = null;
 
             $this->state = 5;

@@ -24,10 +24,17 @@ SOFTWARE. */
 
 namespace PHPDataGen\Parsing;
 
+use PHPDataGen\Exception\ParsingException;
+
 /**
  * Parsing conveyor
  */
 class Conveyor {
+
+    /**
+     * @var string Source string
+     */
+    protected $source = null;
 
     /**
      * @var string Next string
@@ -53,7 +60,9 @@ class Conveyor {
      * @param string $source Source of conveyor
      */
     public function __construct(string $source) {
+        $this->source = $source;
         $this->next = $source;
+
         $this->length = strlen($source);
     }
 
@@ -64,6 +73,23 @@ class Conveyor {
      */
     public function length(): int {
         return $this->length;
+    }
+
+    public function makeException(string $description, int $code = 0, \Throwable $previous): ParsingException {
+        $offset = strlen($this->source) - $this->length;
+
+        for (; $offset > 0; --$offset) {
+            // TODO Configurable newline symbol
+            if ($this->source[$offset] === '\n') {
+                break;
+            }
+        }
+        ++$offset;
+
+        $line = substr($this->source, $offset);
+        $line = substr($line, 0, strpos($line, "\n"));
+
+        return new ParsingException($description, $line, $this->row, $this->column, $code, $previous);
     }
 
     /**
@@ -110,8 +136,7 @@ class Conveyor {
         }
 
         if ($required) {
-            // TODO Parsing exception class
-            throw new \Exception("$operator not found at {$this->line} line {$this->row} row");
+            throw $this->makeException("\"$operator\" expected");
         }
 
         return false;
@@ -152,7 +177,7 @@ class Conveyor {
             return $matches[0];
         }
 
-        throw new \Exception('Namespace not found');
+        throw $this->makeException("Namespace expected");
     }
 
     /**
@@ -161,14 +186,14 @@ class Conveyor {
      *
      * @return string Class name
      */
-    public function readClassname(): string {
+    public function readName(): string {
         if (preg_match('/^[a-z_]\\w*/i', $this->next, $matches) === 1) {
             $this->move(strlen($matches[0]));
 
             return $matches[0];
         }
 
-        throw new \Exception('Class name not found');
+        throw $this->makeException("Name expected");
     }
 
     /**
@@ -184,7 +209,11 @@ class Conveyor {
             return $matches[0];
         }
 
-        return $this->readClassname();
+        try {
+            return $this->readName();
+        } catch (ParseException $e) {
+            throw $this->makeException("Class name expected", 0, $e);
+        }
     }
 
     /**
@@ -196,7 +225,7 @@ class Conveyor {
             return;
         }
 
-        throw new \Exception('Semicolon not found');
+        throw $this->makeException("Semicolon expected");
     }
 
     public function __toString() {
