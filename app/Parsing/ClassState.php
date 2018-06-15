@@ -99,7 +99,7 @@ class ClassState implements State {
                 return $this;
             }
 
-            throw new \Exception('Open bracket not found');
+            throw $conveyor->makeException('Open bracket expected');
 
         case 2:
             $this->builder->setExtends($conveyor->readExtendedClassname());
@@ -142,7 +142,7 @@ class ClassState implements State {
                 return $this->parent;
             }
 
-            throw new \Exception('Close bracket not found');
+            throw $conveyor->makeException('Close bracket expected');
 
         case 6:
             $this->builder->addField($this->field->getBuilder());
