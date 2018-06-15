@@ -47,14 +47,14 @@ class Conveyor {
     protected $length = 0;
 
     /**
-     * @var int Current cursor line
-     */
-    protected $line = 0;
-
-    /**
      * @var int Current cursor row
      */
     protected $row = 0;
+
+    /**
+     * @var int Current cursor column
+     */
+    protected $column = 0;
 
     /**
      * @param string $source Source of conveyor
@@ -75,7 +75,7 @@ class Conveyor {
         return $this->length;
     }
 
-    public function makeException(string $description, int $code = 0, \Throwable $previous): ParsingException {
+    public function makeException(string $description, int $code = 0, \Throwable $previous = null): ParsingException {
         $offset = strlen($this->source) - $this->length;
 
         for (; $offset > 0; --$offset) {
@@ -84,7 +84,6 @@ class Conveyor {
                 break;
             }
         }
-        ++$offset;
 
         $line = substr($this->source, $offset);
         $line = substr($line, 0, strpos($line, "\n"));
@@ -105,10 +104,10 @@ class Conveyor {
 
         for ($i = 0; $i < $offset; ++$i) {
             if ($this->next[$i] == "\n") {
-                $this->row = 0;
-                ++$this->line;
-            } else {
+                $this->column = 0;
                 ++$this->row;
+            } else {
+                ++$this->column;
             }
         }
 
