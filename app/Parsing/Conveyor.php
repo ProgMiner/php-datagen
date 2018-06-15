@@ -80,7 +80,8 @@ class Conveyor {
 
         for (; $offset > 0; --$offset) {
             // TODO Configurable newline symbol
-            if ($this->source[$offset] === '\n') {
+            if ($this->source[$offset] === "\n") {
+                ++$offset;
                 break;
             }
         }
