@@ -76,31 +76,39 @@ class FieldBuilder {
      * @return static $this
      */
     public function setName(string $name): FieldBuilder {
+        if (isset($this->name)) {
+            throw new \RuntimeException('Field name is already specified');
+        }
+
         $this->name = $name;
         return $this;
     }
 
     /**
-     * Sets field editable or not
-     *
-     * @param bool $editable Is field editable
+     * Sets field editable
      *
      * @return static $this
      */
-    public function setEditable(bool $editable): FieldBuilder {
-        $this->editable = $editable;
+    public function setEditable(): FieldBuilder {
+        if ($this->editable) {
+            throw new \RuntimeException('Field is already setted editable');
+        }
+
+        $this->editable = true;
         return $this;
     }
 
     /**
-     * Sets field direct or not
-     *
-     * @param bool $editable Is field direct
+     * Sets field direct
      *
      * @return static $this
      */
-    public function setDirect(bool $direct): FieldBuilder {
-        $this->direct = $direct;
+    public function setDirect(): FieldBuilder {
+        if ($this->direct) {
+            throw new \RuntimeException('Field is already setted direct');
+        }
+
+        $this->direct = true;
         return $this;
     }
 
@@ -117,13 +125,15 @@ class FieldBuilder {
     }
 
     /**
-     * Sets filter default value
-     *
-     * @param string $filterDefault New filter default field value
+     * Sets field not filters default value
      *
      * @return static $this
      */
-    public function setFilterDefault(string $filterDefault): FieldBuilder {
+    public function setNotFilterDefault(): FieldBuilder {
+        if (!$this->filterDefault) {
+            throw new \RuntimeException('Field is already setted not filters default');
+        }
+
         $this->filterDefault = $filterDefault;
         return $this;
     }
@@ -137,7 +147,7 @@ class FieldBuilder {
      */
     public function setDefault(string $default): FieldBuilder {
         if (isset($this->default)) {
-            throw new \Exception('Default value is already setted');
+            throw new \RuntimeException('Default value is already specified');
         }
 
         $this->default = $default;
@@ -152,9 +162,11 @@ class FieldBuilder {
      * @return static $this
      */
     public function addValidator(string $validator): FieldBuilder {
-        if (!in_array($validator, $this->validators)) {
-            $this->validators[] = $validator;
+        if (in_array($validator, $this->validators)) {
+            throw new \RuntimeException("Validator \"$validator\" is already added");
         }
+
+        $this->validators[] = $validator;
 
         return $this;
     }

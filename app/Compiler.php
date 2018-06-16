@@ -124,7 +124,7 @@ EOF;
 
                 foreach ($fieldModel->validators as $validator) {
                     if (!isset($this->validators[$validator])) {
-                        throw new \Exception("Validator \"{$validator}\" is not exists");
+                        throw new CompilationException("Validator \"{$validator}\" is not defined");
                     }
 
                     $result .= "\$value = {$this->validators[$validator]}(\$value);\n";

@@ -61,7 +61,16 @@ class Parser {
      */
     public function step() {
         $this->conveyor->skipSpaces();
-        $this->state = $this->state->step($this->conveyor);
+
+        try {
+            $this->state = $this->state->step($this->conveyor);
+        } catch (\Throwable $e) {
+            if (is_a($e, ParsingException::class)) {
+                throw $e;
+            }
+
+            throw $this->conveyor->makeException($e->getMessage(), $e->getCode(), $e);
+        }
 
         $this->conveyor->skipSpaces();
         $this->conveyor->skipComment();

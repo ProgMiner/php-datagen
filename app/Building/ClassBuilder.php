@@ -60,7 +60,7 @@ class ClassBuilder {
      */
     public function setName(string $name): ClassBuilder {
         if (!is_null($this->name)) {
-            throw new \Exception('Name already setted');
+            throw new \RuntimeException('Class name is already specified');
         }
 
         $this->name = $name;
@@ -76,7 +76,7 @@ class ClassBuilder {
      */
     public function setExtends(string $extends): ClassBuilder {
         if (!is_null($this->extends)) {
-            throw new \Exception('Extends already setted');
+            throw new \RuntimeException('Class extending is already specified');
         }
 
         $this->extends = $extends;
@@ -91,9 +91,11 @@ class ClassBuilder {
      * @return static $this
      */
     public function addImplement(string $interface): ClassBuilder {
-        if (!in_array($interface, $this->implements)) {
-            $this->implements[] = $interface;
+        if (in_array($interface, $this->implements)) {
+            throw new \RuntimeException("Class implementing \"$interface\" is already added");
         }
+
+        $this->implements[] = $interface;
 
         return $this;
     }
@@ -106,9 +108,11 @@ class ClassBuilder {
      * @return static $this
      */
     public function addField(FieldBuilder $field): ClassBuilder {
-        if (!in_array($field, $this->fields)) {
-            $this->fields[] = $field;
+        if (in_array($field, $this->fields)) {
+            throw new \RuntimeException("Field is already added");
         }
+
+        $this->fields[] = $field;
 
         return $this;
     }

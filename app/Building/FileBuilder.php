@@ -55,7 +55,7 @@ class FileBuilder {
      */
     public function setNamespace(string $namespace) {
         if (!is_null($this->namespace)) {
-            throw new \Exception('Namespace already setted');
+            throw new \RuntimeException('Namespace is already specified');
         }
 
         $this->namespace = $namespace;
@@ -81,7 +81,7 @@ class FileBuilder {
         }
 
         if (isset($this->uses[$alias])) {
-            throw new \Exception("Class name \"$alias\" is already used");
+            throw new \RuntimeException("Alias \"$alias\" is already used");
         }
 
         $this->uses[$alias] = $use;
@@ -97,9 +97,11 @@ class FileBuilder {
      * @return static $this
      */
     public function addClass(ClassBuilder $class) {
-        if (!in_array($class, $this->classes)) {
-            $this->classes[] = $class;
+        if (in_array($class, $this->classes)) {
+            throw new \RuntimeException("Class is already added");
         }
+
+        $this->classes[] = $class;
 
         return $this;
     }
