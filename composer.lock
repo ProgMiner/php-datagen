@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d1662e4b904a93da484020f8a6b92f4",
+    "content-hash": "7676b25c9ab60d33d58bb8793578f3a0",
     "packages": [
         {
             "name": "progminer/php-datagen-lib",
-            "version": "dev-master",
+            "version": "v0.1-alpha",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ProgMiner/php-datagen-lib.git",
-                "reference": "16b7f9dbfc3ae54a2c807fda1f24745f7825cf48"
+                "reference": "6ce76b9f2178012fec79eadd14b3d71d2ec26382"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ProgMiner/php-datagen-lib/zipball/16b7f9dbfc3ae54a2c807fda1f24745f7825cf48",
-                "reference": "16b7f9dbfc3ae54a2c807fda1f24745f7825cf48",
+                "url": "https://api.github.com/repos/ProgMiner/php-datagen-lib/zipball/6ce76b9f2178012fec79eadd14b3d71d2ec26382",
+                "reference": "6ce76b9f2178012fec79eadd14b3d71d2ec26382",
                 "shasum": ""
             },
             "type": "library",
@@ -26,6 +26,7 @@
                     "PHPDataGen\\": "lib"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -41,11 +42,7 @@
                 "data",
                 "generator"
             ],
-            "support": {
-                "source": "https://github.com/ProgMiner/php-datagen-lib/tree/master",
-                "issues": "https://github.com/ProgMiner/php-datagen-lib/issues"
-            },
-            "time": "2018-06-09T01:45:50+00:00"
+            "time": "2018-06-18T02:58:27+00:00"
         },
         {
             "name": "symfony/console",
@@ -228,7 +225,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "progminer/php-datagen-lib": 20
+        "progminer/php-datagen-lib": 15
     },
     "prefer-stable": true,
     "prefer-lowest": false,
