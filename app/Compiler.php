@@ -83,13 +83,13 @@ class Compiler {
             }
 
             // TODO Direct default value set
-            $result .= " \${$fieldModel->name} = null;\n";
+            $result .= " \${$fieldModel->name} = {$fieldModel->type->getDefaultValue()};\n";
         }
 
         $result .= "public function __construct(array \$init = []) {\n";
 
         foreach ($classModel->fields as $fieldModel) {
-            if (!isset($fieldModel->default)) {
+            if (is_null($fieldModel->default)) {
                 continue;
             }
 
@@ -116,11 +116,18 @@ EOF;
         foreach ($classModel->fields as $fieldModel) {
             $fieldModel->type->fixClassName($fileModel);
 
-            $result .= "public function get_{$fieldModel->name}(){$fieldModel->type->makeReturnTypeTip()} { return \$this->{$fieldModel->name}; }\n";
+            $result .= "public function ";
+
+            if ($fieldModel->editable) {
+                $result .= '&';
+            }
+
+            $result .= "get_{$fieldModel->name}() { return \$this->{$fieldModel->name}; }\n";
 
             if (!$fieldModel->type->isMixed() || !empty($fieldModel->validation)) {
-                $result .= "protected function validate_{$fieldModel->name}".
-                        "({$fieldModel->type->makeArgumentTypeTip()}\$value){$fieldModel->type->makeReturnTypeTip()} {\n";
+                $result .= "protected function validate_{$fieldModel->name}(\$value) {\n";
+
+                $result .= $fieldModel->type->makeValidator('$value', "Field {$fieldModel->name} has type {$fieldModel->type->getName()}");
 
                 foreach ($fieldModel->validators as $validator) {
                     if (!isset($this->validators[$validator])) {
@@ -134,8 +141,7 @@ EOF;
             }
 
             if ($fieldModel->editable) {
-                $result .= "public function set_{$fieldModel->name}".
-                        "({$fieldModel->type->makeArgumentTypeTip()}\$value) { ".
+                $result .= "public function set_{$fieldModel->name}(\$value) { ".
                         "\$this->{$fieldModel->name} = \$this->validate_{$fieldModel->name}(\$value);".
                         "}\n";
             }

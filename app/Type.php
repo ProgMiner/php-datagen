@@ -28,6 +28,8 @@ use PHPDataGen\Model\FileModel;
 
 /**
  * Type representation
+ *
+ * TODO Not nullable
  */
 class Type {
 
@@ -37,6 +39,11 @@ class Type {
      * @var string Type name
      */
     protected $name = '';
+
+    /**
+     * @var bool Is field nullable?
+     */
+    protected $nullable = true;
 
     /**
      * @var bool Is type mixed?
@@ -52,15 +59,50 @@ class Type {
      * @param string $type Type name of class
      */
     public function __construct(string $type) {
-        $type = strtolower($type);
-
         $this->name = $type;
+
+        $type = strtolower($type);
 
         if ($type === 'mixed') {
             $this->mixed = true;
         } else if (!in_array($type, self::TYPES)) {
             $this->class = true;
         }
+
+        if (!$this->class) {
+            $this->name = $type;
+        }
+    }
+
+    /**
+     * Returns default value for this type
+     *
+     * @return string
+     */
+    public function getDefaultValue(): string {
+        if ($this->nullable || $this->mixed || $this->class) {
+            return 'null';
+        }
+
+        switch ($this->name) {
+        case 'array':
+            return '[]';
+
+        case 'bool':
+            return 'false';
+
+        case 'float':
+            return '0.0';
+
+        case 'int':
+            return '0';
+
+        case 'string':
+            return '""';
+
+        }
+
+        return 'null';
     }
 
     /**
@@ -78,37 +120,35 @@ class Type {
             return;
         }
 
-        $this->name = $fileModel->getClassPath($this->name);
+        $this->name = '\\'.$fileModel->getClassPath($this->name);
     }
 
     /**
-     * Makes type tip for return
+     * Makes validation code for this type
      *
      * If type is mixed returns empty string
+     *
+     * @param string $expr      Expression for validating
+     * @param string $exception Message for exception
      *
      * @return string Type tip prefixed by ": " or empty
      */
-    public function makeReturnTypeTip(): string {
+    public function makeValidator(string $expr, string $exception = 'Invalid type'): string {
         if ($this->mixed) {
             return '';
         }
 
-        return ': '.$this->name;
-    }
+        $result = 'if (!is_';
 
-    /**
-     * Makes type tip for argument
-     *
-     * If type is mixed returns empty string
-     *
-     * @return string Type tip suffixed by " " or empty
-     */
-    public function makeArgumentTypeTip(): string {
-        if ($this->mixed) {
-            return '';
+        if ($this->class) {
+            $result .= "a($expr, {$this->name}::class)";
+        } else {
+            $result .= "{$this->name}($expr)";
         }
 
-        return $this->name.' ';
+        $result .= " && !is_null($expr)) { throw new \InvalidArgumentException('$exception'); }";
+
+        return "$result\n";
     }
 
     public function getName(): string {
