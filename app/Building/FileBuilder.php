@@ -112,12 +112,12 @@ class FileBuilder {
      * @return FileModel
      */
     public function build(): FileModel {
-        $model = new FileModel();
+        $model = new FileModel([
+            'namespace' => $this->namespace,
+            'uses' => $this->uses,
+            'classes' => []
+        ]);
 
-        $model->namespace = $this->namespace;
-        $model->uses = $this->uses;
-
-        $model->classes = [];
         foreach ($this->classes as $class) {
             $model->classes[] = $class->build();
         }

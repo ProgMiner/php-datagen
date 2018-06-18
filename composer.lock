@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7676b25c9ab60d33d58bb8793578f3a0",
+    "content-hash": "ca65478a4f33f69f1f46978e82b7f830",
     "packages": [
         {
             "name": "progminer/php-datagen-lib",
-            "version": "v0.1-alpha",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ProgMiner/php-datagen-lib.git",
-                "reference": "6ce76b9f2178012fec79eadd14b3d71d2ec26382"
+                "reference": "1a754478c73a483ae14547c64d83503a36aa10af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ProgMiner/php-datagen-lib/zipball/6ce76b9f2178012fec79eadd14b3d71d2ec26382",
-                "reference": "6ce76b9f2178012fec79eadd14b3d71d2ec26382",
+                "url": "https://api.github.com/repos/ProgMiner/php-datagen-lib/zipball/1a754478c73a483ae14547c64d83503a36aa10af",
+                "reference": "1a754478c73a483ae14547c64d83503a36aa10af",
                 "shasum": ""
             },
             "type": "library",
@@ -42,7 +42,7 @@
                 "data",
                 "generator"
             ],
-            "time": "2018-06-18T02:58:27+00:00"
+            "time": "2018-06-18T22:30:09+00:00"
         },
         {
             "name": "symfony/console",
@@ -225,7 +225,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "progminer/php-datagen-lib": 15
+        "progminer/php-datagen-lib": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

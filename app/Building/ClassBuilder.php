@@ -123,13 +123,13 @@ class ClassBuilder {
      * @return ClassModel
      */
     public function build(): ClassModel {
-        $model = new ClassModel();
+        $model = new ClassModel([
+            'name' => $this->name,
+            'extends' => $this->extends,
+            'implements' => $this->implements,
+            'fields' => []
+        ]);
 
-        $model->name = $this->name;
-        $model->extends = $this->extends;
-        $model->implements = $this->implements;
-
-        $model->fields = [];
         foreach ($this->fields as $field) {
             $model->fields[] = $field->build();
         }

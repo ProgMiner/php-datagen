@@ -1,5 +1,3 @@
-<?php
-
 /* MIT License
 
 Copyright (c) 2018 Eridan Domoratskiy
@@ -24,7 +22,12 @@ SOFTWARE. */
 
 namespace PHPDataGen\Model;
 
-/**
- * Field model
- */
-class FieldModel extends Data_FieldModel {}
+class ClassModel {
+
+    val name: string;
+
+    val extends: array;
+    var implements: array;
+
+    var fields: array;
+}

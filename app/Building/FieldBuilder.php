@@ -177,15 +177,15 @@ class FieldBuilder {
      * @return FieldModel
      */
     public function build(): FieldModel {
-        $model = new FieldModel();
-
-        $model->name = $this->name;
-        $model->editable = $this->editable;
-        $model->direct = $this->direct;
-        $model->type = new Type($this->type);
-        $model->validators = $this->validators;
-        $model->filterDefault = $this->filterDefault;
-        $model->default = $this->default;
+        $model = new FieldModel([
+            'name'          => $this->name,
+            'editable'      => $this->editable,
+            'direct'        => $this->direct,
+            'type'          => new Type($this->type),
+            'validators'    => $this->validators,
+            'filterDefault' => $this->filterDefault,
+            'default'       => $this->default,
+        ]);
 
         return $model;
     }

@@ -27,22 +27,7 @@ namespace PHPDataGen\Model;
 /**
  * File model
  */
-class FileModel {
-
-    /**
-     * @var string File namespace
-     */
-    public $namespace = null;
-
-    /**
-     * @var array(string => string) File uses (class name => full class name)
-     */
-    public $uses = [];
-
-    /**
-     * @var ClassModel[] Classes contained in file
-     */
-    public $classes = [];
+class FileModel extends Data_FileModel {
 
     /**
      * Converts short class name to full by uses and namespace

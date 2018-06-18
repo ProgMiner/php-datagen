@@ -27,25 +27,4 @@ namespace PHPDataGen\Model;
 /**
  * Class model
  */
-class ClassModel {
-
-    /**
-     * @var string Class name
-     */
-    public $name = null;
-
-    /**
-     * @var string Extended class name
-     */
-    public $extends = null;
-
-    /**
-     * @var string[] Implemented interface names
-     */
-    public $implements = [];
-
-    /**
-     * @var FieldModel[] Fields contained in file
-     */
-    public $fields = [];
-}
+class ClassModel extends Data_ClassModel {}
