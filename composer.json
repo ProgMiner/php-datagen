@@ -21,7 +21,7 @@
             "PHPDataGen\\": "app"
         },
         "files": [
-            "app/Utility/normalizePath.php"
+            "app/Utility/_pathInfo.php"
         ]
     },
     "config": {

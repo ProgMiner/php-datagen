@@ -42,7 +42,7 @@ use PHPDataGen\Parsing\Parser;
 
 use PHPDataGen\Compiler;
 
-use function PHPDataGen\Utility\normalizePath;
+use function PHPDataGen\Utility\_pathInfo;
 
 /**
  * Compile command
@@ -53,7 +53,9 @@ class CompileCommand extends Command {
     protected function compileFile(string $file, OutputStyle $io, Compiler $compiler = null) {
         $io->title($file);
 
-        if (preg_match('/.*\\.pdata/i', $file) === 0) {
+        $pathinfo = _pathInfo($file);
+
+        if ($pathinfo->extension !== 'pdata') {
             $io->warning("File \"$file\" extension is not \".pdata\"");
         }
 
@@ -71,13 +73,13 @@ class CompileCommand extends Command {
         }
 
         $model = $parser->getCurrentState()->getBuilder()->build();
-        if (count($model->classes) > 1) {
+        if (count($model->classes) < 1) {
+            $io->warning("File has no classes");
+        } elseif (count($model->classes) > 1) {
             $io->warning("File has more than one class");
         } else {
-            $namespacePath = str_replace('\\', '/', $model->namespace)."/{$model->classes[0]->name}.pdata";
-
-            if (strpos(normalizePath($file), $namespacePath) === false) {
-                $io->warning("File path is mismatch class name");
+            if ($pathinfo->filename !== $model->classes[0]->name) {
+                $io->warning("File name is mismatch class name");
             }
         }
 
@@ -89,7 +91,10 @@ class CompileCommand extends Command {
             return;
         }
 
-        file_put_contents(dirname($file).'/Data_'.basename($file, '.pdata').'.php', $result);
+        $resultPath = "{$pathinfo->dirname}/Data_{$pathinfo->filename}.php";
+        file_put_contents($resultPath, $result);
+
+        $io->success("Written in $resultPath");
     }
 
     protected function configure() {

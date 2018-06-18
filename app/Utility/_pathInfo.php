@@ -25,41 +25,26 @@ SOFTWARE. */
 namespace PHPDataGen\Utility;
 
 /**
- * Path normalize function
+ * Extracts directory path, filename, file extension from file path
  *
- * @link http://php.net/manual/function.realpath.php#112367
+ * Return object contains 3 fields:
+ *   - dirname   - Directory path
+ *   - filename  - String before first dot in basename
+ *   - extension - String after first dot in basename
  *
  * @param string $path
  *
- * @return string Normalized path
+ * @return \stdClass
  */
-function normalizePath(string $path): string {
-    $parts = array(); // Array to build a new path from the good parts
-    $path = str_replace('\\', '/', $path); // Replace backslashes with forwardslashes
-    $path = preg_replace('/\/+/', '/', $path); // Combine multiple slashes into a single slash
-    $segments = explode('/', $path); // Collect path segments
+function _pathInfo(string $path): \stdClass {
+    $ret = (object) [];
 
-    $test = ''; // Initialize testing variable
-    foreach ($segments as $segment) {
-        if ($segment != '.') {
-            $test = array_pop($parts);
+    $info = pathinfo($path);
+    $dot = strpos($info['basename'], '.');
 
-            if (is_null($test)) {
-                $parts[] = $segment;
-            } else if ($segment == '..') {
-                if ($test == '..') {
-                    $parts[] = $test;
-                }
+    $ret->dirname = $info['dirname'];
+    $ret->extension = substr($info['basename'], $dot + 1);
+    $ret->filename = substr($info['basename'], 0, $dot);
 
-                if ($test == '..' || $test == '') {
-                    $parts[] = $segment;
-                }
-            } else {
-                $parts[] = $test;
-                $parts[] = $segment;
-            }
-        }
-    }
-
-    return implode('/', $parts);
+    return $ret;
 }
