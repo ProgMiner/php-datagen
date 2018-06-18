@@ -1,7 +1,6 @@
 {
     "name": "progminer/php-datagen",
     "description": "Code generator for making data classes on PHP",
-    "type": "project",
     "keywords": ["data", "class", "generator"],
     "license": "MIT",
     "authors": [
