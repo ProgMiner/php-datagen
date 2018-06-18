@@ -72,7 +72,7 @@ class FieldState implements State {
         switch ($this->state) {
         case 0:
             if ($conveyor->readOperator('direct')) {
-                $this->builder->setDirect(true);
+                $this->builder->setDirect();
 
                 return $this;
             }
@@ -88,7 +88,7 @@ class FieldState implements State {
             }
 
             if ($conveyor->readOperator('var')) {
-                $this->builder->setEditable(true);
+                $this->builder->setEditable();
 
                 return $this;
             }
@@ -108,7 +108,7 @@ class FieldState implements State {
             }
 
             if ($conveyor->readOperator(':=')) {
-                $this->builder->setFilterDefault(false);
+                $this->builder->setNotFilterDefault();
 
                 $this->state = 7;
                 return $this;

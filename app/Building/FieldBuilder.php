@@ -134,7 +134,7 @@ class FieldBuilder {
             throw new \RuntimeException('Field is already setted not filters default');
         }
 
-        $this->filterDefault = $filterDefault;
+        $this->filterDefault = false;
         return $this;
     }
 

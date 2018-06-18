@@ -13,8 +13,9 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
+        "progminer/php-datagen-lib": "dev-master",
         "symfony/console": "^4.0",
-        "progminer/php-datagen-lib": "dev-master"
+        "symfony/finder": "^4.1"
     },
     "repositories": [
         {
@@ -25,7 +26,10 @@
     "autoload": {
         "psr-4": {
             "PHPDataGen\\": "app"
-        }
+        },
+        "files": [
+            "app/Utility/normalizePath.php"
+        ]
     },
     "config": {
         "optimize-autoloader": true,
