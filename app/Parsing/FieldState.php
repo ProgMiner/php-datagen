@@ -125,7 +125,7 @@ class FieldState implements State {
             return $this->parent;
 
         case 4:
-            $this->builder->setType($conveyor->readExtendedClassname());
+            $this->builder->setType($conveyor->readType());
 
             $this->state = 5;
             return $this;

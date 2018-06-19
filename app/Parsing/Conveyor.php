@@ -26,6 +26,8 @@ namespace PHPDataGen\Parsing;
 
 use PHPDataGen\Exception\ParsingException;
 
+use PHPDataGen\Type;
+
 /**
  * Parsing conveyor
  */
@@ -181,10 +183,10 @@ class Conveyor {
     }
 
     /**
-     * Reads class name from parser conveyor
-     * Shifts parser coveyor on class name length
+     * Reads name (classname, field name) from parser conveyor
+     * Shifts parser coveyor on name length
      *
-     * @return string Class name
+     * @return string Name
      */
     public function readName(): string {
         if (preg_match('/^[a-z_]\\w*/i', $this->next, $matches) === 1) {
@@ -197,10 +199,10 @@ class Conveyor {
     }
 
     /**
-     * Reads extended class name (\Foo\Bar\Baz sequence or regular) from parser conveyor
+     * Reads extended classname (\Foo\Bar\Baz sequence or regular classname) from parser conveyor
      * Shifts parser coveyor on extended class name length
      *
-     * @return string Extended class name
+     * @return string Extended classname
      */
     public function readExtendedClassname(): string {
         if (preg_match('/^(\\\\[a-z_]\\w*)+/i', $this->next, $matches) === 1) {
@@ -214,6 +216,16 @@ class Conveyor {
         } catch (ParseException $e) {
             throw $this->makeException("Class name expected", 0, $e);
         }
+    }
+
+    /**
+     * Reads type (extended classname with(-out) "!") from parser conveyor
+     * Shifts parser coveyor on type length
+     *
+     * @return Type Type
+     */
+    public function readType(): Type {
+        return new Type($this->readExtendedClassname(), !$this->readOperator('!'));
     }
 
     /**

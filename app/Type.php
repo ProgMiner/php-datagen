@@ -127,7 +127,7 @@ class Type extends Data_Type {
         $result = 'if (';
 
         if ($this->nullable) {
-            $result .= '!is_null($expr) && ';
+            $result .= "!is_null($expr) && ";
         }
 
         $result .= '!is_';

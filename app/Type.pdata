@@ -24,9 +24,9 @@ namespace PHPDataGen;
 
 class Type {
 
-    direct val name: string;
+    direct val name: string!;
 
-    val nullable: bool;
-    val mixed:    bool;
-    val class:    bool;
+    val nullable: bool!;
+    val mixed:    bool!;
+    val class:    bool!;
 }

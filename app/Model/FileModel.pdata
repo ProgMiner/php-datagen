@@ -26,6 +26,6 @@ class FileModel {
 
     val namespace: string;
 
-    val uses: array;
-    var classes: array;
+    val uses: array!;
+    var classes: array!;
 }

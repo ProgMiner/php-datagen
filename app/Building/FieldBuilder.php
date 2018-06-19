@@ -68,6 +68,10 @@ class FieldBuilder {
      */
     protected $default = null;
 
+    public function __construct() {
+        $this->type = new Type('mixed');
+    }
+
     /**
      * Sets field name
      *
@@ -119,7 +123,7 @@ class FieldBuilder {
      *
      * @return static $this
      */
-    public function setType(string $type): FieldBuilder {
+    public function setType(Type $type): FieldBuilder {
         $this->type = $type;
         return $this;
     }
@@ -181,7 +185,7 @@ class FieldBuilder {
             'name'          => $this->name,
             'editable'      => $this->editable,
             'direct'        => $this->direct,
-            'type'          => new Type($this->type),
+            'type'          => $this->type,
             'validators'    => $this->validators,
             'filterDefault' => $this->filterDefault,
             'default'       => $this->default,
