@@ -12,7 +12,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "progminer/php-datagen-lib": "dev-master",
+        "progminer/php-datagen-lib": "^0.2.0@alpha",
         "symfony/console": "^4.0",
         "symfony/finder": "^4.1"
     },
