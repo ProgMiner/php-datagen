@@ -28,50 +28,36 @@ use PHPDataGen\Model\FileModel;
 
 /**
  * Type representation
- *
- * TODO Not nullable
  */
-class Type {
+class Type extends Data_Type {
 
     const TYPES = ['mixed', 'array', 'bool', 'callable', 'float', 'int', 'iterable', 'string'];
 
     /**
-     * @var string Type name
-     */
-    protected $name = '';
-
-    /**
-     * @var bool Is field nullable?
-     */
-    protected $nullable = true;
-
-    /**
-     * @var bool Is type mixed?
-     */
-    protected $mixed = false;
-
-    /**
-     * @var bool Is type class?
-     */
-    protected $class = false;
-
-    /**
      * @param string $type Type name of class
      */
-    public function __construct(string $type) {
-        $this->name = $type;
+    public function __construct(string $type, bool $nullable = true) {
+        $fields = [
+            'name'     => $type,
+
+            'nullable' => $nullable,
+            'mixed'    => false,
+            'class'    => false,
+        ];
 
         $type = strtolower($type);
 
         if ($type === 'mixed') {
-            $this->mixed = true;
+            $fields['mixed'] = true;
         } else if (!in_array($type, self::TYPES)) {
-            $this->class = true;
+            $fields['class'] = true;
         }
 
-        if (!$this->class) {
-            $this->name = $type;
+        if (!$fields['class']) {
+            $fields['name'] = $type;
         }
+
+        parent::__construct($fields);
     }
 
     /**
@@ -98,7 +84,7 @@ class Type {
             return '0';
 
         case 'string':
-            return '""';
+            return "''";
 
         }
 
@@ -120,7 +106,7 @@ class Type {
             return;
         }
 
-        $this->name = '\\'.$fileModel->getClassPath($this->name);
+        $this->name = $fileModel->getClassPath($this->name);
     }
 
     /**
@@ -138,28 +124,21 @@ class Type {
             return '';
         }
 
-        $result = 'if (!is_';
+        $result = 'if (';
 
+        if ($this->nullable) {
+            $result .= '!is_null($expr) && ';
+        }
+
+        $result .= '!is_';
         if ($this->class) {
             $result .= "a($expr, {$this->name}::class)";
         } else {
             $result .= "{$this->name}($expr)";
         }
 
-        $result .= " && !is_null($expr)) { throw new \InvalidArgumentException('$exception'); }";
+        $result .= ") { throw new \InvalidArgumentException('$exception'); }";
 
         return "$result\n";
-    }
-
-    public function getName(): string {
-        return $this->name;
-    }
-
-    public function isMixed(): bool {
-        return $this->mixed;
-    }
-
-    public function isClass(): bool {
-        return $this->class;
     }
 }

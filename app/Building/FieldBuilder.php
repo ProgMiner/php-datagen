@@ -49,9 +49,9 @@ class FieldBuilder {
     protected $direct = false;
 
     /**
-     * @var string Type name
+     * @var Type Type
      */
-    protected $type = 'mixed';
+    protected $type = null;
 
     /**
      * @var string[] Validators

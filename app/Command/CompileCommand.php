@@ -113,8 +113,6 @@ class CompileCommand extends Command {
 
         // TODO Config file reading
 
-        var_dump($input->getArgument('files'));
-
         foreach ($input->getArgument('files') as $file) {
             if (!file_exists($file)) {
                 $io->error("File \"$file\" is not exists. Skipping");

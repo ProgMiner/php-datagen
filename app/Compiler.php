@@ -124,10 +124,10 @@ EOF;
 
             $result .= "get_{$fieldModel->name}() { return \$this->{$fieldModel->name}; }\n";
 
-            if (!$fieldModel->type->isMixed() || !empty($fieldModel->validation)) {
+            if (!$fieldModel->type->mixed || !empty($fieldModel->validation)) {
                 $result .= "protected function validate_{$fieldModel->name}(\$value) {\n";
 
-                $result .= $fieldModel->type->makeValidator('$value', "Field {$fieldModel->name} has type {$fieldModel->type->getName()}");
+                $result .= $fieldModel->type->makeValidator('$value', "Field {$fieldModel->name} has type {$fieldModel->type->name}");
 
                 foreach ($fieldModel->validators as $validator) {
                     if (!isset($this->validators[$validator])) {
