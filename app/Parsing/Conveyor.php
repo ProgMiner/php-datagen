@@ -225,7 +225,7 @@ class Conveyor {
      * @return Type Type
      */
     public function readType(): Type {
-        return new Type($this->readExtendedClassname(), !$this->readOperator('!'));
+        return new Type($this->readExtendedClassname(), $this->readOperator('?'));
     }
 
     /**

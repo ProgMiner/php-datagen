@@ -138,6 +138,8 @@ EOF;
                 }
 
                 $result .= "return \$value;\n}\n";
+            } else {
+                $result .= "protected function validate_{$fieldModel->name}(\$value) { return \$value; }\n";
             }
 
             if ($fieldModel->editable) {

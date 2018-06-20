@@ -24,8 +24,8 @@ namespace PHPDataGen\Model;
 
 class FileModel {
 
-    val namespace: string;
+    val namespace: string?;
 
-    val uses: array!;
-    var classes: array!;
+    val uses: array;
+    var classes: array;
 }

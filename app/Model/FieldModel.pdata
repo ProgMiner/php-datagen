@@ -26,14 +26,14 @@ use PHPDataGen\Type;
 
 class FieldModel {
 
-    val name: string!;
+    val name: string;
 
-    val editable: bool! = false;
-    val direct:   bool! = false;
+    val editable: bool = false;
+    val direct:   bool = false;
 
-    val type:       Type!;
-    val validators: array!;
+    val type:       Type;
+    val validators: array;
 
-    val filterDefault: bool! = true;
-    val default:       string;
+    val filterDefault: bool = true;
+    val default:       string?;
 }

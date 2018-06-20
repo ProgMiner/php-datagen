@@ -36,7 +36,7 @@ class Type extends Data_Type {
     /**
      * @param string $type Type name of class
      */
-    public function __construct(string $type, bool $nullable = true) {
+    public function __construct(string $type, bool $nullable = false) {
         $fields = [
             'name'     => $type,
 

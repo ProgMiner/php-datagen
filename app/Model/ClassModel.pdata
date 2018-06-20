@@ -24,10 +24,10 @@ namespace PHPDataGen\Model;
 
 class ClassModel {
 
-    val name: string!;
+    val name: string;
 
-    val extends: string;
-    var implements: array!;
+    val extends: string?;
+    var implements: array;
 
-    var fields: array!;
+    var fields: array;
 }
