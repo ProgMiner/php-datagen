@@ -82,7 +82,6 @@ class Compiler {
                 $result .= 'private';
             }
 
-            // TODO Direct default value set
             $result .= " \${$fieldModel->name} = ";
 
             if ($fieldModel->directDefining) {
