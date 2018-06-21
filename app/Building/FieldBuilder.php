@@ -59,6 +59,11 @@ class FieldBuilder {
     protected $validators = [];
 
     /**
+     * @var bool Is field defined directly in declaration?
+     */
+    protected $directDefining = false;
+
+    /**
      * @var bool Apply validators to default value?
      */
     protected $filterDefault = true;
@@ -95,7 +100,7 @@ class FieldBuilder {
      */
     public function setEditable(): FieldBuilder {
         if ($this->editable) {
-            throw new \RuntimeException('Field is already setted editable');
+            throw new \RuntimeException('Field is already set editable');
         }
 
         $this->editable = true;
@@ -109,7 +114,7 @@ class FieldBuilder {
      */
     public function setDirect(): FieldBuilder {
         if ($this->direct) {
-            throw new \RuntimeException('Field is already setted direct');
+            throw new \RuntimeException('Field is already set direct');
         }
 
         $this->direct = true;
@@ -129,13 +134,27 @@ class FieldBuilder {
     }
 
     /**
+     * Sets field directly defined in declaration
+     *
+     * @return static $this
+     */
+    public function setDirectDefining(): FieldBuilder {
+        if ($this->directDefining) {
+            throw new \RuntimeException('Field is already set directly defined');
+        }
+
+        $this->directDefining = true;
+        return $this;
+    }
+
+    /**
      * Sets field not filters default value
      *
      * @return static $this
      */
     public function setNotFilterDefault(): FieldBuilder {
         if (!$this->filterDefault) {
-            throw new \RuntimeException('Field is already setted not filters default');
+            throw new \RuntimeException('Field is already set not filters default');
         }
 
         $this->filterDefault = false;
@@ -182,13 +201,14 @@ class FieldBuilder {
      */
     public function build(): FieldModel {
         $model = new FieldModel([
-            'name'          => $this->name,
-            'editable'      => $this->editable,
-            'direct'        => $this->direct,
-            'type'          => $this->type,
-            'validators'    => $this->validators,
-            'filterDefault' => $this->filterDefault,
-            'default'       => $this->default,
+            'name'           => $this->name,
+            'editable'       => $this->editable,
+            'direct'         => $this->direct,
+            'type'           => $this->type,
+            'validators'     => $this->validators,
+            'directDefining' => $this->directDefining,
+            'filterDefault'  => $this->filterDefault,
+            'default'        => $this->default,
         ]);
 
         return $model;

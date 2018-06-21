@@ -83,13 +83,21 @@ class Compiler {
             }
 
             // TODO Direct default value set
-            $result .= " \${$fieldModel->name} = {$fieldModel->type->getDefaultValue()};\n";
+            $result .= " \${$fieldModel->name} = ";
+
+            if ($fieldModel->directDefining) {
+                $result .= $fieldModel->default;
+            } else {
+                $result .= $fieldModel->type->getDefaultValue();
+            }
+
+            $result .=";\n";
         }
 
         $result .= "public function __construct(array \$init = []) {\n";
 
         foreach ($classModel->fields as $fieldModel) {
-            if (is_null($fieldModel->default)) {
+            if ($fieldModel->directDefining || is_null($fieldModel->default)) {
                 continue;
             }
 

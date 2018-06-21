@@ -51,7 +51,8 @@ class FieldState implements State {
      * 4 - Type name
      * 5 - After type name
      * 6 - Validator
-     * 7 - Default value
+     * 7 - Extended default value
+     * 8 - Default value
      *
      */
     protected $state = 0;
@@ -107,6 +108,13 @@ class FieldState implements State {
                 return $this;
             }
 
+            if ($conveyor->readOperator('<=')) {
+                $this->builder->setDirectDefining();
+
+                $this->state = 8;
+                return $this;
+            }
+
             if ($conveyor->readOperator(':=')) {
                 $this->builder->setNotFilterDefault();
 
@@ -158,11 +166,8 @@ class FieldState implements State {
                     $fail = true;
                 }
             } else {
-                if (preg_match('/^(.*?);/', $conveyor, $matches) !== 1) {
-                    $fail = true;
-                } else {
-                    $matches[0] = substr($matches[0], 0, strlen($matches[1]));
-                }
+                $this->state = 8;
+                return $this;
             }
 
             if ($fail) {
@@ -174,6 +179,21 @@ class FieldState implements State {
 
             $this->state = 3;
             return $this;
+
+        case 8:
+            $matches = [];
+
+            if (preg_match('/^(.*?);/', $conveyor, $matches) !== 1) {
+                throw $conveyor->makeException('Semicolon after default value expected');
+            }
+
+            $matches[0] = substr($matches[0], 0, strlen($matches[1]));
+            $conveyor->move(strlen($matches[0]));
+            $this->builder->setDefault($matches[1]);
+
+            $this->state = 3;
+            return $this;
+
         }
     }
 }

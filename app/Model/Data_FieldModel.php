@@ -7,12 +7,10 @@ private $editable = false;
 private $direct = false;
 private $type = null;
 private $validators = [];
-private $filterDefault = false;
+private $directDefining = false;
+private $filterDefault = true;
 private $default = null;
 public function __construct(array $init = []) {
-$this->editable = $this->validate_editable(false);
-$this->direct = $this->validate_direct(false);
-$this->filterDefault = $this->validate_filterDefault(true);
 foreach ($init as $field => $value) {
     $validate = "validate_$field";
     $this->$field = $this->$validate($value);
@@ -41,6 +39,11 @@ return $value;
 public function get_validators() { return $this->validators; }
 protected function validate_validators($value) {
 if (!is_array($value)) { throw new \InvalidArgumentException('Field validators has type array'); }
+return $value;
+}
+public function get_directDefining() { return $this->directDefining; }
+protected function validate_directDefining($value) {
+if (!is_bool($value)) { throw new \InvalidArgumentException('Field directDefining has type bool'); }
 return $value;
 }
 public function get_filterDefault() { return $this->filterDefault; }
