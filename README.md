@@ -7,21 +7,9 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/a53d266e0050a850e749/maintainability)](https://codeclimate.com/github/ProgMiner/php-datagen/maintainability)
 [![Total Downloads][ico-downloads]][link-downloads]
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
-PSRs you support to avoid any confusion with users and contributors.
+PHP-DataGen is a code generation tool with a built-in parser of Kotlin-like own properties description language to create classes with strongly typed properties.
 
-## Structure
-
-If any of the following are applicable to your project, then the directory structure should follow industry best practices by being named the following.
-
-```
-bin/        
-config/
-src/
-tests/
-vendor/
-```
-
+Base description of language stored in [schema.md](schema.md).
 
 ## Install
 
@@ -32,6 +20,8 @@ $ composer require progminer/php-datagen
 ```
 
 ## Usage
+
+You can use it from your PHP code or using the CLI.
 
 // TODO
 
