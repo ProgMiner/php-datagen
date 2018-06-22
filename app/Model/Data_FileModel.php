@@ -1,6 +1,6 @@
 <?php
 namespace PHPDataGen\Model;
-class Data_FileModel {
+abstract class Data_FileModel {
 use \PHPDataGen\DataClassTrait;
 private $namespace = null;
 private $uses = [];

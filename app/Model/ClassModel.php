@@ -1,30 +1,51 @@
 <?php
-
-/* MIT License
-
-Copyright (c) 2018 Eridan Domoratskiy
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE. */
-
 namespace PHPDataGen\Model;
-
-/**
- * Class model
- */
-class ClassModel extends Data_ClassModel {}
+class ClassModel {
+use \PHPDataGen\DataClassTrait;
+private $name = '';
+private $final = false;
+private $finalFinal = false;
+private $extends = null;
+private $implements = [];
+private $fields = [];
+public function __construct(array $init = []) {
+foreach ($init as $field => $value) {
+    $validate = "validate_$field";
+    $this->$field = $this->$validate($value);
+}
+}
+public function get_name() { return $this->name; }
+protected function validate_name($value) {
+if (!is_string($value)) { throw new \InvalidArgumentException('Field name has type string'); }
+return $value;
+}
+public function &get_final() { return $this->final; }
+protected function validate_final($value) {
+if (!is_bool($value)) { throw new \InvalidArgumentException('Field final has type bool'); }
+return $value;
+}
+public function set_final($value) { $this->final = $this->validate_final($value);}
+public function &get_finalFinal() { return $this->finalFinal; }
+protected function validate_finalFinal($value) {
+if (!is_bool($value)) { throw new \InvalidArgumentException('Field finalFinal has type bool'); }
+return $value;
+}
+public function set_finalFinal($value) { $this->finalFinal = $this->validate_finalFinal($value);}
+public function get_extends() { return $this->extends; }
+protected function validate_extends($value) {
+if (!is_null($value) && !is_string($value)) { throw new \InvalidArgumentException('Field extends has type string'); }
+return $value;
+}
+public function &get_implements() { return $this->implements; }
+protected function validate_implements($value) {
+if (!is_array($value)) { throw new \InvalidArgumentException('Field implements has type array'); }
+return $value;
+}
+public function set_implements($value) { $this->implements = $this->validate_implements($value);}
+public function &get_fields() { return $this->fields; }
+protected function validate_fields($value) {
+if (!is_array($value)) { throw new \InvalidArgumentException('Field fields has type array'); }
+return $value;
+}
+public function set_fields($value) { $this->fields = $this->validate_fields($value);}
+}

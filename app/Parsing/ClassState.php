@@ -49,13 +49,15 @@ class ClassState implements State {
     /**
      * @var int Current file parsing state
      *
-     * 0 - Class name
-     * 1 - After class name
-     * 2 - Extends
-     * 3 - Implements
-     * 4 - After implement
-     * 5 - Fields
-     * 6 - Field
+     * 0 - Final
+     * 1 - Class
+     * 2 - Class name
+     * 3 - After class name
+     * 4 - Extends
+     * 5 - Implements
+     * 6 - After implement
+     * 7 - Fields
+     * 8 - Field
      *
      */
     protected $state = 0;
@@ -75,55 +77,73 @@ class ClassState implements State {
     public function step(Conveyor $conveyor): State {
         switch ($this->state) {
         case 0:
-            $this->builder->setName($conveyor->readName());
+            if ($conveyor->readOperator('final')) {
+                $this->builder->setFinal();
+
+                if ($conveyor->readOperator('!')) {
+                    $this->builder->setFinalFinal();
+                }
+            }
 
             $this->state = 1;
             return $this;
 
         case 1:
+            $conveyor->readOperator('class', true, true);
+
+            $this->state = 2;
+            return $this;
+
+        case 2:
+            $this->builder->setName($conveyor->readName());
+
+            $this->state = 3;
+            return $this;
+
+        case 3:
             if ($conveyor->readOperator('extends')) {
-                $this->state = 2;
+                $this->state = 4;
 
                 return $this;
             }
 
             if ($conveyor->readOperator('implements')) {
-                $this->state = 3;
+                $this->state = 5;
 
                 return $this;
             }
 
             if ($conveyor->readOperator('{')) {
-                $this->state = 5;
+                $this->state = 7;
 
                 return $this;
             }
 
             throw $conveyor->makeException('Open bracket expected');
 
-        case 2:
+        case 4:
             $this->builder->setExtends($conveyor->readExtendedClassname());
 
-            $this->state = 1;
+            $this->state = 3;
             return $this;
 
-        case 3:
+        case 5:
             $this->builder->addImplement($conveyor->readExtendedClassname());
 
-            $this->state = 4;
+            $this->state = 6;
             return $this;
 
-        case 4:
+        case 6:
             if ($conveyor->readOperator(',')) {
-                $this->state = 3;
+                $this->state = 5;
 
                 return $this;
             }
 
-            $this->state = 1;
+            $this->state = 3;
             return $this;
 
-        case 5:
+        case 7:
             if (
                     $conveyor->readOperator('direct', false) ||
                     $conveyor->readOperator('val',    false) ||
@@ -132,7 +152,7 @@ class ClassState implements State {
                 $this->field = new FieldState($this);
                 $this->field->step($conveyor);
 
-                $this->state = 6;
+                $this->state = 8;
                 return $this->field;
             }
 
@@ -144,11 +164,11 @@ class ClassState implements State {
 
             throw $conveyor->makeException('Close bracket expected');
 
-        case 6:
+        case 8:
             $this->builder->addField($this->field->getBuilder());
             $this->field = null;
 
-            $this->state = 5;
+            $this->state = 7;
             return $this;
         }
     }

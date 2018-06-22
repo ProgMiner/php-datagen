@@ -1,6 +1,6 @@
 <?php
 namespace PHPDataGen;
-class Data_Type {
+abstract class Data_Type {
 use \PHPDataGen\DataClassTrait;
 protected $name = '';
 private $nullable = false;

@@ -91,7 +91,20 @@ class CompileCommand extends Command {
             return;
         }
 
-        $resultPath = "{$pathinfo->dirname}/Data_{$pathinfo->filename}.php";
+        $resultPath = $pathinfo->dirname.'/';
+
+        if (count($model->classes) > 1) {
+            $resultPath .= 'Data_'.$pathinfo->filename;
+        } else {
+            if (!$model->classes[0]->final) {
+                $resultPath .= 'Data_';
+            }
+
+            $resultPath .= $model->classes[0]->name;
+        }
+
+        $resultPath .= '.php';
+
         file_put_contents($resultPath, $result);
 
         $io->success("Written in $resultPath");

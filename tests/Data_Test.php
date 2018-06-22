@@ -1,5 +1,5 @@
 <?php
-class Data_Test {
+abstract class Data_Test {
 use \PHPDataGen\DataClassTrait;
 private $A = null;
 private $A1 = '';

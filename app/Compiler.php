@@ -54,7 +54,27 @@ class Compiler {
 
     protected function compileClass(ClassModel $classModel, FileModel $fileModel): string {
         // TODO Custom naming
-        $result = "class Data_{$classModel->name}";
+        $result = '';
+
+        if ($classModel->finalFinal) {
+            if (!$classModel->final) {
+                throw new CompilationException('Class cannot be final final and not final');
+            }
+
+            $result .= 'final ';
+        }
+
+        if (!$classModel->final) {
+            $result .= 'abstract ';
+        }
+
+        $result .= 'class ';
+
+        if (!$classModel->final) {
+            $result .= 'Data_';
+        }
+
+        $result .= $classModel->name;
 
         if (!is_null($classModel->extends)) {
             $result .= ' extends '.$fileModel->getClassPath($classModel->extends);

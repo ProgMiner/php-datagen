@@ -1,30 +1,59 @@
 <?php
-
-/* MIT License
-
-Copyright (c) 2018 Eridan Domoratskiy
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE. */
-
 namespace PHPDataGen\Model;
-
-/**
- * Field model
- */
-class FieldModel extends Data_FieldModel {}
+class FieldModel {
+use \PHPDataGen\DataClassTrait;
+private $name = '';
+private $editable = false;
+private $direct = false;
+private $type = null;
+private $validators = [];
+private $directDefining = false;
+private $filterDefault = true;
+private $default = null;
+public function __construct(array $init = []) {
+foreach ($init as $field => $value) {
+    $validate = "validate_$field";
+    $this->$field = $this->$validate($value);
+}
+}
+public function get_name() { return $this->name; }
+protected function validate_name($value) {
+if (!is_string($value)) { throw new \InvalidArgumentException('Field name has type string'); }
+return $value;
+}
+public function get_editable() { return $this->editable; }
+protected function validate_editable($value) {
+if (!is_bool($value)) { throw new \InvalidArgumentException('Field editable has type bool'); }
+return $value;
+}
+public function get_direct() { return $this->direct; }
+protected function validate_direct($value) {
+if (!is_bool($value)) { throw new \InvalidArgumentException('Field direct has type bool'); }
+return $value;
+}
+public function get_type() { return $this->type; }
+protected function validate_type($value) {
+if (!is_a($value, \PHPDataGen\Type::class)) { throw new \InvalidArgumentException('Field type has type \PHPDataGen\Type'); }
+return $value;
+}
+public function get_validators() { return $this->validators; }
+protected function validate_validators($value) {
+if (!is_array($value)) { throw new \InvalidArgumentException('Field validators has type array'); }
+return $value;
+}
+public function get_directDefining() { return $this->directDefining; }
+protected function validate_directDefining($value) {
+if (!is_bool($value)) { throw new \InvalidArgumentException('Field directDefining has type bool'); }
+return $value;
+}
+public function get_filterDefault() { return $this->filterDefault; }
+protected function validate_filterDefault($value) {
+if (!is_bool($value)) { throw new \InvalidArgumentException('Field filterDefault has type bool'); }
+return $value;
+}
+public function get_default() { return $this->default; }
+protected function validate_default($value) {
+if (!is_null($value) && !is_string($value)) { throw new \InvalidArgumentException('Field default has type string'); }
+return $value;
+}
+}

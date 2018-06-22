@@ -22,9 +22,12 @@ SOFTWARE. */
 
 namespace PHPDataGen\Model;
 
-class ClassModel {
+final class ClassModel {
 
     val name: string;
+
+    var final:      bool <= false;
+    var finalFinal: bool <= false;
 
     val extends: string?;
     var implements: array;

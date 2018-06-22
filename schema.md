@@ -13,9 +13,9 @@ namespace <Namespace>;
 use <Class full name> [as <Class alias>];
 
 // Data class declaration
-class <Class name>[ extends <Class name>][ implements <Interface names>] {
+[final[!]] class <Class name>[ extends <Class name>][ implements <Interface names>] {
 
     // Field declaration
-    [direct] <val/var> <Field name>[: <Type name>[, <Validator names>]][ [:]= [`[``]]<Default value>[`[``]]];
+    [direct] <val/var> <Field name>[: <Type name>[, <Validator names>]][ <:/</>= [`[``]]<Default value>[`[``]]];
 }
 ```

@@ -83,8 +83,12 @@ class FileState implements State {
                 return $this;
             }
 
-            if ($conveyor->readOperator('class')) {
+            if (
+                $conveyor->readOperator('final', false) ||
+                $conveyor->readOperator('class', false)
+            ) {
                 $this->class = new ClassState($this);
+                $this->class->step($conveyor);
 
                 $this->state = 6;
                 return $this->class;

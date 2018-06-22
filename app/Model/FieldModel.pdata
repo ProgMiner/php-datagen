@@ -24,7 +24,7 @@ namespace PHPDataGen\Model;
 
 use PHPDataGen\Type;
 
-class FieldModel {
+final class FieldModel {
 
     val name: string;
 

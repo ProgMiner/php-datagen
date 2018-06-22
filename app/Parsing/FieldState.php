@@ -183,7 +183,9 @@ class FieldState implements State {
         case 8:
             $matches = [];
 
-            if (preg_match('/^(.*?);/', $conveyor, $matches) !== 1) {
+            // TODO Option for using direct defining default
+
+            if (preg_match('/^([\\s\\S]*?);/', $conveyor, $matches) !== 1) {
                 throw $conveyor->makeException('Semicolon after default value expected');
             }
 

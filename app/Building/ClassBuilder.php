@@ -37,6 +37,16 @@ class ClassBuilder {
     protected $name = null;
 
     /**
+     * @var bool Is class final?
+     */
+    protected $final = false;
+
+    /**
+     * @var bool Is class final final?
+     */
+    protected $finalFinal = false;
+
+    /**
      * @var string Extended class name
      */
     protected $extends = null;
@@ -64,6 +74,34 @@ class ClassBuilder {
         }
 
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * Sets class final
+     *
+     * @return static $this
+     */
+    public function setFinal(): ClassBuilder {
+        if ($this->final) {
+            throw new \RuntimeException('Class is already set final');
+        }
+
+        $this->final = true;
+        return $this;
+    }
+
+    /**
+     * Sets class final final
+     *
+     * @return static $this
+     */
+    public function setFinalFinal(): ClassBuilder {
+        if ($this->finalFinal) {
+            throw new \RuntimeException('Class is already set final final');
+        }
+
+        $this->finalFinal = true;
         return $this;
     }
 
@@ -124,10 +162,12 @@ class ClassBuilder {
      */
     public function build(): ClassModel {
         $model = new ClassModel([
-            'name' => $this->name,
-            'extends' => $this->extends,
+            'name'       => $this->name,
+            'final'      => $this->final,
+            'finalFinal' => $this->finalFinal,
+            'extends'    => $this->extends,
             'implements' => $this->implements,
-            'fields' => []
+            'fields'     => []
         ]);
 
         foreach ($this->fields as $field) {
