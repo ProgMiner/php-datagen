@@ -7,9 +7,9 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/a53d266e0050a850e749/maintainability)](https://codeclimate.com/github/ProgMiner/php-datagen/maintainability)
 [![Total Downloads][ico-downloads]][link-downloads]
 
-PHP-DataGen is a code generation tool with a built-in parser of Kotlin-like own properties description language to create classes with strongly typed properties.
+PHP-DataGen is a code generation tool with a built-in parser of own Kotlin-like properties description language to create classes with strongly typed properties.
 
-Base description of language stored in [schema.md](schema.md).
+The base description of the language is in [schema.md](schema.md).
 
 ## Install
 
