@@ -3,8 +3,8 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-travis]][link-travis]
-[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
-[![Quality Score][ico-code-quality]][link-code-quality]
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/ec9d15a8f86f4390b410ef46399f4608)](https://www.codacy.com/app/ProgMiner/php-datagen?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=ProgMiner/php-datagen&amp;utm_campaign=Badge_Grade)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a53d266e0050a850e749/maintainability)](https://codeclimate.com/github/ProgMiner/php-datagen/maintainability)
 [![Total Downloads][ico-downloads]][link-downloads]
 
 This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what
@@ -67,15 +67,11 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [ico-version]: https://img.shields.io/packagist/v/progminer/php-datagen.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/progminer/php-datagen/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/progminer/php-datagen.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/progminer/php-datagen.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/ProgMiner/php-datagen/master.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/progminer/php-datagen.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/progminer/php-datagen
-[link-travis]: https://travis-ci.org/progminer/php-datagen
-[link-scrutinizer]: https://scrutinizer-ci.com/g/progminer/php-datagen/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/progminer/php-datagen
+[link-travis]: https://travis-ci.org/ProgMiner/php-datagen
 [link-downloads]: https://packagist.org/packages/progminer/php-datagen
 [link-author]: https://github.com/ProgMiner
 [link-contributors]: ../../contributors
