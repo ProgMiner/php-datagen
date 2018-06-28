@@ -63,7 +63,7 @@ And now in order (operators are bold, substitutions are italic):
   - *Validator name* - name of validator (see next section);
   - **<=**, **:=** or **=** - default value assignment operator. In variation **<=** assigns a value when declaring a property. In variation **:=** assigns a value when the constructor is called without checking the type and calling validators. In variation **=** assigns a value when calling a constructor with type checking and calling validators;
   - **`** or **```** - see *Default value*;
-  - *Default value* - the default value of the field. It can be surrounded by **`** or **```** operators when contains a semicolon (`;`) (except when a variation of the default value assignment operator **<=** is used). There is no difference in the use of **`** or **```** if the default value is not contains a reverse apostrophe (```), in which case you must use the **```** operator.
+  - *Default value* - the default value of the field. It can be surrounded by **\`** or **\`\`\`** operators when contains a semicolon (`;`) (except when a variation of the default value assignment operator **<=** is used). There is no difference in the use of **\`** or **\`\`\`** if the default value is not contains a reverse apostrophe (\`), in which case you must use the **\`\`\`** operator.
 
 ### Validators
 
