@@ -9,6 +9,8 @@
 
 The PHP-DataGen project is a utility - code generator of PHP classes with certain properties and is aimed at simplifying the work of PHP programmers.
 
+The article about this project is available on Russian language at https://habr.com/post/415861/.
+
 ## Install
 
 Via Composer
