@@ -71,9 +71,17 @@ And now in order (operators are bold, substitutions are italic):
 
 *Coming soon...*
 
+### Examples
+
+PDGL | PHP
+---- | ---
+[app/Type.pdata](app/Type.pdata) | [app/Data_Type.php](app/Data_Type.php)
+[app/Model/FieldModel.pdata](app/Model/FieldModel.pdata) | [app/Model/FieldModel.php](app/Model/FieldModel.php)
+[tests/Test.pdata](tests/Test.pdata) | [tests/Data_Test.php](tests/Data_Test.php)
+
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) and [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md) for details.
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security
 
