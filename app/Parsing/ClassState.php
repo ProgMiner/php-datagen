@@ -49,7 +49,7 @@ class ClassState implements State {
     /**
      * @var int Current file parsing state
      *
-     * 0 - Final
+     * 0 - final/final!/data
      * 1 - Class
      * 2 - Class name
      * 3 - After class name
@@ -83,6 +83,14 @@ class ClassState implements State {
                 if ($conveyor->readOperator('!')) {
                     $this->builder->setFinalFinal();
                 }
+
+                return $this;
+            }
+
+            if ($conveyor->readOperator('data')) {
+                $this->builder->setData();
+
+                return $this;
             }
 
             $this->state = 1;

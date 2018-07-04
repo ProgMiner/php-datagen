@@ -22,7 +22,7 @@ SOFTWARE. */
 
 namespace PHPDataGen;
 
-class Type {
+data class Type {
 
     direct val name: string;
 

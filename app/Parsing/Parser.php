@@ -24,6 +24,8 @@ SOFTWARE. */
 
 namespace PHPDataGen\Parsing;
 
+use PHPDataGen\Exception\ParsingException;
+
 /**
  * Parser
  */
@@ -61,6 +63,9 @@ class Parser {
      */
     public function step() {
         $this->conveyor->skipSpaces();
+        $this->conveyor->skipComment();
+
+        $this->conveyor->skipSpaces();
 
         try {
             $this->state = $this->state->step($this->conveyor);
@@ -71,9 +76,6 @@ class Parser {
 
             throw $this->conveyor->makeException($e->getMessage(), $e->getCode(), $e);
         }
-
-        $this->conveyor->skipSpaces();
-        $this->conveyor->skipComment();
     }
 
     /**

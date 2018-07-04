@@ -3,6 +3,7 @@ namespace PHPDataGen\Model;
 class ClassModel {
 use \PHPDataGen\DataClassTrait;
 private $name = '';
+private $data = false;
 private $final = false;
 private $finalFinal = false;
 private $extends = null;
@@ -19,6 +20,12 @@ protected function validate_name($value) {
 if (!is_string($value)) { throw new \InvalidArgumentException('Field name has type string'); }
 return $value;
 }
+public function &get_data() { return $this->data; }
+protected function validate_data($value) {
+if (!is_bool($value)) { throw new \InvalidArgumentException('Field data has type bool'); }
+return $value;
+}
+public function set_data($value) { $this->data = $this->validate_data($value);}
 public function &get_final() { return $this->final; }
 protected function validate_final($value) {
 if (!is_bool($value)) { throw new \InvalidArgumentException('Field final has type bool'); }

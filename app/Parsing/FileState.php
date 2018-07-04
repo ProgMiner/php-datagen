@@ -69,6 +69,10 @@ class FileState implements State {
     }
 
     public function step(Conveyor $conveyor): State {
+        if ($conveyor->length() == 0) {
+            return $this;
+        }
+
         switch ($this->state) {
         case 0:
             if ($conveyor->readOperator('namespace')) {
@@ -84,6 +88,7 @@ class FileState implements State {
             }
 
             if (
+                $conveyor->readOperator('data', false)  ||
                 $conveyor->readOperator('final', false) ||
                 $conveyor->readOperator('class', false)
             ) {
@@ -94,7 +99,7 @@ class FileState implements State {
                 return $this->class;
             }
 
-            return $this;
+            throw $conveyor->makeException('End of file expected');
 
         case 1:
             $this->builder->setNamespace($conveyor->readNamespace());

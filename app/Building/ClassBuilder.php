@@ -37,6 +37,11 @@ class ClassBuilder {
     protected $name = null;
 
     /**
+     * @var bool Is class data?
+     */
+    protected $data = false;
+
+    /**
      * @var bool Is class final?
      */
     protected $final = false;
@@ -74,6 +79,20 @@ class ClassBuilder {
         }
 
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * Sets class data
+     *
+     * @return static $this
+     */
+    public function setData(): ClassBuilder {
+        if ($this->data) {
+            throw new \RuntimeException('Class is already set data');
+        }
+
+        $this->data = true;
         return $this;
     }
 
@@ -163,6 +182,7 @@ class ClassBuilder {
     public function build(): ClassModel {
         $model = new ClassModel([
             'name'       => $this->name,
+            'data'       => $this->data,
             'final'      => $this->final,
             'finalFinal' => $this->finalFinal,
             'extends'    => $this->extends,

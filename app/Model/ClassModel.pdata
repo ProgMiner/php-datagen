@@ -26,6 +26,7 @@ final class ClassModel {
 
     val name: string;
 
+    var data:       bool <= false;
     var final:      bool <= false;
     var finalFinal: bool <= false;
 
