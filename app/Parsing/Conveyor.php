@@ -101,7 +101,7 @@ class Conveyor {
      */
     public function move(int $offset) {
         if ($offset < 0) {
-            throw new \OutOfRangeException("Offset must be pozitive");
+            throw new \OutOfRangeException('Offset must be pozitive');
         }
 
         for ($i = 0; $i < $offset; ++$i) {
@@ -174,7 +174,7 @@ class Conveyor {
             return $matches[0];
         }
 
-        throw $this->makeException("Namespace expected");
+        throw $this->makeException('Namespace expected');
     }
 
     /**
@@ -190,7 +190,7 @@ class Conveyor {
             return $matches[0];
         }
 
-        throw $this->makeException("Name expected");
+        throw $this->makeException('Name expected');
     }
 
     /**
@@ -209,7 +209,7 @@ class Conveyor {
         try {
             return $this->readName();
         } catch (ParseException $e) {
-            throw $this->makeException("Class name expected", 0, $e);
+            throw $this->makeException('Class name expected', 0, $e);
         }
     }
 
@@ -232,7 +232,7 @@ class Conveyor {
             return;
         }
 
-        throw $this->makeException("Semicolon expected");
+        throw $this->makeException('Semicolon expected');
     }
 
     public function __toString() {

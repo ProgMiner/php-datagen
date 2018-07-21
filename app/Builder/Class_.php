@@ -166,7 +166,7 @@ class Class_ {
      */
     public function addField(Field $field): Class_ {
         if (in_array($field, $this->fields)) {
-            throw new \RuntimeException("Field is already added");
+            throw new \RuntimeException('Field is already added');
         }
 
         $this->fields[] = $field;
