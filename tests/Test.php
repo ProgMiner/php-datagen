@@ -1,3 +1,12 @@
+<?php
+
+namespace Foo;
+
+use Foo\Bar;
+use Foo\Bar\Baz as Foo;
+
+/**pdgl
+
 class Test {
 
     val A;
@@ -28,3 +37,4 @@ class Test {
     direct var D4: string = "Bar";
     direct var D5: string := "Baz";
 }
+*/

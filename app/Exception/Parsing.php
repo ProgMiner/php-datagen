@@ -27,7 +27,7 @@ namespace PHPDataGen\Exception;
 /**
  * Parsing exception
  */
-class ParsingException extends \Exception {
+class Parsing extends \Exception {
 
     /**
      * @var string Description of caused exception

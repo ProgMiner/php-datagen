@@ -24,8 +24,11 @@ SOFTWARE. */
 
 namespace PHPDataGen;
 
-use PHPDataGen\Model\FileModel;
-use PHPDataGen\Model\ClassModel;
+use PhpParser\BuilderFactory;
+use PhpParser\BuilderHelpers;
+use PhpParser\Node;
+
+use PHPDataGen\Model;
 
 /**
  * Compiler
@@ -37,149 +40,342 @@ class Compiler {
      */
     protected $validators = [];
 
-    public function compile(FileModel $fileModel): string {
-        $result = "<?php\n";
+    /**
+     * @var string Base directory of compiled files
+     */
+    protected $baseDir = 'pdg-classes';
 
-        if (!is_null($fileModel->namespace)) {
-            // TODO Custom data class location
-            $result .= "namespace {$fileModel->namespace};\n";
+    /**
+     * @var string Prefix for name of not final classes
+     */
+    protected $classPrefix = 'Data_';
+
+    public function getBaseDir(): string {
+        return $this->baseDir;
+    }
+
+    public function setBaseDir(string $baseDir) {
+        $this->baseDir = $baseDir;
+    }
+
+    public function getClassPrefix(): string {
+        return $this->classPrefix;
+    }
+
+    public function setClassPrefix(string $classPrefix) {
+        $this->classPrefix = $classPrefix;
+    }
+
+    /**
+     * Makes path of file for save compiled file model
+     *
+     * Returns array with directory and filename.
+     *
+     * @param Model\File $model File model that will be compiled
+     * @param string     $ext   File extension (.php by default)
+     *
+     * @return string[] Made path
+     */
+    public function makePath(Model\File $model, ?string $dir = null, string $ext = '.php'): array {
+        if (is_null($model->class)) {
+            throw new UnexpectedValueException('File without class cannot be saved');
         }
 
-        foreach ($fileModel->classes as $class) {
-            $result .= $this->compileClass($class, $fileModel)."\n";
+        $dir = $dir ?? $this->baseDir;
+
+        $path = str_replace('\\', '/', $model->namespace);
+        if (!empty($path)) {
+            $dir .= '/'.$path;
+        }
+
+        return [$dir, $this->makeClassName($model->class).$ext];
+    }
+
+    /**
+     * Compiles file model to PHP AST
+     *
+     * @param Model\File $model File model
+     *
+     * @return array PHP AST
+     */
+    public function compile(Model\File $model): array {
+        if (is_null($model->class)) {
+            throw new UnexpectedValueException('File without class cannot be saved');
+        }
+
+        $result = $model->uses;
+
+        $result[] = $this->compileClass($model->class);
+
+        if (!empty($model->namespace)) {
+            $result = [new Node\Stmt\Namespace_(new Node\Name($model->namespace), $result)];
         }
 
         return $result;
     }
 
-    protected function compileClass(ClassModel $classModel, FileModel $fileModel): string {
-        // TODO Custom naming
-        $result = '';
+    protected function makeClassName(Model\Class_ $model): string {
+        $ret = '';
 
-        if ($classModel->finalFinal) {
-            if (!$classModel->final) {
+        if (!$model->final) {
+            $ret .= $this->classPrefix;
+        }
+
+        $ret .= $model->name;
+
+        return $ret;
+    }
+
+    protected function convertFieldNameForMethod(string $name, string $prefix = ''): string {
+        return $prefix.ucwords($name);
+    }
+
+    protected function compileClass(Model\Class_ $model): Node\Stmt\Class_ {
+        $factory = new BuilderFactory();
+
+        $result = $factory->class($this->makeClassName($model));
+
+        if ($model->finalFinal) {
+            if (!$model->final) {
                 throw new CompilationException('Class cannot be final final and not final');
             }
 
-            $result .= 'final ';
+            $result->makeFinal();
         }
 
-        if (!$classModel->final) {
-            $result .= 'abstract ';
+        if (!$model->final) {
+            $result->makeAbstract();
         }
 
-        $result .= 'class ';
-
-        if (!$classModel->final) {
-            $result .= 'Data_';
+        if (!is_null($model->extends)) {
+            $result->extend($model->extends);
         }
 
-        $result .= $classModel->name;
-
-        if (!is_null($classModel->extends)) {
-            $result .= ' extends '.$fileModel->getClassPath($classModel->extends);
+        if (!empty($model->implements)) {
+            $result->implement(...$model->implements);
         }
-
-        if (!empty($classModel->implements)) {
-            $interfaces = [];
-
-            foreach ($classModel->implements as $interface) {
-                $interfaces[] = $fileModel->getClassPath($interface);
-            }
-
-            $result .= ' implements '.implode(', ', $interfaces);
-        }
-
-        $result .= " {\n";
 
         // TODO Library use disabling
-        $result .= "use \\PHPDataGen\\DataClassTrait;\n";
+        $result->addStmt(
+            new Node\Stmt\TraitUse([
+                new Node\Name('\\PHPDataGen\\DataClassTrait')
+            ])
+        );
 
-        foreach ($classModel->fields as $fieldModel) {
-            if ($fieldModel->direct) {
-                $result .= 'protected';
+        // Fields const
+        $result->addStmt($this->buildClassFieldsConst($model, $factory));
+
+        // Properties
+        foreach ($model->fields as $field) {
+            $builder = $factory->property($field->name);
+
+            if ($field->direct) {
+                $builder->makeProtected();
             } else {
-                $result .= 'private';
+                $builder->makePrivate();
             }
 
-            $result .= " \${$fieldModel->name} = ";
-
-            if ($fieldModel->directDefining) {
-                $result .= $fieldModel->default;
+            if ($field->directDefining) {
+                $builder->setDefault($field->default);
             } else {
-                $result .= $fieldModel->type->getDefaultValue();
+                $builder->setDefault($field->type->getDefaultValue());
             }
 
-            $result .=";\n";
+            $result->addStmt($builder->getNode());
         }
 
-        $result .= "public function __construct(array \$init = []) {\n";
+        // Constructor
+        $result->addStmt($this->buildClassConstructor($model, $factory));
 
-        foreach ($classModel->fields as $fieldModel) {
-            if ($fieldModel->directDefining || is_null($fieldModel->default)) {
+        foreach ($model->fields as $field) {
+            { // Getter
+                $getter = $factory->method($this->convertFieldNameForMethod($field->name, 'get'))->
+                    makePublic();
+
+                if (!$field->type->mixed) {
+                    $getter->setReturnType($field->type->toTypeHint());
+                }
+
+                if ($field->editable) {
+                    $getter->makeReturnByRef();
+                }
+
+                $getter->addStmt(new Node\Stmt\Return_(
+                    new Node\Expr\PropertyFetch(
+                        new Node\Expr\Variable('this'),
+                        $field->name
+                    )
+                ));
+
+                $result->addStmt($getter->getNode());
+            }
+
+            { // Validator
+                $validator = $factory->method($this->convertFieldNameForMethod($field->name, 'validate'))->
+                    makeProtected();
+
+                { // $value
+                    $param = $factory->param('value');
+
+                    if (!$field->type->mixed) {
+                        $param->setTypeHint($field->type->toTypeHint());
+                    }
+
+                    $validator->addParam($param);
+                }
+
+                if (!$field->type->mixed) {
+                    $validator->setReturnType($field->type->toTypeHint());
+                }
+
+                // TODO
+                // foreach ($field->validators as $validator) {
+                //     if (!isset($this->validators[$validator])) {
+                //         throw new CompilationException("Validator \"{$validator}\" is not defined");
+                //     }
+
+                //     $result .= "\$value = {$this->validators[$validator]}(\$value);\n";
+                // }
+
+                $validator->addStmt(new Node\Stmt\Return_(
+                    new Node\Expr\Variable('value')
+                ));
+
+                $result->addStmt($validator->getNode());
+            }
+
+            // Setter
+            if ($field->editable) {
+                $setter = $factory->method($this->convertFieldNameForMethod($field->name, 'set'))->
+                    makePublic();
+
+                { // $value
+                    $param = $factory->param('value');
+
+                    if (!$field->type->mixed) {
+                        $param->setTypeHint($field->type->toTypeHint());
+                    }
+
+                    $setter->addParam($param);
+                }
+
+                if (!$field->type->mixed) {
+                    $setter->setReturnType($field->type->toTypeHint());
+                }
+
+                $setter->addStmt(new Node\Stmt\Expression(
+                    new Node\Expr\Assign(
+                        new Node\Expr\Variable('oldValue'),
+                        new Node\Expr\PropertyFetch(
+                            new Node\Expr\Variable('this'),
+                            $field->name
+                        )
+                    )
+                ));
+
+                $setter->addStmt(new Node\Stmt\Expression(
+                    new Node\Expr\Assign(
+                        new Node\Expr\PropertyFetch(
+                            new Node\Expr\Variable('this'),
+                            $field->name
+                        ),
+                        $factory->methodCall(
+                            new Node\Expr\Variable('this'),
+                            $this->convertFieldNameForMethod($field->name, 'validate'),
+                            [new Node\Expr\Variable('value')]
+                        )
+                    )
+                ));
+
+                $setter->addStmt(new Node\Stmt\Return_(
+                    new Node\Expr\Variable('oldValue')
+                ));
+
+                $result->addStmt($setter->getNode());
+            }
+        }
+
+        // TODO Data class methods
+
+        return $result->getNode();
+    }
+
+    protected function buildClassFieldsConst(Model\Class_ $model, BuilderFactory $factory): Node\Stmt\ClassConst {
+        $fields = [];
+
+        foreach ($model->fields as $field) {
+            $fields[$field->name] = $this->convertFieldNameForMethod($field->name);
+        }
+
+        return new Node\Stmt\ClassConst(
+            [new Node\Const_('FIELDS', $factory->val($fields))],
+            Node\Stmt\Class_::MODIFIER_PRIVATE
+        );
+    }
+
+    protected function buildClassConstructor(Model\Class_ $model, BuilderFactory $factory): Node\Stmt\ClassMethod {
+        $result = $factory->method('__construct')->
+            makePublic()->
+            addParam(
+                $factory->
+                    param('init')->
+                    setTypeHint('array')->
+                    setDefault($factory->val([]))
+                );
+
+        // Default values
+        foreach ($model->fields as $field) {
+            if ($field->directDefining || is_null($field->default)) {
                 continue;
             }
 
-            $result .= "\$this->{$fieldModel->name} = ";
-
-            if ($fieldModel->filterDefault) {
-                $result .= "\$this->validate_{$fieldModel->name}({$fieldModel->default})";
+            $value = null;
+            if ($field->filterDefault) {
+                $value = $factory->methodCall(
+                    new Node\Expr\Variable('this'),
+                    $this->convertFieldNameForMethod($field->name, 'validate'),
+                    [$field->default]
+                );
             } else {
-                $result .= $fieldModel->default;
+                $value = $field->default;
             }
 
-            $result .= ";\n";
+            $result->addStmt(new Node\Expr\Assign(
+                new Node\Expr\PropertyFetch(
+                    new Node\Expr\Variable('this'),
+                    $field->name
+                ),
+                $value
+            ));
         }
 
-        $result .= <<<'EOF'
-foreach ($init as $field => $value) {
-    $validate = "validate_$field";
-    $this->$field = $this->$validate($value);
-}
-}
+        // foreach ($init as $field => $value) {
+        //     $this->{$field} = $this->{'validate' . self::FIELDS[$field]}($value);
+        // }
+        $result->addStmt(new Node\Stmt\Foreach_(
+            new Node\Expr\Variable('init'),
+            new Node\Expr\Variable('value'),
+            [
+                'keyVar' => new Node\Expr\Variable('field'),
+                'stmts' => [new Node\Stmt\Expression(
+                    new Node\Expr\Assign(
+                        new Node\Expr\PropertyFetch(
+                            new Node\Expr\Variable('this'),
+                            new Node\Expr\Variable('field')
+                        ),
+                        $factory->methodCall(
+                            new Node\Expr\Variable('this'),
+                            $factory->concat('validate', new Node\Expr\ArrayDimFetch(
+                                $factory->classConstFetch('self', 'FIELDS'),
+                                new Node\Expr\Variable('field')
+                            )),
+                            [new Node\Expr\Variable('value')]
+                        )
+                    )
+                )]
+            ]
+        ));
 
-EOF;
-
-        foreach ($classModel->fields as $fieldModel) {
-            $fieldModel->type->fixClassName($fileModel);
-
-            $result .= "public function ";
-
-            if ($fieldModel->editable) {
-                $result .= '&';
-            }
-
-            $result .= "get_{$fieldModel->name}() { return \$this->{$fieldModel->name}; }\n";
-
-            if (!$fieldModel->type->mixed || !empty($fieldModel->validation)) {
-                $result .= "protected function validate_{$fieldModel->name}(\$value) {\n";
-
-                $result .= $fieldModel->type->makeValidator('$value', "Field {$fieldModel->name} has type {$fieldModel->type->name}");
-
-                foreach ($fieldModel->validators as $validator) {
-                    if (!isset($this->validators[$validator])) {
-                        throw new CompilationException("Validator \"{$validator}\" is not defined");
-                    }
-
-                    $result .= "\$value = {$this->validators[$validator]}(\$value);\n";
-                }
-
-                $result .= "return \$value;\n}\n";
-            } else {
-                $result .= "protected function validate_{$fieldModel->name}(\$value) { return \$value; }\n";
-            }
-
-            if ($fieldModel->editable) {
-                $result .= "public function set_{$fieldModel->name}(\$value) { ".
-                        "\$this->{$fieldModel->name} = \$this->validate_{$fieldModel->name}(\$value);".
-                        "}\n";
-            }
-        }
-
-        // TODO Data classes
-
-        $result .= '}';
-
-        return $result;
+        return $result->getNode();
     }
 }

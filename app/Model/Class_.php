@@ -1,3 +1,5 @@
+<?php
+
 /* MIT License
 
 Copyright (c) 2018 Eridan Domoratskiy
@@ -22,19 +24,19 @@ SOFTWARE. */
 
 namespace PHPDataGen\Model;
 
-use PHPDataGen\Type;
+/**pdgl
 
-final class FieldModel {
+final class Class_ {
 
-    val name: string;
+    var name: string;
 
-    val editable: bool <= false;
-    val direct:   bool <= false;
+    var data:       bool <= false;
+    var final:      bool <= false;
+    var finalFinal: bool <= false;
 
-    val type:       Type;
-    val validators: array;
+    var extends: string?;
+    var implements: array;
 
-    val directDefining: bool <= false;
-    val filterDefault:  bool <= true;
-    val default:        string?;
+    var fields: array;
 }
+*/

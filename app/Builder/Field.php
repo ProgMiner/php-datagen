@@ -22,16 +22,17 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-namespace PHPDataGen\Building;
+namespace PHPDataGen\Builder;
 
+use PhpParser\Node;
+
+use PHPDataGen\Model;
 use PHPDataGen\Type;
-
-use PHPDataGen\Model\FieldModel;
 
 /**
  * Field builder
  */
-class FieldBuilder {
+class Field {
 
     /**
      * @var string Field name
@@ -69,7 +70,7 @@ class FieldBuilder {
     protected $filterDefault = true;
 
     /**
-     * @var string Default value expression
+     * @var Node\Expr Default value expression
      */
     protected $default = null;
 
@@ -84,7 +85,7 @@ class FieldBuilder {
      *
      * @return static $this
      */
-    public function setName(string $name): FieldBuilder {
+    public function setName(string $name): Field {
         if (isset($this->name)) {
             throw new \RuntimeException('Field name is already specified');
         }
@@ -98,7 +99,7 @@ class FieldBuilder {
      *
      * @return static $this
      */
-    public function setEditable(): FieldBuilder {
+    public function setEditable(): Field {
         if ($this->editable) {
             throw new \RuntimeException('Field is already set editable');
         }
@@ -112,7 +113,7 @@ class FieldBuilder {
      *
      * @return static $this
      */
-    public function setDirect(): FieldBuilder {
+    public function setDirect(): Field {
         if ($this->direct) {
             throw new \RuntimeException('Field is already set direct');
         }
@@ -128,7 +129,7 @@ class FieldBuilder {
      *
      * @return static $this
      */
-    public function setType(Type $type): FieldBuilder {
+    public function setType(Type $type): Field {
         $this->type = $type;
         return $this;
     }
@@ -138,7 +139,7 @@ class FieldBuilder {
      *
      * @return static $this
      */
-    public function setDirectDefining(): FieldBuilder {
+    public function setDirectDefining(): Field {
         if ($this->directDefining) {
             throw new \RuntimeException('Field is already set directly defined');
         }
@@ -152,7 +153,7 @@ class FieldBuilder {
      *
      * @return static $this
      */
-    public function setNotFilterDefault(): FieldBuilder {
+    public function setNotFilterDefault(): Field {
         if (!$this->filterDefault) {
             throw new \RuntimeException('Field is already set not filters default');
         }
@@ -164,11 +165,11 @@ class FieldBuilder {
     /**
      * Sets default value expression
      *
-     * @param string $default New default field value expression
+     * @param Node\Expr $default New default field value expression
      *
      * @return static $this
      */
-    public function setDefault(string $default): FieldBuilder {
+    public function setDefault(Node\Expr $default): Field {
         if (isset($this->default)) {
             throw new \RuntimeException('Default value is already specified');
         }
@@ -184,7 +185,7 @@ class FieldBuilder {
      *
      * @return static $this
      */
-    public function addValidator(string $validator): FieldBuilder {
+    public function addValidator(string $validator): Field {
         if (in_array($validator, $this->validators)) {
             throw new \RuntimeException("Validator \"$validator\" is already added");
         }
@@ -197,10 +198,10 @@ class FieldBuilder {
     /**
      * Builds field model
      *
-     * @return FieldModel
+     * @return Model\Field
      */
-    public function build(): FieldModel {
-        $model = new FieldModel([
+    public function build(): Model\Field {
+        $model = new Model\Field([
             'name'           => $this->name,
             'editable'       => $this->editable,
             'direct'         => $this->direct,

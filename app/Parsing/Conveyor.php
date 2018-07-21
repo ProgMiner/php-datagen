@@ -24,8 +24,7 @@ SOFTWARE. */
 
 namespace PHPDataGen\Parsing;
 
-use PHPDataGen\Exception\ParsingException;
-
+use PHPDataGen\Exception;
 use PHPDataGen\Type;
 
 /**
@@ -77,7 +76,7 @@ class Conveyor {
         return $this->length;
     }
 
-    public function makeException(string $description, int $code = 0, \Throwable $previous = null): ParsingException {
+    public function makeException(string $description, int $code = 0, \Throwable $previous = null): Exception\Parsing {
         $offset = strlen($this->source) - $this->length;
 
         for (; $offset > 0; --$offset) {
@@ -91,7 +90,7 @@ class Conveyor {
         $line = substr($this->source, $offset);
         $line = substr($line, 0, strpos($line, "\n"));
 
-        return new ParsingException($description, $line, $this->row, $this->column, $code, $previous);
+        return new Exception\Parsing($description, $line, $this->row, $this->column, $code, $previous);
     }
 
     /**

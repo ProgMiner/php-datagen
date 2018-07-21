@@ -24,7 +24,20 @@ SOFTWARE. */
 
 namespace PHPDataGen;
 
-use PHPDataGen\Model\FileModel;
+use PhpParser\BuilderFactory;
+use PhpParser\Node;
+
+/**pdgl
+
+class Type {
+
+    var name: string;
+
+    var nullable: bool;
+    var mixed:    bool;
+    var class:    bool;
+}
+*/
 
 /**
  * Type representation
@@ -63,82 +76,50 @@ class Type extends Data_Type {
     /**
      * Returns default value for this type
      *
-     * @return string
+     * @return Node\Expr
      */
-    public function getDefaultValue(): string {
+    public function getDefaultValue(): Node\Expr {
+        $factory = new BuilderFactory();
+
         if ($this->nullable || $this->mixed || $this->class) {
-            return 'null';
+            return $factory->val(null);
         }
 
         switch ($this->name) {
         case 'array':
-            return '[]';
+            return $factory->val([]);
 
         case 'bool':
-            return 'false';
+            return $factory->val(false);
 
         case 'float':
-            return '0.0';
+            return $factory->val(0.0);
 
         case 'int':
-            return '0';
+            return $factory->val(0);
 
         case 'string':
-            return "''";
+            return $factory->val('');
 
+        default:
+            return $factory->val(null);
         }
-
-        return 'null';
     }
 
     /**
-     * If type is a class and is represented by short class name
-     * fixes to full by FileModel::getClassPath.
+     * Makes typehint from Type
      *
-     * @param FileModel File model
+     * @return string
      */
-    public function fixClassName(FileModel $fileModel) {
-        if (!$this->class) {
-            return;
-        }
-
-        if ($this->name[0] === '\\') {
-            return;
-        }
-
-        $this->name = $fileModel->getClassPath($this->name);
-    }
-
-    /**
-     * Makes validation code for this type
-     *
-     * If type is mixed returns empty string
-     *
-     * @param string $expr      Expression for validating
-     * @param string $exception Message for exception
-     *
-     * @return string Type tip prefixed by ": " or empty
-     */
-    public function makeValidator(string $expr, string $exception = 'Invalid type'): string {
+    public function toTypeHint(): string {
         if ($this->mixed) {
-            return '';
+            throw new LogicException('Cannot make typehint for mixed type');
         }
-
-        $result = 'if (';
 
         if ($this->nullable) {
-            $result .= "!is_null($expr) && ";
+            return '?'.$this->name;
         }
 
-        $result .= '!is_';
-        if ($this->class) {
-            $result .= "a($expr, {$this->name}::class)";
-        } else {
-            $result .= "{$this->name}($expr)";
-        }
-
-        $result .= ") { throw new \InvalidArgumentException('$exception'); }";
-
-        return "$result\n";
+        return $this->name;
     }
 }

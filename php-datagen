@@ -7,9 +7,9 @@ if (file_exists(__DIR__.'/../../autoload.php')) {
     require __DIR__.'/vendor/autoload.php';
 }
 
-$app = new Symfony\Component\Console\Application('PHP-DataGen', '0.2-alpha');
-$app->add(new PHPDataGen\Command\CompileCommand());
-$app->add(new PHPDataGen\Command\BuildCommand());
+$app = new Symfony\Component\Console\Application('PHP-DataGen', 'migrate-to-php-parser-dev');
+$app->add(new PHPDataGen\Command\Compile());
+$app->add(new PHPDataGen\Command\Build());
 
 // TODO Config command
 

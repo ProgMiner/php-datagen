@@ -22,22 +22,26 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-namespace PHPDataGen\Parsing;
+namespace PHPDataGen\Parsing\State;
 
-use PHPDataGen\Building\FieldBuilder;
+use PhpParser\ParserFactory;
+use PhpParser\Node;
+
+use PHPDataGen\Parsing;
+use PHPDataGen\Builder;
 
 /**
  * Field parsing state
  */
-class FieldState implements State {
+class Field implements Parsing\State {
 
     /**
-     * @var State Parent state
+     * @var Parsing\State Parent state
      */
     protected $parent = null;
 
     /**
-     * @var FieldBuilder Builder
+     * @var Builder\Field Builder
      */
     protected $builder = null;
 
@@ -58,18 +62,27 @@ class FieldState implements State {
     protected $state = 0;
 
     /**
-     * @param State $parent Parent state
+     * @param Parsing\State $parent Parent state
      */
-    public function __construct(State $parent) {
-        $this->builder = new FieldBuilder();
+    public function __construct(Parsing\State $parent) {
+        $this->builder = new Builder\Field();
         $this->parent = $parent;
     }
 
-    public function getBuilder(): FieldBuilder {
+    public function getBuilder(): Builder\Field {
         return $this->builder;
     }
 
-    public function step(Conveyor $conveyor): State {
+    protected static function parseValue(string $value): Node\Expr {
+        $value = "<?php $value;";
+
+        $parser = (new ParserFactory())->create(ParserFactory::ONLY_PHP7);
+        $ret = $parser->parse($value);
+
+        return $ret[0]->expr;
+    }
+
+    public function step(Parsing\Conveyor $conveyor): Parsing\State {
         switch ($this->state) {
         case 0:
             if ($conveyor->readOperator('direct')) {
@@ -175,7 +188,7 @@ class FieldState implements State {
             }
 
             $conveyor->move(strlen($matches[0]));
-            $this->builder->setDefault($matches[1]);
+            $this->builder->setDefault(static::parseValue($matches[1]));
 
             $this->state = 3;
             return $this;
@@ -183,7 +196,7 @@ class FieldState implements State {
         case 8:
             $matches = [];
 
-            // TODO Option for using direct defining default
+            // TODO Option for using direct defining by default
 
             if (preg_match('/^([\\s\\S]*?);/', $conveyor, $matches) !== 1) {
                 throw $conveyor->makeException('Semicolon after default value expected');
@@ -191,7 +204,7 @@ class FieldState implements State {
 
             $matches[0] = substr($matches[0], 0, strlen($matches[1]));
             $conveyor->move(strlen($matches[0]));
-            $this->builder->setDefault($matches[1]);
+            $this->builder->setDefault(static::parseValue($matches[1]));
 
             $this->state = 3;
             return $this;

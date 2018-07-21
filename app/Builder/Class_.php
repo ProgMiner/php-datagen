@@ -22,14 +22,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-namespace PHPDataGen\Building;
+namespace PHPDataGen\Builder;
 
-use PHPDataGen\Model\ClassModel;
+use PHPDataGen\Model;
 
 /**
  * Class builder
  */
-class ClassBuilder {
+class Class_ {
 
     /**
      * @var string Class name
@@ -62,7 +62,7 @@ class ClassBuilder {
     protected $implements = [];
 
     /**
-     * @var FieldBuilder[] Fields contained in file
+     * @var Field[] Fields contained in file
      */
     protected $fields = [];
 
@@ -73,7 +73,7 @@ class ClassBuilder {
      *
      * @return static $this
      */
-    public function setName(string $name): ClassBuilder {
+    public function setName(string $name): Class_ {
         if (!is_null($this->name)) {
             throw new \RuntimeException('Class name is already specified');
         }
@@ -87,7 +87,7 @@ class ClassBuilder {
      *
      * @return static $this
      */
-    public function setData(): ClassBuilder {
+    public function setData(): Class_ {
         if ($this->data) {
             throw new \RuntimeException('Class is already set data');
         }
@@ -101,7 +101,7 @@ class ClassBuilder {
      *
      * @return static $this
      */
-    public function setFinal(): ClassBuilder {
+    public function setFinal(): Class_ {
         if ($this->final) {
             throw new \RuntimeException('Class is already set final');
         }
@@ -115,7 +115,7 @@ class ClassBuilder {
      *
      * @return static $this
      */
-    public function setFinalFinal(): ClassBuilder {
+    public function setFinalFinal(): Class_ {
         if ($this->finalFinal) {
             throw new \RuntimeException('Class is already set final final');
         }
@@ -131,7 +131,7 @@ class ClassBuilder {
      *
      * @return static $this
      */
-    public function setExtends(string $extends): ClassBuilder {
+    public function setExtends(string $extends): Class_ {
         if (!is_null($this->extends)) {
             throw new \RuntimeException('Class extending is already specified');
         }
@@ -147,7 +147,7 @@ class ClassBuilder {
      *
      * @return static $this
      */
-    public function addImplement(string $interface): ClassBuilder {
+    public function addImplement(string $interface): Class_ {
         if (in_array($interface, $this->implements)) {
             throw new \RuntimeException("Class implementing \"$interface\" is already added");
         }
@@ -160,11 +160,11 @@ class ClassBuilder {
     /**
      * Adds field builder in fields array
      *
-     * @param FieldBuilder $field Field builder
+     * @param Field $field Field builder
      *
      * @return static $this
      */
-    public function addField(FieldBuilder $field): ClassBuilder {
+    public function addField(Field $field): Class_ {
         if (in_array($field, $this->fields)) {
             throw new \RuntimeException("Field is already added");
         }
@@ -177,10 +177,10 @@ class ClassBuilder {
     /**
      * Builds class model
      *
-     * @return ClassModel
+     * @return Model\Class_
      */
-    public function build(): ClassModel {
-        $model = new ClassModel([
+    public function build(): Model\Class_ {
+        $model = new Model\Class_([
             'name'       => $this->name,
             'data'       => $this->data,
             'final'      => $this->final,

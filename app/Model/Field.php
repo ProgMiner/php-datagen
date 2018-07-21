@@ -1,3 +1,5 @@
+<?php
+
 /* MIT License
 
 Copyright (c) 2018 Eridan Domoratskiy
@@ -22,10 +24,24 @@ SOFTWARE. */
 
 namespace PHPDataGen\Model;
 
-class FileModel {
+use PhpParser\Node\Expr;
 
-    val namespace: string?;
+use PHPDataGen\Type;
 
-    val uses: array;
-    var classes: array;
+/**pdgl
+
+final class Field {
+
+    var name: string;
+
+    var editable: bool <= false;
+    var direct:   bool <= false;
+
+    var type:       Type;
+    var validators: array;
+
+    var directDefining: bool <= false;
+    var filterDefault:  bool <= true;
+    var default:        Expr?;
 }
+*/

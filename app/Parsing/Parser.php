@@ -24,7 +24,8 @@ SOFTWARE. */
 
 namespace PHPDataGen\Parsing;
 
-use PHPDataGen\Exception\ParsingException;
+use PHPDataGen\Exception;
+use PHPDataGen\Builder;
 
 /**
  * Parser
@@ -42,10 +43,11 @@ class Parser {
     protected $state = null;
 
     /**
-     * @param Conveyor $conveyor Parser conveyor
+     * @param Conveyor     $conveyor    Parser conveyor
+     * @param Builder\File $fileBuilder File builder for cloning
      */
-    public function __construct(Conveyor $conveyor) {
-        $this->state = new FileState();
+    public function __construct(Conveyor $conveyor, ?Builder\File $fileBuilder = null) {
+        $this->state = new State\File($fileBuilder);
         $this->conveyor = $conveyor;
     }
 
@@ -70,7 +72,7 @@ class Parser {
         try {
             $this->state = $this->state->step($this->conveyor);
         } catch (\Throwable $e) {
-            if (is_a($e, ParsingException::class)) {
+            if (is_a($e, Exception\Parsing::class)) {
                 throw $e;
             }
 

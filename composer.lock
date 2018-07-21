@@ -1,23 +1,74 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "afa65cb2439f4b578a9d9621b5b9268f",
+    "content-hash": "803d6779a5122a95550ab9663669555a",
     "packages": [
         {
-            "name": "progminer/php-datagen-lib",
-            "version": "v0.2-alpha",
+            "name": "nikic/php-parser",
+            "version": "v4.0.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/ProgMiner/php-datagen-lib.git",
-                "reference": "8798d86063712ae9f23b8c4bbbe5c06f4a804732"
+                "url": "https://github.com/nikic/PHP-Parser.git",
+                "reference": "bd088dc940a418f09cda079a9b5c7c478890fb8d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ProgMiner/php-datagen-lib/zipball/8798d86063712ae9f23b8c4bbbe5c06f4a804732",
-                "reference": "8798d86063712ae9f23b8c4bbbe5c06f4a804732",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/bd088dc940a418f09cda079a9b5c7c478890fb8d",
+                "reference": "bd088dc940a418f09cda079a9b5c7c478890fb8d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.5 || ^7.0"
+            },
+            "bin": [
+                "bin/php-parse"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpParser\\": "lib/PhpParser"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Popov"
+                }
+            ],
+            "description": "A PHP parser written in PHP",
+            "keywords": [
+                "parser",
+                "php"
+            ],
+            "time": "2018-07-15T17:25:16+00:00"
+        },
+        {
+            "name": "progminer/php-datagen-lib",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ProgMiner/php-datagen-lib.git",
+                "reference": "3e27d83e6c4a03be2e19ffb3f27e1e21539e931b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ProgMiner/php-datagen-lib/zipball/3e27d83e6c4a03be2e19ffb3f27e1e21539e931b",
+                "reference": "3e27d83e6c4a03be2e19ffb3f27e1e21539e931b",
                 "shasum": ""
             },
             "type": "library",
@@ -42,7 +93,7 @@
                 "data",
                 "generator"
             ],
-            "time": "2018-06-19T00:07:01+00:00"
+            "time": "2018-07-21T00:00:37+00:00"
         },
         {
             "name": "symfony/console",
@@ -225,7 +276,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "progminer/php-datagen-lib": 15
+        "progminer/php-datagen-lib": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

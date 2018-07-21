@@ -2,5 +2,3 @@
 /.gitattributes     export-ignore
 /.gitignore         export-ignore
 /scheme.md          export-ignore
-
-*.pdata             export-ignore

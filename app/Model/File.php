@@ -22,29 +22,15 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-namespace PHPDataGen\Utility;
+namespace PHPDataGen\Model;
 
-/**
- * Extracts directory path, filename, file extension from file path
- *
- * Return object contains 3 fields:
- *   - dirname   - Directory path
- *   - filename  - String before first dot in basename
- *   - extension - String after first dot in basename
- *
- * @param string $path
- *
- * @return \stdClass
- */
-function _pathInfo(string $path): \stdClass {
-    $ret = (object) [];
+/**pdgl
 
-    $info = pathinfo($path);
-    $dot = strpos($info['basename'], '.');
+final class File {
 
-    $ret->dirname = $info['dirname'];
-    $ret->extension = substr($info['basename'], $dot + 1);
-    $ret->filename = substr($info['basename'], 0, $dot);
+    var namespace: string;
+    var uses: array; // PhpParser\Node\Stmt\Use_
 
-    return $ret;
+    var class: Class_;
 }
+*/

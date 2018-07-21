@@ -22,27 +22,28 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-namespace PHPDataGen\Parsing;
+namespace PHPDataGen\Parsing\State;
 
-use PHPDataGen\Building\ClassBuilder;
+use PHPDataGen\Parsing;
+use PHPDataGen\Builder;
 
 /**
  * Class parsing state
  */
-class ClassState implements State {
+class Class_ implements Parsing\State {
 
     /**
-     * @var State Parent state
+     * @var Parsing\State Parent state
      */
     protected $parent = null;
 
     /**
-     * @var ClassBuilder Builder
+     * @var Builder\Class_ Builder
      */
     protected $builder = null;
 
     /**
-     * @var FieldState Last produced field state
+     * @var Field Last produced field state
      */
     protected $field = null;
 
@@ -63,18 +64,18 @@ class ClassState implements State {
     protected $state = 0;
 
     /**
-     * @param State $parent Parent state
+     * @param Parsing\State $parent Parent state
      */
-    public function __construct(State $parent) {
-        $this->builder = new ClassBuilder();
+    public function __construct(Parsing\State $parent) {
+        $this->builder = new Builder\Class_();
         $this->parent = $parent;
     }
 
-    public function getBuilder(): ClassBuilder {
+    public function getBuilder(): Builder\Class_ {
         return $this->builder;
     }
 
-    public function step(Conveyor $conveyor): State {
+    public function step(Parsing\Conveyor $conveyor): Parsing\State {
         switch ($this->state) {
         case 0:
             if ($conveyor->readOperator('final')) {
@@ -157,7 +158,7 @@ class ClassState implements State {
                     $conveyor->readOperator('val',    false) ||
                     $conveyor->readOperator('var',    false)
             ) {
-                $this->field = new FieldState($this);
+                $this->field = new Field($this);
                 $this->field->step($conveyor);
 
                 $this->state = 8;

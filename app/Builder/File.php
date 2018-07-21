@@ -22,14 +22,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-namespace PHPDataGen\Building;
+namespace PHPDataGen\Builder;
 
-use PHPDataGen\Model\FileModel;
+use PhpParser\Node;
+
+use PHPDataGen\Model;
 
 /**
  * File builder
  */
-class FileBuilder {
+class File {
 
     /**
      * @var string File namespace
@@ -37,14 +39,14 @@ class FileBuilder {
     protected $namespace = null;
 
     /**
-     * @var array(string => string) File uses (class name => full class name)
+     * @var Node\Stmt\Use_[] File uses
      */
     protected $uses = [];
 
     /**
-     * @var ClassBuilder[] Classes contained in file
+     * @var Class_ Class contained in file
      */
-    protected $classes = [];
+    protected $class = null;
 
     /**
      * Sets namespace of file
@@ -53,7 +55,7 @@ class FileBuilder {
      *
      * @return static $this
      */
-    public function setNamespace(string $namespace) {
+    public function setNamespace(string $namespace): File {
         if (!is_null($this->namespace)) {
             throw new \RuntimeException('Namespace is already specified');
         }
@@ -63,64 +65,48 @@ class FileBuilder {
     }
 
     /**
-     * Adds used class name in uses array
+     * Adds use statement
      *
-     * @param string $use   Used class name
-     * @param string $alias Alias for class name
+     * @param Node\Stmt\Use_ $use Use statement
      *
      * @return static $this
      */
-    public function addUse(string $use, string $alias = null) {
-        if (is_null($alias)) {
-            $alias = explode('\\', $use);
-            $alias = array_pop($alias);
+    public function addUse(Node\Stmt\Use_ $use): File {
+        if (in_array($use, $this->uses, true)) {
+            throw new \RuntimeException('Use is already added');
         }
 
-        if (is_null($alias)) {
-            throw new \UnexpectedValueException("Invalid use \"$use\"");
-        }
-
-        if (isset($this->uses[$alias])) {
-            throw new \RuntimeException("Alias \"$alias\" is already used");
-        }
-
-        $this->uses[$alias] = $use;
-
+        $this->uses[] = $use;
         return $this;
     }
 
     /**
-     * Adds class builder in classes array
+     * Sets class builder of file
      *
-     * @param ClassBuilder $class Class builder
+     * @param Class_ $class Class builder
      *
      * @return static $this
      */
-    public function addClass(ClassBuilder $class) {
-        if (in_array($class, $this->classes)) {
-            throw new \RuntimeException("Class is already added");
+    public function setClass(Class_ $class): File {
+        if (!is_null($this->class)) {
+            throw new \RuntimeException('Class is already specified');
         }
 
-        $this->classes[] = $class;
-
+        $this->class = $class;
         return $this;
     }
 
     /**
      * Builds file model
      *
-     * @return FileModel
+     * @return Model\File
      */
-    public function build(): FileModel {
-        $model = new FileModel([
-            'namespace' => $this->namespace,
-            'uses' => $this->uses,
-            'classes' => []
+    public function build(): Model\File {
+        $model = new Model\File([
+            'namespace' => $this->namespace ?? '',
+            'uses'      => $this->uses,
+            'class'     => $this->class->build()
         ]);
-
-        foreach ($this->classes as $class) {
-            $model->classes[] = $class->build();
-        }
 
         return $model;
     }

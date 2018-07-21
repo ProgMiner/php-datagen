@@ -24,19 +24,20 @@ SOFTWARE. */
 
 namespace PHPDataGen\Command;
 
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-
-use Symfony\Component\Console\Output\OutputInterface;
-
-use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Output;
+use Symfony\Component\Console\Input;
+use Symfony\Component\Console\Style;
 
 use Symfony\Component\Finder\Finder;
+
+use PhpParser\PrettyPrinter;
+
+use PHPDataGen\Compiler;
 
 /**
  * Build command
  */
-class BuildCommand extends CompileCommand {
+class Build extends Compile {
 
     protected function configure() {
         $this->
@@ -44,11 +45,14 @@ class BuildCommand extends CompileCommand {
             setDescription('Runs full project building')->
             setHelp("Reads config file from project-dir (if exists).\nScans project directory for files with extension .pdata and compiles it.")->
 
-            addArgument('project-dir', InputArgument::OPTIONAL, 'Path to project directory (default is current directory)');
+            addArgument('project-dir', Input\InputArgument::OPTIONAL, 'Path to project directory (default is current directory)')->
+
+            addOption('not-replace',    'R', Input\InputOption::VALUE_NONE, 'Do not replace the destination file if it is exists', null)->
+            addOption('not-check-time', 'T', Input\InputOption::VALUE_NONE, 'Compile file if the destination is newer that the source', null);
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output) {
-        $io = new SymfonyStyle($input, $output);
+    protected function execute(Input\InputInterface $input, Output\OutputInterface $output) {
+        $io = new Style\SymfonyStyle($input, $output);
 
         $projectDir = $input->getArgument('project-dir');
         if (!$projectDir) {
@@ -60,14 +64,12 @@ class BuildCommand extends CompileCommand {
 
         if (!file_exists($projectDir)) {
             $io->error('Project directory is not exists');
-
             return;
         }
 
         if (!is_dir($projectDir)) {
             $io->error('Project directory is not directory');
             $io->note('For single file compiling use "compile" command');
-
             return;
         }
 
@@ -77,10 +79,15 @@ class BuildCommand extends CompileCommand {
         $finder->
             files()->
             in($projectDir)->
-            name('*.pdata');
+            name('*.php');
 
+        $force = !$input->getOption('not-replace');
+        $checkTime = !$input->getOption('not-check-time');
+
+        $compiler = new Compiler();
+        $printer = new PrettyPrinter\Standard(['shortArraySyntax' => true]);
         foreach ($finder as $file) {
-            $this->compileFile($file, $io);
+            $this->compileFile($file, $compiler, $io, $printer, $force, $checkTime);
         }
     }
 }

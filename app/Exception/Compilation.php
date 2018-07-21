@@ -1,3 +1,5 @@
+<?php
+
 /* MIT License
 
 Copyright (c) 2018 Eridan Domoratskiy
@@ -20,18 +22,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-namespace PHPDataGen\Model;
+namespace PHPDataGen\Exception;
 
-final class ClassModel {
-
-    val name: string;
-
-    var data:       bool <= false;
-    var final:      bool <= false;
-    var finalFinal: bool <= false;
-
-    val extends: string?;
-    var implements: array;
-
-    var fields: array;
-}
+/**
+ * Compilation exception
+ */
+class Compilation extends \Exception {}
