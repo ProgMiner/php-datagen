@@ -158,7 +158,7 @@ class Compiler {
         // TODO Library use disabling
         $result->addStmt(
             new Node\Stmt\TraitUse([
-                new Node\Name('\\PHPDataGen\\DataClassTrait')
+                new Node\Name\FullyQualified('PHPDataGen\\DataClassTrait')
             ])
         );
 
