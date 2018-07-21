@@ -26,5 +26,7 @@ namespace PHPDataGen\Exception;
 
 /**
  * Compilation exception
+ *
+ * @author Eridan Domoratskiy <eridan200@mail.ru>
  */
 class Compilation extends \Exception {}

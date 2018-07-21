@@ -41,6 +41,8 @@ class Type {
 
 /**
  * Type representation
+ *
+ * @author Eridan Domoratskiy <eridan200@mail.ru>
  */
 class Type extends Data_Type {
 

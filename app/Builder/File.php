@@ -30,6 +30,8 @@ use PHPDataGen\Model;
 
 /**
  * File builder
+ *
+ * @author Eridan Domoratskiy <eridan200@mail.ru>
  */
 class File {
 

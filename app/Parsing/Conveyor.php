@@ -29,6 +29,8 @@ use PHPDataGen\Type;
 
 /**
  * Parsing conveyor
+ *
+ * @author Eridan Domoratskiy <eridan200@mail.ru>
  */
 class Conveyor {
 

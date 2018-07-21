@@ -26,6 +26,8 @@ namespace PHPDataGen\Exception;
 
 /**
  * Parsing exception
+ *
+ * @author Eridan Domoratskiy <eridan200@mail.ru>
  */
 class Parsing extends \Exception {
 

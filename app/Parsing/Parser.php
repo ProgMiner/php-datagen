@@ -29,6 +29,8 @@ use PHPDataGen\Builder;
 
 /**
  * Parser
+ *
+ * @author Eridan Domoratskiy <eridan200@mail.ru>
  */
 class Parser {
 

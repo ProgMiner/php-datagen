@@ -29,6 +29,8 @@ use PHPDataGen\Builder;
 
 /**
  * File parsing state
+ *
+ * @author Eridan Domoratskiy <eridan200@mail.ru>
  */
 class File implements Parsing\State {
 

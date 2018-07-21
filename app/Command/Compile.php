@@ -46,6 +46,8 @@ use PHPDataGen\Model;
 
 /**
  * Compile command
+ *
+ * @author Eridan Domoratskiy <eridan200@mail.ru>
  */
 class Compile extends Command {
 

@@ -32,6 +32,8 @@ use PHPDataGen\Builder;
 
 /**
  * Field parsing state
+ *
+ * @author Eridan Domoratskiy <eridan200@mail.ru>
  */
 class Field implements Parsing\State {
 

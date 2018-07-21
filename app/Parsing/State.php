@@ -26,6 +26,8 @@ namespace PHPDataGen\Parsing;
 
 /**
  * Parsing state
+ *
+ * @author Eridan Domoratskiy <eridan200@mail.ru>
  */
 interface State {
 

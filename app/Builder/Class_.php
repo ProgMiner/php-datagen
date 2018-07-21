@@ -28,6 +28,8 @@ use PHPDataGen\Model;
 
 /**
  * Class builder
+ *
+ * @author Eridan Domoratskiy <eridan200@mail.ru>
  */
 class Class_ {
 

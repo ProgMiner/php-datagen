@@ -36,6 +36,8 @@ use PHPDataGen\Compiler;
 
 /**
  * Build command
+ *
+ * @author Eridan Domoratskiy <eridan200@mail.ru>
  */
 class Build extends Compile {
 

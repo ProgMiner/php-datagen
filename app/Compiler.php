@@ -32,6 +32,8 @@ use PHPDataGen\Model;
 
 /**
  * Compiler
+ *
+ * @author Eridan Domoratskiy <eridan200@mail.ru>
  */
 class Compiler {
 

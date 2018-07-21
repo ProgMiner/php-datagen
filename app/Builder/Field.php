@@ -31,6 +31,8 @@ use PHPDataGen\Type;
 
 /**
  * Field builder
+ *
+ * @author Eridan Domoratskiy <eridan200@mail.ru>
  */
 class Field {
 

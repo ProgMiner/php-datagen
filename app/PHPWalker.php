@@ -32,6 +32,8 @@ use PHPDataGen\Builder;
 
 /**
  * PHP walker
+ *
+ * @author Eridan Domoratskiy <eridan200@mail.ru>
  */
 class PHPWalker extends NodeVisitorAbstract {
 
