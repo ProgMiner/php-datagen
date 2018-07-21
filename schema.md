@@ -11,11 +11,6 @@ use <Class full name> [as <Class alias>];
 
 // Comment
 
-/*
-    Multiline
-    comment
-*/
-
 // Data class declaration
 [final[!]] class <Class name>[ extends <Class name>][ implements <Interface names>] {
 

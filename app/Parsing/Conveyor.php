@@ -156,10 +156,6 @@ class Conveyor {
      * Skips comment if exists
      */
     public function skipComment() {
-        if (preg_match('/^\\/\\*[\\s\\S]*\\*\\//', $this->next, $matches) === 1) {
-            $this->move(strlen($matches[0]));
-        }
-
         if (preg_match('/^\\/\\/.*/', $this->next, $matches) === 1) {
             $this->move(strlen($matches[0]));
         }
