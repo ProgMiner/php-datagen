@@ -43,15 +43,15 @@ class File
         $this->uses = $this->validateUses($value);
         return $oldValue;
     }
-    public function &getClass() : Class_
+    public function &getClass() : \PHPDataGen\Model\Class_
     {
         return $this->class;
     }
-    protected function validateClass(Class_ $value) : Class_
+    protected function validateClass(\PHPDataGen\Model\Class_ $value) : \PHPDataGen\Model\Class_
     {
         return $value;
     }
-    public function setClass(Class_ $value) : Class_
+    public function setClass(\PHPDataGen\Model\Class_ $value) : \PHPDataGen\Model\Class_
     {
         $oldValue = $this->class;
         $this->class = $this->validateClass($value);

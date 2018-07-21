@@ -24,7 +24,7 @@ SOFTWARE. */
 
 namespace PHPDataGen\Model;
 
-use PhpParser\Node\Expr;
+use PhpParser\Node;
 
 use PHPDataGen\Type;
 
@@ -42,6 +42,6 @@ final class Field {
 
     var directDefining: bool <= false;
     var filterDefault:  bool <= true;
-    var default:        Expr?;
+    var default:        Node\Expr?;
 }
 */

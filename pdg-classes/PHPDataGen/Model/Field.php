@@ -2,7 +2,7 @@
 
 namespace PHPDataGen\Model;
 
-use PhpParser\Node\Expr;
+use PhpParser\Node;
 use PHPDataGen\Type;
 class Field
 {
@@ -64,15 +64,15 @@ class Field
         $this->direct = $this->validateDirect($value);
         return $oldValue;
     }
-    public function &getType() : Type
+    public function &getType() : \PHPDataGen\Type
     {
         return $this->type;
     }
-    protected function validateType(Type $value) : Type
+    protected function validateType(\PHPDataGen\Type $value) : \PHPDataGen\Type
     {
         return $value;
     }
-    public function setType(Type $value) : Type
+    public function setType(\PHPDataGen\Type $value) : \PHPDataGen\Type
     {
         $oldValue = $this->type;
         $this->type = $this->validateType($value);
@@ -120,15 +120,15 @@ class Field
         $this->filterDefault = $this->validateFilterDefault($value);
         return $oldValue;
     }
-    public function &getDefault() : ?Expr
+    public function &getDefault() : ?\PhpParser\Node\Expr
     {
         return $this->default;
     }
-    protected function validateDefault(?Expr $value) : ?Expr
+    protected function validateDefault(?\PhpParser\Node\Expr $value) : ?\PhpParser\Node\Expr
     {
         return $value;
     }
-    public function setDefault(?Expr $value) : ?Expr
+    public function setDefault(?\PhpParser\Node\Expr $value) : ?\PhpParser\Node\Expr
     {
         $oldValue = $this->default;
         $this->default = $this->validateDefault($value);

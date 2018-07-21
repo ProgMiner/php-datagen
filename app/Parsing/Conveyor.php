@@ -207,20 +207,24 @@ class Conveyor {
         }
 
         try {
-            return $this->readName();
+            return $this->readNamespace();
         } catch (ParseException $e) {
             throw $this->makeException('Class name expected', 0, $e);
         }
     }
 
     /**
-     * Reads type (extended classname with(-out) "!") from parser conveyor
+     * Reads type (extended classname with(-out) "?") from parser conveyor
      * Shifts parser coveyor on type length
      *
      * @return Type Type
      */
     public function readType(): Type {
-        return new Type($this->readExtendedClassname(), $this->readOperator('?'));
+        try {
+            return new Type($this->readExtendedClassname(), $this->readOperator('?'));
+        } catch (ParseException $e) {
+            throw $this->makeException('Type name expected', 0, $e);
+        }
     }
 
     /**

@@ -34,6 +34,7 @@ use PhpParser\PrettyPrinterAbstract;
 use PhpParser\PrettyPrinter;
 use PhpParser\ParserFactory;
 use PhpParser\NodeTraverser;
+use PhpParser\NodeVisitor;
 
 use PHPDataGen\Exception;
 use PHPDataGen\PHPWalker;
@@ -140,6 +141,10 @@ class Compile extends Command {
             $io->error("Compilation error: {$e->getMessage()}");
             return;
         }
+
+        $phpTraverser = new NodeTraverser();
+        $phpTraverser->addVisitor(new NodeVisitor\NameResolver());
+        $result = $phpTraverser->traverse($result);
 
         file_put_contents($resultPath, $printer->prettyPrintFile($result)."\n");
         $io->success("Written in $resultPath");
