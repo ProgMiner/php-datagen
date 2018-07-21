@@ -2,8 +2,6 @@
 
 namespace Foo;
 
-use Foo\Bar;
-use Foo\Bar\Baz as Foo;
 abstract class Data_Test
 {
     use \PHPDataGen\DataClassTrait;

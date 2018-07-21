@@ -2,8 +2,6 @@
 
 namespace PHPDataGen\Model;
 
-use PhpParser\Node;
-use PHPDataGen\Type;
 class Field
 {
     use \PHPDataGen\DataClassTrait;

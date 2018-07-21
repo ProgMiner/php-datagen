@@ -31,10 +31,12 @@ use Symfony\Component\Console\Input;
 use Symfony\Component\Console\Style;
 
 use PhpParser\PrettyPrinterAbstract;
+use PhpParser\NodeVisitorAbstract;
 use PhpParser\PrettyPrinter;
 use PhpParser\ParserFactory;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor;
+use PhpParser\Node;
 
 use PHPDataGen\Exception;
 use PHPDataGen\PHPWalker;
@@ -144,6 +146,16 @@ class Compile extends Command {
 
         $phpTraverser = new NodeTraverser();
         $phpTraverser->addVisitor(new NodeVisitor\NameResolver());
+
+        // TODO
+        $phpTraverser->addVisitor(new class extends NodeVisitorAbstract {
+            public function leaveNode(Node $node) {
+                if (is_a($node, Node\Stmt\Use_::class, false)) {
+                    return NodeTraverser::REMOVE_NODE;
+                }
+            }
+        });
+
         $result = $phpTraverser->traverse($result);
 
         file_put_contents($resultPath, $printer->prettyPrintFile($result)."\n");

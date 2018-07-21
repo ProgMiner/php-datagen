@@ -2,8 +2,6 @@
 
 namespace PHPDataGen;
 
-use PhpParser\BuilderFactory;
-use PhpParser\Node;
 abstract class Data_Type
 {
     use \PHPDataGen\DataClassTrait;
