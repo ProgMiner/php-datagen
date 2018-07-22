@@ -219,7 +219,7 @@ class Compiler {
                 { // $value
                     $param = $factory->param('value');
 
-                    if (!$field->type->mixed) {
+                    if (!$field->type->mixed && !$field->type->class) {
                         $param->setTypeHint($field->type->toTypeHint());
                     }
 
@@ -228,6 +228,45 @@ class Compiler {
 
                 if (!$field->type->mixed) {
                     $validator->setReturnType($field->type->toTypeHint());
+                }
+
+                if ($field->type->class) {
+                    // !!! EXPERIMENTAL FUNCTIONALITY !!!
+
+                    $validator->addStmt(new Node\Stmt\Static_([
+                        new Node\Stmt\StaticVar(
+                            new Node\Expr\Variable('castable'),
+                            $factory->funcCall('is_a', [
+                                $factory->classConstFetch($field->type->name, 'class'),
+                                $factory->classConstFetch(Castable::class, 'class'),
+                                $factory->val(true)
+                            ])
+                        )
+                    ]));
+
+                    $validator->addStmt(new Node\Stmt\If_(
+                        new Node\Expr\BinaryOp\BooleanAnd(
+                            new Node\Expr\BooleanNot(new Node\Expr\Instanceof_(
+                                new Node\Expr\Variable('value'),
+                                new Node\Name($field->type->name)
+                            )),
+                            new Node\Expr\Variable('castable')
+                        ),
+                        ['stmts' => [
+                            new Node\Stmt\Expression(
+                                new Node\Expr\Assign(
+                                    new Node\Expr\Variable('value'),
+                                    $factory->staticCall($field->type->name, 'castFrom', [
+                                        new Node\Expr\Variable('value'),
+                                        new Node\Expr\PropertyFetch(
+                                            new Node\Expr\Variable('this'),
+                                            $field->name
+                                        )
+                                    ])
+                                )
+                            )
+                        ]]
+                    ));
                 }
 
                 // TODO
@@ -254,7 +293,7 @@ class Compiler {
                 { // $value
                     $param = $factory->param('value');
 
-                    if (!$field->type->mixed) {
+                    if (!$field->type->mixed && !$field->type->class) {
                         $param->setTypeHint($field->type->toTypeHint());
                     }
 

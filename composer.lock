@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "803d6779a5122a95550ab9663669555a",
+    "content-hash": "f25a3a552827f1d5e603148d2313222a",
     "packages": [
         {
             "name": "nikic/php-parser",
@@ -63,12 +63,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ProgMiner/php-datagen-lib.git",
-                "reference": "3e27d83e6c4a03be2e19ffb3f27e1e21539e931b"
+                "reference": "29e7bcec1b9e1ec25ea2b94034db465130f167f7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ProgMiner/php-datagen-lib/zipball/3e27d83e6c4a03be2e19ffb3f27e1e21539e931b",
-                "reference": "3e27d83e6c4a03be2e19ffb3f27e1e21539e931b",
+                "url": "https://api.github.com/repos/ProgMiner/php-datagen-lib/zipball/29e7bcec1b9e1ec25ea2b94034db465130f167f7",
+                "reference": "29e7bcec1b9e1ec25ea2b94034db465130f167f7",
                 "shasum": ""
             },
             "type": "library",
@@ -93,7 +93,7 @@
                 "data",
                 "generator"
             ],
-            "time": "2018-07-21T00:00:37+00:00"
+            "time": "2018-07-22T00:52:31+00:00"
         },
         {
             "name": "symfony/console",
@@ -280,6 +280,8 @@
     },
     "prefer-stable": true,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "^7.1"
+    },
     "platform-dev": []
 }
