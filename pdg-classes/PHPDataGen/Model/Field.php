@@ -5,12 +5,11 @@ namespace PHPDataGen\Model;
 class Field
 {
     use \PHPDataGen\DataClassTrait;
-    private const FIELDS = ['name' => 'Name', 'editable' => 'Editable', 'direct' => 'Direct', 'type' => 'Type', 'validators' => 'Validators', 'directDefining' => 'DirectDefining', 'filterDefault' => 'FilterDefault', 'default' => 'Default'];
+    private const FIELDS = ['name' => 'Name', 'editable' => 'Editable', 'direct' => 'Direct', 'type' => 'Type', 'directDefining' => 'DirectDefining', 'filterDefault' => 'FilterDefault', 'default' => 'Default'];
     private $name = '';
     private $editable = false;
     private $direct = false;
     private $type = null;
-    private $validators = [];
     private $directDefining = false;
     private $filterDefault = true;
     private $default = null;
@@ -74,20 +73,6 @@ class Field
     {
         $oldValue = $this->type;
         $this->type = $this->validateType($value);
-        return $oldValue;
-    }
-    public function &getValidators() : array
-    {
-        return $this->validators;
-    }
-    protected function validateValidators($value) : array
-    {
-        return $value;
-    }
-    public function setValidators($value) : array
-    {
-        $oldValue = $this->validators;
-        $this->validators = $this->validateValidators($value);
         return $oldValue;
     }
     public function &getDirectDefining() : bool

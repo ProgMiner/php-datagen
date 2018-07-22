@@ -38,11 +38,6 @@ use PHPDataGen\Model;
 class Compiler {
 
     /**
-     * @var array(string => string) Array of validator functions
-     */
-    protected $validators = [];
-
-    /**
      * @var string Base directory of compiled files
      */
     protected $baseDir = 'pdg-classes';
@@ -221,15 +216,6 @@ class Compiler {
                 if (!$field->type->mixed) {
                     $validator->setReturnType($field->type->toTypeHint());
                 }
-
-                // TODO
-                // foreach ($field->validators as $validator) {
-                //     if (!isset($this->validators[$validator])) {
-                //         throw new CompilationException("Validator \"{$validator}\" is not defined");
-                //     }
-
-                //     $result .= "\$value = {$this->validators[$validator]}(\$value);\n";
-                // }
 
                 $validator->addStmt(new Node\Stmt\Return_(
                     new Node\Expr\Variable('value')

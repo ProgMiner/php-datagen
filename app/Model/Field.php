@@ -37,8 +37,7 @@ final class Field {
     var editable: bool <= false;
     var direct:   bool <= false;
 
-    var type:       Type;
-    var validators: array;
+    var type: Type;
 
     var directDefining: bool <= false;
     var filterDefault:  bool <= true;

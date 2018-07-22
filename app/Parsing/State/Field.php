@@ -56,9 +56,8 @@ class Field implements Parsing\State {
      * 3 - After field name
      * 4 - Type name
      * 5 - After type name
-     * 6 - Validator
-     * 7 - Extended default value
-     * 8 - Default value
+     * 6 - Extended default value
+     * 7 - Default value
      *
      */
     protected $state = 0;
@@ -119,21 +118,21 @@ class Field implements Parsing\State {
 
         case 3:
             if ($conveyor->readOperator('=')) {
-                $this->state = 7;
+                $this->state = 6;
                 return $this;
             }
 
             if ($conveyor->readOperator('<=')) {
                 $this->builder->setDirectDefining();
 
-                $this->state = 8;
+                $this->state = 7;
                 return $this;
             }
 
             if ($conveyor->readOperator(':=')) {
                 $this->builder->setNotFilterDefault();
 
-                $this->state = 7;
+                $this->state = 6;
                 return $this;
             }
 
@@ -163,12 +162,6 @@ class Field implements Parsing\State {
             return $this;
 
         case 6:
-            $this->builder->addValidator($conveyor->readName());
-
-            $this->state = 5;
-            return $this;
-
-        case 7:
             $matches = [];
 
             $fail = false;
@@ -181,7 +174,7 @@ class Field implements Parsing\State {
                     $fail = true;
                 }
             } else {
-                $this->state = 8;
+                $this->state = 7;
                 return $this;
             }
 
@@ -195,7 +188,7 @@ class Field implements Parsing\State {
             $this->state = 3;
             return $this;
 
-        case 8:
+        case 7:
             $matches = [];
 
             // TODO Option for using direct defining by default

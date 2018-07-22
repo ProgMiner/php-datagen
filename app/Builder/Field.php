@@ -57,17 +57,12 @@ class Field {
     protected $type = null;
 
     /**
-     * @var string[] Validators
-     */
-    protected $validators = [];
-
-    /**
      * @var bool Is field defined directly in declaration?
      */
     protected $directDefining = false;
 
     /**
-     * @var bool Apply validators to default value?
+     * @var bool Validate default value?
      */
     protected $filterDefault = true;
 
@@ -181,23 +176,6 @@ class Field {
     }
 
     /**
-     * Adds validator name in validators array
-     *
-     * @param string $validator Validator name
-     *
-     * @return static $this
-     */
-    public function addValidator(string $validator): Field {
-        if (in_array($validator, $this->validators)) {
-            throw new \RuntimeException("Validator \"$validator\" is already added");
-        }
-
-        $this->validators[] = $validator;
-
-        return $this;
-    }
-
-    /**
      * Builds field model
      *
      * @return Model\Field
@@ -208,7 +186,6 @@ class Field {
             'editable'       => $this->editable,
             'direct'         => $this->direct,
             'type'           => $this->type,
-            'validators'     => $this->validators,
             'directDefining' => $this->directDefining,
             'filterDefault'  => $this->filterDefault,
             'default'        => $this->default,
