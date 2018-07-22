@@ -20,11 +20,11 @@ abstract class Data_Type
     {
         return $this->name;
     }
-    protected function validateName(string $value) : string
+    protected function validateName($value) : string
     {
         return $value;
     }
-    public function setName(string $value) : string
+    public function setName($value) : string
     {
         $oldValue = $this->name;
         $this->name = $this->validateName($value);
@@ -34,11 +34,11 @@ abstract class Data_Type
     {
         return $this->nullable;
     }
-    protected function validateNullable(bool $value) : bool
+    protected function validateNullable($value) : bool
     {
         return $value;
     }
-    public function setNullable(bool $value) : bool
+    public function setNullable($value) : bool
     {
         $oldValue = $this->nullable;
         $this->nullable = $this->validateNullable($value);
@@ -48,11 +48,11 @@ abstract class Data_Type
     {
         return $this->mixed;
     }
-    protected function validateMixed(bool $value) : bool
+    protected function validateMixed($value) : bool
     {
         return $value;
     }
-    public function setMixed(bool $value) : bool
+    public function setMixed($value) : bool
     {
         $oldValue = $this->mixed;
         $this->mixed = $this->validateMixed($value);
@@ -62,11 +62,11 @@ abstract class Data_Type
     {
         return $this->class;
     }
-    protected function validateClass(bool $value) : bool
+    protected function validateClass($value) : bool
     {
         return $value;
     }
-    public function setClass(bool $value) : bool
+    public function setClass($value) : bool
     {
         $oldValue = $this->class;
         $this->class = $this->validateClass($value);

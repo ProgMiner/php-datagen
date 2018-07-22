@@ -24,11 +24,11 @@ class Field
     {
         return $this->name;
     }
-    protected function validateName(string $value) : string
+    protected function validateName($value) : string
     {
         return $value;
     }
-    public function setName(string $value) : string
+    public function setName($value) : string
     {
         $oldValue = $this->name;
         $this->name = $this->validateName($value);
@@ -38,11 +38,11 @@ class Field
     {
         return $this->editable;
     }
-    protected function validateEditable(bool $value) : bool
+    protected function validateEditable($value) : bool
     {
         return $value;
     }
-    public function setEditable(bool $value) : bool
+    public function setEditable($value) : bool
     {
         $oldValue = $this->editable;
         $this->editable = $this->validateEditable($value);
@@ -52,11 +52,11 @@ class Field
     {
         return $this->direct;
     }
-    protected function validateDirect(bool $value) : bool
+    protected function validateDirect($value) : bool
     {
         return $value;
     }
-    public function setDirect(bool $value) : bool
+    public function setDirect($value) : bool
     {
         $oldValue = $this->direct;
         $this->direct = $this->validateDirect($value);
@@ -66,11 +66,11 @@ class Field
     {
         return $this->type;
     }
-    protected function validateType(\PHPDataGen\Type $value) : \PHPDataGen\Type
+    protected function validateType($value) : \PHPDataGen\Type
     {
         return $value;
     }
-    public function setType(\PHPDataGen\Type $value) : \PHPDataGen\Type
+    public function setType($value) : \PHPDataGen\Type
     {
         $oldValue = $this->type;
         $this->type = $this->validateType($value);
@@ -80,11 +80,11 @@ class Field
     {
         return $this->validators;
     }
-    protected function validateValidators(array $value) : array
+    protected function validateValidators($value) : array
     {
         return $value;
     }
-    public function setValidators(array $value) : array
+    public function setValidators($value) : array
     {
         $oldValue = $this->validators;
         $this->validators = $this->validateValidators($value);
@@ -94,11 +94,11 @@ class Field
     {
         return $this->directDefining;
     }
-    protected function validateDirectDefining(bool $value) : bool
+    protected function validateDirectDefining($value) : bool
     {
         return $value;
     }
-    public function setDirectDefining(bool $value) : bool
+    public function setDirectDefining($value) : bool
     {
         $oldValue = $this->directDefining;
         $this->directDefining = $this->validateDirectDefining($value);
@@ -108,11 +108,11 @@ class Field
     {
         return $this->filterDefault;
     }
-    protected function validateFilterDefault(bool $value) : bool
+    protected function validateFilterDefault($value) : bool
     {
         return $value;
     }
-    public function setFilterDefault(bool $value) : bool
+    public function setFilterDefault($value) : bool
     {
         $oldValue = $this->filterDefault;
         $this->filterDefault = $this->validateFilterDefault($value);
@@ -122,11 +122,11 @@ class Field
     {
         return $this->default;
     }
-    protected function validateDefault(?\PhpParser\Node\Expr $value) : ?\PhpParser\Node\Expr
+    protected function validateDefault($value) : ?\PhpParser\Node\Expr
     {
         return $value;
     }
-    public function setDefault(?\PhpParser\Node\Expr $value) : ?\PhpParser\Node\Expr
+    public function setDefault($value) : ?\PhpParser\Node\Expr
     {
         $oldValue = $this->default;
         $this->default = $this->validateDefault($value);

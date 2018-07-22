@@ -19,11 +19,11 @@ class File
     {
         return $this->namespace;
     }
-    protected function validateNamespace(string $value) : string
+    protected function validateNamespace($value) : string
     {
         return $value;
     }
-    public function setNamespace(string $value) : string
+    public function setNamespace($value) : string
     {
         $oldValue = $this->namespace;
         $this->namespace = $this->validateNamespace($value);
@@ -33,11 +33,11 @@ class File
     {
         return $this->uses;
     }
-    protected function validateUses(array $value) : array
+    protected function validateUses($value) : array
     {
         return $value;
     }
-    public function setUses(array $value) : array
+    public function setUses($value) : array
     {
         $oldValue = $this->uses;
         $this->uses = $this->validateUses($value);
@@ -47,11 +47,11 @@ class File
     {
         return $this->class;
     }
-    protected function validateClass(\PHPDataGen\Model\Class_ $value) : \PHPDataGen\Model\Class_
+    protected function validateClass($value) : \PHPDataGen\Model\Class_
     {
         return $value;
     }
-    public function setClass(\PHPDataGen\Model\Class_ $value) : \PHPDataGen\Model\Class_
+    public function setClass($value) : \PHPDataGen\Model\Class_
     {
         $oldValue = $this->class;
         $this->class = $this->validateClass($value);

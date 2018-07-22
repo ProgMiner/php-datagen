@@ -214,17 +214,9 @@ class Compiler {
 
             { // Validator
                 $validator = $factory->method($this->convertFieldNameForMethod($field->name, 'validate'))->
-                    makeProtected();
+                    makeProtected()->
 
-                { // $value
-                    $param = $factory->param('value');
-
-                    if (!$field->type->mixed) {
-                        $param->setTypeHint($field->type->toTypeHint());
-                    }
-
-                    $validator->addParam($param);
-                }
+                    addParam($factory->param('value'));
 
                 if (!$field->type->mixed) {
                     $validator->setReturnType($field->type->toTypeHint());
@@ -249,17 +241,9 @@ class Compiler {
             // Setter
             if ($field->editable) {
                 $setter = $factory->method($this->convertFieldNameForMethod($field->name, 'set'))->
-                    makePublic();
+                    makePublic()->
 
-                { // $value
-                    $param = $factory->param('value');
-
-                    if (!$field->type->mixed) {
-                        $param->setTypeHint($field->type->toTypeHint());
-                    }
-
-                    $setter->addParam($param);
-                }
+                    addParam($factory->param('value'));
 
                 if (!$field->type->mixed) {
                     $setter->setReturnType($field->type->toTypeHint());

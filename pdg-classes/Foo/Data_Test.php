@@ -64,7 +64,7 @@ abstract class Data_Test
     {
         return $this->A1;
     }
-    protected function validateA1(string $value) : string
+    protected function validateA1($value) : string
     {
         return $value;
     }
@@ -88,7 +88,7 @@ abstract class Data_Test
     {
         return $this->A4;
     }
-    protected function validateA4(string $value) : string
+    protected function validateA4($value) : string
     {
         return $value;
     }
@@ -96,7 +96,7 @@ abstract class Data_Test
     {
         return $this->A5;
     }
-    protected function validateA5(string $value) : string
+    protected function validateA5($value) : string
     {
         return $value;
     }
@@ -118,11 +118,11 @@ abstract class Data_Test
     {
         return $this->B1;
     }
-    protected function validateB1(string $value) : string
+    protected function validateB1($value) : string
     {
         return $value;
     }
-    public function setB1(string $value) : string
+    public function setB1($value) : string
     {
         $oldValue = $this->B1;
         $this->B1 = $this->validateB1($value);
@@ -160,11 +160,11 @@ abstract class Data_Test
     {
         return $this->B4;
     }
-    protected function validateB4(string $value) : string
+    protected function validateB4($value) : string
     {
         return $value;
     }
-    public function setB4(string $value) : string
+    public function setB4($value) : string
     {
         $oldValue = $this->B4;
         $this->B4 = $this->validateB4($value);
@@ -174,11 +174,11 @@ abstract class Data_Test
     {
         return $this->B5;
     }
-    protected function validateB5(string $value) : string
+    protected function validateB5($value) : string
     {
         return $value;
     }
-    public function setB5(string $value) : string
+    public function setB5($value) : string
     {
         $oldValue = $this->B5;
         $this->B5 = $this->validateB5($value);
@@ -196,7 +196,7 @@ abstract class Data_Test
     {
         return $this->C1;
     }
-    protected function validateC1(string $value) : string
+    protected function validateC1($value) : string
     {
         return $value;
     }
@@ -220,7 +220,7 @@ abstract class Data_Test
     {
         return $this->C4;
     }
-    protected function validateC4(string $value) : string
+    protected function validateC4($value) : string
     {
         return $value;
     }
@@ -228,7 +228,7 @@ abstract class Data_Test
     {
         return $this->C5;
     }
-    protected function validateC5(string $value) : string
+    protected function validateC5($value) : string
     {
         return $value;
     }
@@ -250,11 +250,11 @@ abstract class Data_Test
     {
         return $this->D1;
     }
-    protected function validateD1(string $value) : string
+    protected function validateD1($value) : string
     {
         return $value;
     }
-    public function setD1(string $value) : string
+    public function setD1($value) : string
     {
         $oldValue = $this->D1;
         $this->D1 = $this->validateD1($value);
@@ -292,11 +292,11 @@ abstract class Data_Test
     {
         return $this->D4;
     }
-    protected function validateD4(string $value) : string
+    protected function validateD4($value) : string
     {
         return $value;
     }
-    public function setD4(string $value) : string
+    public function setD4($value) : string
     {
         $oldValue = $this->D4;
         $this->D4 = $this->validateD4($value);
@@ -306,11 +306,11 @@ abstract class Data_Test
     {
         return $this->D5;
     }
-    protected function validateD5(string $value) : string
+    protected function validateD5($value) : string
     {
         return $value;
     }
-    public function setD5(string $value) : string
+    public function setD5($value) : string
     {
         $oldValue = $this->D5;
         $this->D5 = $this->validateD5($value);

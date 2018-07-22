@@ -23,11 +23,11 @@ class Class_
     {
         return $this->name;
     }
-    protected function validateName(string $value) : string
+    protected function validateName($value) : string
     {
         return $value;
     }
-    public function setName(string $value) : string
+    public function setName($value) : string
     {
         $oldValue = $this->name;
         $this->name = $this->validateName($value);
@@ -37,11 +37,11 @@ class Class_
     {
         return $this->data;
     }
-    protected function validateData(bool $value) : bool
+    protected function validateData($value) : bool
     {
         return $value;
     }
-    public function setData(bool $value) : bool
+    public function setData($value) : bool
     {
         $oldValue = $this->data;
         $this->data = $this->validateData($value);
@@ -51,11 +51,11 @@ class Class_
     {
         return $this->final;
     }
-    protected function validateFinal(bool $value) : bool
+    protected function validateFinal($value) : bool
     {
         return $value;
     }
-    public function setFinal(bool $value) : bool
+    public function setFinal($value) : bool
     {
         $oldValue = $this->final;
         $this->final = $this->validateFinal($value);
@@ -65,11 +65,11 @@ class Class_
     {
         return $this->finalFinal;
     }
-    protected function validateFinalFinal(bool $value) : bool
+    protected function validateFinalFinal($value) : bool
     {
         return $value;
     }
-    public function setFinalFinal(bool $value) : bool
+    public function setFinalFinal($value) : bool
     {
         $oldValue = $this->finalFinal;
         $this->finalFinal = $this->validateFinalFinal($value);
@@ -79,11 +79,11 @@ class Class_
     {
         return $this->extends;
     }
-    protected function validateExtends(?string $value) : ?string
+    protected function validateExtends($value) : ?string
     {
         return $value;
     }
-    public function setExtends(?string $value) : ?string
+    public function setExtends($value) : ?string
     {
         $oldValue = $this->extends;
         $this->extends = $this->validateExtends($value);
@@ -93,11 +93,11 @@ class Class_
     {
         return $this->implements;
     }
-    protected function validateImplements(array $value) : array
+    protected function validateImplements($value) : array
     {
         return $value;
     }
-    public function setImplements(array $value) : array
+    public function setImplements($value) : array
     {
         $oldValue = $this->implements;
         $this->implements = $this->validateImplements($value);
@@ -107,11 +107,11 @@ class Class_
     {
         return $this->fields;
     }
-    protected function validateFields(array $value) : array
+    protected function validateFields($value) : array
     {
         return $value;
     }
-    public function setFields(array $value) : array
+    public function setFields($value) : array
     {
         $oldValue = $this->fields;
         $this->fields = $this->validateFields($value);
