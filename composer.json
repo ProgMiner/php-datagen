@@ -13,6 +13,7 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.1",
+        "progminer/jlex-php-lib": "master-dev",
         "progminer/php-datagen-lib": "master-dev",
         "nikic/php-parser": "^4.0.3",
         "symfony/console": "^4.0",

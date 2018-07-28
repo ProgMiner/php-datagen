@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f25a3a552827f1d5e603148d2313222a",
+    "content-hash": "7b631a17cf628caa59aaf64c1f3bba37",
     "packages": [
         {
             "name": "nikic/php-parser",
@@ -58,17 +58,59 @@
             "time": "2018-07-15T17:25:16+00:00"
         },
         {
+            "name": "progminer/jlex-php-lib",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ProgMiner/jlex-php-lib.git",
+                "reference": "e6515dbfe809c38c72cb6bfa22dbf918ec70cbc3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ProgMiner/jlex-php-lib/zipball/e6515dbfe809c38c72cb6bfa22dbf918ec70cbc3",
+                "reference": "e6515dbfe809c38c72cb6bfa22dbf918ec70cbc3",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^4.0.3",
+                "php": "^7.1",
+                "progminer/php-datagen-lib": "master-dev"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7",
+                "progminer/php-datagen": "master-dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JLexPHP\\": "src"
+                },
+                "classmap": [
+                    "pdg-classes"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Eridan Domoratskiy",
+                    "email": "eridan200@mail.ru"
+                }
+            ],
+            "description": "PHP classes for JLexPHP generated lexers",
+            "time": "2018-07-25T23:07:19+00:00"
+        },
+        {
             "name": "progminer/php-datagen-lib",
             "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ProgMiner/php-datagen-lib.git",
-                "reference": "29e7bcec1b9e1ec25ea2b94034db465130f167f7"
+                "reference": "b43feb12d235c1d8f82c9f03e57a411796b5f82e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ProgMiner/php-datagen-lib/zipball/29e7bcec1b9e1ec25ea2b94034db465130f167f7",
-                "reference": "29e7bcec1b9e1ec25ea2b94034db465130f167f7",
+                "url": "https://api.github.com/repos/ProgMiner/php-datagen-lib/zipball/b43feb12d235c1d8f82c9f03e57a411796b5f82e",
+                "reference": "b43feb12d235c1d8f82c9f03e57a411796b5f82e",
                 "shasum": ""
             },
             "type": "library",
@@ -83,7 +125,7 @@
             ],
             "authors": [
                 {
-                    "name": "ProgMiner",
+                    "name": "Eridan Domoratskiy",
                     "email": "eridan200@mail.ru"
                 }
             ],
@@ -93,20 +135,20 @@
                 "data",
                 "generator"
             ],
-            "time": "2018-07-22T00:52:31+00:00"
+            "time": "2018-07-22T21:05:58+00:00"
         },
         {
             "name": "symfony/console",
-            "version": "v4.1.1",
+            "version": "v4.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "70591cda56b4b47c55776ac78e157c4bb6c8b43f"
+                "reference": "5c31f6a97c1c240707f6d786e7e59bfacdbc0219"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/70591cda56b4b47c55776ac78e157c4bb6c8b43f",
-                "reference": "70591cda56b4b47c55776ac78e157c4bb6c8b43f",
+                "url": "https://api.github.com/repos/symfony/console/zipball/5c31f6a97c1c240707f6d786e7e59bfacdbc0219",
+                "reference": "5c31f6a97c1c240707f6d786e7e59bfacdbc0219",
                 "shasum": ""
             },
             "require": {
@@ -161,11 +203,11 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2018-05-31T10:17:53+00:00"
+            "time": "2018-07-16T14:05:40+00:00"
         },
         {
             "name": "symfony/finder",
-            "version": "v4.1.1",
+            "version": "v4.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -276,6 +318,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
+        "progminer/jlex-php-lib": 20,
         "progminer/php-datagen-lib": 20
     },
     "prefer-stable": true,
