@@ -63,12 +63,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ProgMiner/jlex-php-lib.git",
-                "reference": "e6515dbfe809c38c72cb6bfa22dbf918ec70cbc3"
+                "reference": "61392846b9682c8cabc21667ca5481b1b116c7cd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ProgMiner/jlex-php-lib/zipball/e6515dbfe809c38c72cb6bfa22dbf918ec70cbc3",
-                "reference": "e6515dbfe809c38c72cb6bfa22dbf918ec70cbc3",
+                "url": "https://api.github.com/repos/ProgMiner/jlex-php-lib/zipball/61392846b9682c8cabc21667ca5481b1b116c7cd",
+                "reference": "61392846b9682c8cabc21667ca5481b1b116c7cd",
                 "shasum": ""
             },
             "require": {
@@ -97,7 +97,7 @@
                 }
             ],
             "description": "PHP classes for JLexPHP generated lexers",
-            "time": "2018-07-25T23:07:19+00:00"
+            "time": "2018-07-29T01:39:02+00:00"
         },
         {
             "name": "progminer/php-datagen-lib",
