@@ -34,13 +34,28 @@
     "scripts": {
         "install-deps": [
             "if [ ! -d jlex-php ] ; then git clone https://github.com/ProgMiner/jlex-php ; fi",
+            "if [ ! -d kmyacc ] ; then git clone https://github.com/moriyoshi/kmyacc-forked kmyacc ; fi",
 
-            "cd jlex-php && mvn package"
+            "cd jlex-php && mvn package",
+            "cd kmyacc && make all && cp src/kmyacc ."
         ],
-        "generate-lexer": [
-            "for file in `find app -type f | grep -ox '.*\\.lex'` ; do dest=`echo $file | grep -o '\\(.*\\.\\)*'`php ; java -jar jlex-php\/JLexPHP.jar -v $file $dest ; ./vendor/bin/php-parse -p $dest | grep -xv \"\\(====>.*$dest:\\|==> Pretty print:\\)\" > .generate-lexer.tmp ; cp .generate-lexer.tmp $dest ; done",
-            "rm .generate-lexer.tmp"
-        ]
+        "clean-deps": [
+            "rm -rf jlex-php",
+            "rm -rf kmyacc"
+        ],
+
+        "regen-lexer": [
+            "for file in `find app -type f | grep -ox '.*\\.lex'` ; do dest=`echo $file | grep -o '\\(.*\\.\\)*'`php ; java -jar jlex-php\/JLexPHP.jar -v $file $dest ; done"
+        ],
+        "regen-parser": [
+            "for file in `find app -type f | grep -ox '.*\\.phpy'` ; do kmyacc/kmyacc -l -m `echo $file | grep -o '\\(.*\\.\\)*'`php.tpl $file ; done"
+        ],
+        "regen-all": [
+            "@regen-lexer",
+            "@regen-parser"
+        ],
+
+        "pre-package-install": "@install-deps"
     },
     "bin": ["php-datagen"]
 }
