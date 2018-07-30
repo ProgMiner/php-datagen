@@ -32,20 +32,12 @@ L = {W}({W}|{N})*
 <YYINITIAL>	"val"			{ return $this->createToken('T_VAL'); }
 <YYINITIAL>	"var"			{ return $this->createToken('T_VAR'); }
 
-<YYINITIAL>	"{"		{ return $this->createToken('T_BLOCK_OPEN'); }
-<YYINITIAL>	"}"		{ return $this->createToken('T_BLOCK_CLOSE'); }
-<YYINITIAL>	":"		{ return $this->createToken('T_COLON'); }
-<YYINITIAL>	";"		{ return $this->createToken('T_SEMICOLON'); }
 <YYINITIAL>	"```"	{ return $this->createToken('T_TRIPLE_BACKQUOTE'); }
-<YYINITIAL>	"`"		{ return $this->createToken('T_BACKQUOTE'); }
-<YYINITIAL>	"'"		{ return $this->createToken('T_SINGLE_QUOTE'); }
-<YYINITIAL>	\\		{ return $this->createToken('T_BACKSLASH'); }
-<YYINITIAL>	"?"	    { return $this->createToken('T_QUESTION'); }
 
 <YYINITIAL> \"(\\.|[^\\\"])*\" 	{ return $this->createToken('T_STRING'); }
 
 <YYINITIAL>	":="	{ return $this->createToken('T_ASSIGN_NOT_FILTER'); }
 <YYINITIAL>	"<="	{ return $this->createToken('T_ASSIGN_DIRECT'); }
-<YYINITIAL>	"="		{ return $this->createToken('T_ASSIGN'); }
 
 <YYINITIAL>	{L}	{ return $this->createToken('T_LITERAL'); }
+<YYINITIAL>	.	{ return $this->createToken(); }
