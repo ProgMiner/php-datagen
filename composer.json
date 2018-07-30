@@ -38,7 +38,8 @@
             "cd jlex-php && mvn package"
         ],
         "generate-lexer": [
-            "for file in `find app -type f | grep -ox '.*\\.lex'` ; do java -jar jlex-php\/JLexPHP.jar -v $file `echo $file | grep -o '\\(.*\\.\\)*'`php ; done"
+            "for file in `find app -type f | grep -ox '.*\\.lex'` ; do dest=`echo $file | grep -o '\\(.*\\.\\)*'`php ; java -jar jlex-php\/JLexPHP.jar -v $file $dest ; ./vendor/bin/php-parse -p $dest | grep -xv \"\\(====>.*$dest:\\|==> Pretty print:\\)\" > .generate-lexer.tmp ; cp .generate-lexer.tmp $dest ; done",
+            "rm .generate-lexer.tmp"
         ]
     },
     "bin": ["php-datagen"]
