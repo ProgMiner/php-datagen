@@ -32,28 +32,12 @@
         "sort-packages": true
     },
     "scripts": {
-        "install-deps": [
-            "if [ ! -d jlex-php ] ; then git clone https://github.com/ProgMiner/jlex-php ; fi",
-            "if [ ! -d kmyacc ] ; then git clone https://github.com/moriyoshi/kmyacc-forked kmyacc ; fi",
+        "install-deps": "@php scripts.php install-deps",
+        "clean-deps": "@php scripts.php clean-deps",
 
-            "cd jlex-php && mvn package",
-            "cd kmyacc && make all && cp src/kmyacc ."
-        ],
-        "clean-deps": [
-            "rm -rf jlex-php",
-            "rm -rf kmyacc"
-        ],
-
-        "regen-lexer": [
-            "for file in `find app -type f | grep -ox '.*\\.lex'` ; do dest=`echo $file | grep -o '\\(.*\\.\\)*'`php ; java -jar jlex-php\/JLexPHP.jar -v $file $dest ; done"
-        ],
-        "regen-parser": [
-            "for file in `find app -type f | grep -ox '.*\\.phpy'` ; do kmyacc/kmyacc -l -m `echo $file | grep -o '\\(.*\\.\\)*'`php.tpl $file ; done"
-        ],
-        "regen-all": [
-            "@regen-lexer",
-            "@regen-parser"
-        ],
+        "regen-lexer": "@php scripts.php regen-lexer",
+        "regen-parser": "@php scripts.php regen-parser",
+        "regen-all": "@php scripts.php regen-all",
 
         "pre-package-install": "@install-deps"
     },
