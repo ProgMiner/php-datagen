@@ -42,11 +42,19 @@ try {
     throw $e;
 }
 
-function _system($cmd) {
+function _system($cmd, $doOutput = true) {
     exec($cmd, $output, $ret);
 
     if ($ret != 0) {
         die("\"$cmd\" returns not 0");
+    }
+
+    if ($doOutput) {
+        echo ">>> $cmd\n";
+
+        foreach ($output as $line) {
+            echo "> $line\n";
+        }
     }
 
     return $output;
@@ -162,16 +170,30 @@ function regen_parser($dir = 'app') {
             continue;
         }
 
-        $model = $matches[1].".php.tpl";
+        $yacc = file_get_contents($file);
 
-        _system("kmyacc/kmyacc -l -m $model $file");
+        $yacc = preg_replace('/\$\d+/', '$this->semStack[$0]', $yacc);
+
+        file_put_contents('.regen-parser.tmp.phpy', $yacc);
+
+        $model = $matches[1].".php.tpl";
+        $dest = $matches[1].".php";
+
+        _system("kmyacc/kmyacc -l -m $model .regen-parser.tmp.phpy");
+
+        copy('.regen-parser.tmp.php', $dest);
 
         if ($file !== "$dir/PDGL.phpy") {
             copy($file, "$dir/PDGL.phpy");
         }
     }
 
-    unlink("$dir/PDGL.phpy");
+    if (file_exists("$dir/PDGL.phpy")) {
+        unlink("$dir/PDGL.phpy");
+    }
+
+    unlink(".regen-parser.tmp.phpy");
+    unlink(".regen-parser.tmp.php");
 }
 
 function regen_all() {
