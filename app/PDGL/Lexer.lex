@@ -33,11 +33,10 @@ L = {W}({W}|{N})*
 <YYINITIAL>	"var"			{ return $this->createToken('T_VAR'); }
 
 <YYINITIAL>	"```"	{ return $this->createToken('T_TRIPLE_BACKQUOTE'); }
+<YYINITIAL>	":="	{ return $this->createToken('T_COLON_ASSIGN'); }
+<YYINITIAL>	"<="	{ return $this->createToken('T_ARROW_ASSIGN'); }
 
 <YYINITIAL> \"(\\.|[^\\\"])*\" 	{ return $this->createToken('T_STRING'); }
-
-<YYINITIAL>	":="	{ return $this->createToken('T_ASSIGN_NOT_FILTER'); }
-<YYINITIAL>	"<="	{ return $this->createToken('T_ASSIGN_DIRECT'); }
 
 <YYINITIAL>	{L}	{ return $this->createToken('T_LITERAL'); }
 <YYINITIAL>	.	{ return $this->createToken(); }
