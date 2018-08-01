@@ -1,0 +1,119 @@
+// vim: syntax=yacc noexpandtab
+
+%pure_parser
+%expect 6
+
+%token T_FINAL_FINAL
+%token T_FINAL
+%token T_CLASS
+%token T_EXTENDS
+%token T_IMPLEMENTS
+%token T_DIRECT
+%token T_VAL
+%token T_VAR
+
+%token T_TRIPLE_BACKQUOTE
+%token T_COLON_ASSIGN
+%token T_ARROW_ASSIGN
+
+%token T_STRING
+%token T_LITERAL
+
+// PHP tokens for default value
+%php_tokens
+
+%%
+
+file
+	: file_stmts
+	;
+
+file_stmts
+	:
+	| file_stmt
+	| file_stmts file_stmt
+	;
+
+file_stmt
+	: class
+	;
+
+class
+	: class_mods T_CLASS T_LITERAL class_ext_impls '{' class_stmts '}'
+	;
+
+class_mods
+	:
+	| T_FINAL
+	| T_FINAL_FINAL
+	;
+
+class_ext_impls
+	: class_extends class_implements
+	| class_implements class_extends
+	;
+
+class_extends
+	:
+	| T_EXTENDS class_name
+	;
+
+class_implements
+	:
+	| T_IMPLEMENTS class_names_list
+	;
+
+class_name
+	: T_LITERAL
+	| '\\' T_LITERAL
+	| class_name '\\' T_LITERAL
+	;
+
+class_names_list
+	: class_name
+	| class_names_list ',' class_name
+	;
+
+class_stmts
+	:
+	| class_stmt
+	| class_stmts class_stmt
+	;
+
+class_stmt
+	: field
+	;
+
+field
+	: field_mods field_keyword T_LITERAL field_type field_defval ';'
+	;
+
+field_mods
+	:
+	| T_DIRECT
+	;
+
+field_keyword
+	: T_VAL
+	| T_VAR
+	;
+
+field_type
+	:
+	| ':' T_TYPENAME
+	;
+
+field_defval
+	:
+	| assign field_defval_contents
+	;
+
+field_defval_contents
+	: php_expr
+	| '`' php_expr '`'
+	| T_TRIPLE_BACKQUOTES php_expr T_TRIPLE_BACKQUOTES
+	;
+
+%php_rules
+
+%%
