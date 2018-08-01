@@ -12,6 +12,7 @@ class YaccLexer extends \JLexPHP\Base  {
 	const YY_BOL = 128;
 	const YY_EOF = 129;
 
+	private $splitter = 0;
 	private function handleReduceCB() {
 		static $bracesDepth = 0;
 		if ($bracesDepth === 0) {
@@ -38,11 +39,13 @@ class YaccLexer extends \JLexPHP\Base  {
 		$this->yy_lexical_state = self::YYINITIAL;
 	}
 
+	const PROGRAMS = 2;
 	const YYINITIAL = 0;
 	const REDUCE_CB = 1;
 	static $yy_state_dtrans = [
 		0,
-		19
+		29,
+		35
 	];
 	static $yy_acpt = [
 		/* 0 */ self::YY_NOT_ACCEPT,
@@ -55,104 +58,120 @@ class YaccLexer extends \JLexPHP\Base  {
 		/* 7 */ self::YY_START,
 		/* 8 */ 3 /* self::YY_START | self::YY_END */,
 		/* 9 */ self::YY_NO_ANCHOR,
-		/* 10 */ self::YY_NOT_ACCEPT,
-		/* 11 */ self::YY_NO_ANCHOR,
+		/* 10 */ self::YY_NO_ANCHOR,
+		/* 11 */ self::YY_NOT_ACCEPT,
 		/* 12 */ self::YY_NO_ANCHOR,
-		/* 13 */ self::YY_START,
-		/* 14 */ 3 /* self::YY_START | self::YY_END */,
-		/* 15 */ self::YY_NO_ANCHOR,
-		/* 16 */ self::YY_NOT_ACCEPT,
-		/* 17 */ self::YY_START,
+		/* 13 */ self::YY_NO_ANCHOR,
+		/* 14 */ self::YY_NO_ANCHOR,
+		/* 15 */ self::YY_START,
+		/* 16 */ 3 /* self::YY_START | self::YY_END */,
+		/* 17 */ self::YY_NO_ANCHOR,
 		/* 18 */ self::YY_NO_ANCHOR,
 		/* 19 */ self::YY_NOT_ACCEPT,
 		/* 20 */ self::YY_START,
 		/* 21 */ self::YY_NO_ANCHOR,
-		/* 22 */ self::YY_NOT_ACCEPT,
-		/* 23 */ self::YY_START,
-		/* 24 */ self::YY_NO_ANCHOR,
-		/* 25 */ self::YY_NOT_ACCEPT,
-		/* 26 */ self::YY_START,
-		/* 27 */ self::YY_NO_ANCHOR,
-		/* 28 */ self::YY_NOT_ACCEPT,
-		/* 29 */ self::YY_START,
-		/* 30 */ self::YY_NOT_ACCEPT
+		/* 22 */ self::YY_NO_ANCHOR,
+		/* 23 */ self::YY_NOT_ACCEPT,
+		/* 24 */ self::YY_START,
+		/* 25 */ self::YY_NO_ANCHOR,
+		/* 26 */ self::YY_NOT_ACCEPT,
+		/* 27 */ self::YY_START,
+		/* 28 */ self::YY_NO_ANCHOR,
+		/* 29 */ self::YY_NOT_ACCEPT,
+		/* 30 */ self::YY_START,
+		/* 31 */ self::YY_NO_ANCHOR,
+		/* 32 */ self::YY_NOT_ACCEPT,
+		/* 33 */ self::YY_NOT_ACCEPT,
+		/* 34 */ self::YY_NOT_ACCEPT,
+		/* 35 */ self::YY_NOT_ACCEPT,
+		/* 36 */ self::YY_START,
+		/* 37 */ self::YY_NOT_ACCEPT
 	];
 		static $yy_cmap = [
- 3, 3, 3, 3, 3, 3, 3, 3, 8, 8, 12, 3, 8, 4, 3, 3, 3, 3, 3, 3,
- 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 8, 3, 5, 3, 3, 10, 3, 1,
- 3, 3, 3, 3, 3, 3, 3, 9, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 3, 3,
+ 3, 3, 3, 3, 3, 3, 3, 3, 8, 8, 14, 3, 8, 4, 3, 3, 3, 3, 3, 3,
+ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 8, 3, 5, 3, 3, 12, 3, 1,
+ 3, 3, 10, 3, 3, 3, 3, 9, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 3, 3,
  3, 3, 3, 3, 3, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
- 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 3, 2, 3, 3, 6, 3, 6, 6, 6,
- 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
- 6, 6, 6, 13, 3, 14, 3, 3, 11, 0,];
+ 6, 6, 6, 11, 6, 6, 6, 6, 6, 6, 6, 3, 2, 3, 3, 6, 3, 6, 6, 6,
+ 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 11, 6, 6, 6, 6,
+ 6, 6, 6, 15, 3, 16, 3, 3, 13, 0,];
 
 		static $yy_rmap = [
- 0, 1, 1, 2, 3, 1, 4, 5, 1, 6, 7, 8, 9, 10, 11, 1, 12, 13, 2, 14,
- 15, 16, 17, 18, 19, 6, 1, 9, 16, 18, 20,];
+ 0, 1, 1, 2, 3, 1, 4, 5, 1, 6, 1, 7, 8, 9, 1, 10, 11, 1, 2, 12,
+ 13, 2, 9, 14, 15, 16, 17, 18, 19, 20, 1, 9, 21, 6, 16, 22, 18, 23,];
 
 		static $yy_nxt = [
 [
- 1, 2, 2, 2, 3, 2, 4, 2, 3, 12, 2, 11, 3, 5, 2,
+ 1, 2, 2, 2, 3, 2, 4, 2, 3, 13, 2, 4, 2, 12, 3, 5, 2,
 ],
 [
- -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 ],
 [
- -1, -1, -1, -1, 3, -1, -1, -1, 3, -1, -1, -1, 3, -1, -1,
+ -1, -1, -1, -1, 3, -1, -1, -1, 3, -1, -1, -1, -1, -1, 3, -1, -1,
 ],
 [
- -1, -1, -1, -1, -1, -1, 4, 4, -1, -1, -1, -1, -1, -1, -1,
+ -1, -1, -1, -1, -1, -1, 4, 4, -1, -1, -1, 4, -1, -1, -1, -1, -1,
 ],
 [
- -1, 6, 6, 6, -1, 6, 6, 6, 6, 6, 6, -1, -1, 6, 6,
+ -1, 6, 6, 6, -1, 6, 6, 6, 6, 6, 6, 6, 6, -1, -1, 6, 6,
 ],
 [
- -1, 29, 29, 29, -1, 29, 29, 29, 29, 29, 13, -1, -1, 17, 29,
+ -1, 36, 36, 36, -1, 36, 36, 36, 36, 36, 36, 36, 15, -1, -1, 20, 36,
 ],
 [
- -1, 15, 22, 25, 25, 25, 25, 25, 25, 25, 25, -1, 25, 25, 25,
+ -1, 17, 32, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, -1, 33, 33, 33,
 ],
 [
- -1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 16, -1, 10, 10, 10,
+ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 19, 11, -1, -1, -1, -1, -1,
 ],
 [
- -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 7, -1, -1, -1, -1,
+ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 7, -1, -1, -1, -1,
 ],
 [
- -1, -1, -1, -1, -1, -1, -1, -1, -1, 6, -1, -1, -1, -1, -1,
+ -1, -1, -1, -1, -1, -1, -1, -1, -1, 6, 11, -1, -1, -1, -1, -1, -1,
 ],
 [
- 8, 29, 29, 29, 14, 29, 29, 29, 29, 29, 29, -1, 8, 29, 29,
+ 8, 36, 36, 36, 16, 36, 36, 36, 36, 36, 36, 36, 36, -1, 8, 36, 36,
 ],
 [
- -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 8, -1, -1,
+ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 8, -1, -1,
 ],
 [
- -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 26,
+ -1, -1, -1, -1, -1, -1, -1, -1, -1, 14, -1, -1, -1, -1, -1, -1, -1,
 ],
 [
- -1, 17, 17, 17, 10, 17, 17, 17, 17, 17, 20, -1, 10, 17, 17,
+ -1, 20, 20, 20, 23, 20, 20, 20, 20, 20, 20, 20, 24, -1, 23, 20, 20,
 ],
 [
- 1, 9, 15, 15, 18, 21, 24, 15, 18, 27, 15, 1, 18, 15, 15,
+ -1, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 26, -1, 23, 23, 23,
 ],
 [
- -1, 29, 29, 29, -1, 29, 29, 29, 29, 29, 29, -1, -1, 29, 23,
+ -1, 36, 36, 36, -1, 36, 36, 36, 36, 36, 36, 36, 36, -1, -1, 36, 27,
 ],
 [
- -1, 28, 30, 28, 28, 15, 28, 28, 28, 28, 28, -1, 28, 28, 28,
+ -1, 34, 37, 34, 34, 17, 34, 34, 34, 34, 34, 34, 34, -1, 34, 34, 34,
 ],
 [
- -1, 25, 25, 25, -1, 25, 25, 25, 25, 25, 25, -1, -1, 25, 25,
+ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 30,
 ],
 [
- -1, 29, 29, 29, -1, 29, 29, 29, 29, 29, 29, -1, -1, 29, 29,
+ -1, 36, 36, 36, -1, 36, 36, 36, 36, 36, 36, 36, 36, -1, -1, 36, 36,
 ],
 [
- -1, -1, -1, -1, -1, -1, 24, 24, -1, -1, -1, -1, -1, -1, -1,
+ -1, -1, -1, -1, -1, -1, 28, 28, -1, -1, -1, 28, -1, -1, -1, -1, -1,
 ],
 [
- -1, 28, 28, 28, -1, 28, 28, 28, 28, 28, 28, -1, -1, 28, 28,
+ 1, 9, 17, 17, 21, 25, 28, 17, 21, 31, 17, 28, 17, 1, 21, 17, 17,
+],
+[
+ -1, 33, 33, 33, -1, 33, 33, 33, 33, 33, 33, 33, 33, -1, -1, 33, 33,
+],
+[
+ 1, 10, 10, 10, 3, 10, 10, 10, 18, 22, 10, 10, 10, 1, 3, 10, 10,
+],
+[
+ -1, 34, 34, 34, -1, 34, 34, 34, 34, 34, 34, 34, 34, -1, -1, 34, 34,
 ],
 ];
 
@@ -234,7 +253,13 @@ class YaccLexer extends \JLexPHP\Base  {
 					case -8:
 						break;
 
-					case 8: { return $this->createToken('T_SPLITTER'); }
+					case 8: {
+	++$this->splitter;
+	if ($this->splitter === 2) {
+		$this->yybegin(self::PROGRAMS);
+	}
+	return $this->createToken('T_SPLITTER');
+}
 					case -9:
 						break;
 
@@ -244,70 +269,92 @@ class YaccLexer extends \JLexPHP\Base  {
 					case -10:
 						break;
 
-					case 11: 
+					case 10: { return $this->createToken('T_PROGRAM_PART'); }
 					case -11:
 						break;
 
-					case 12: { return $this->createToken(); }
+					case 12: 
 					case -12:
 						break;
 
-					case 13: { return $this->createToken('T_STMT'); }
+					case 13: { return $this->createToken(); }
 					case -13:
 						break;
 
-					case 14: { return $this->createToken('T_SPLITTER'); }
+					case 14: { return $this->createToken('T_COMMENT'); }
 					case -14:
 						break;
 
-					case 15: {
-	return $this->handleReduceCB();
-}
+					case 15: { return $this->createToken('T_STMT'); }
 					case -15:
 						break;
 
-					case 17: { return $this->createToken('T_STMT'); }
+					case 16: {
+	++$this->splitter;
+	if ($this->splitter === 2) {
+		$this->yybegin(self::PROGRAMS);
+	}
+	return $this->createToken('T_SPLITTER');
+}
 					case -16:
 						break;
 
-					case 18: {
+					case 17: {
 	return $this->handleReduceCB();
 }
 					case -17:
 						break;
 
-					case 20: { return $this->createToken('T_STMT'); }
+					case 18: { return $this->createToken('T_PROGRAM_PART'); }
 					case -18:
+						break;
+
+					case 20: { return $this->createToken('T_STMT'); }
+					case -19:
 						break;
 
 					case 21: {
 	return $this->handleReduceCB();
 }
-					case -19:
-						break;
-
-					case 23: { return $this->createToken('T_STMT'); }
 					case -20:
 						break;
 
-					case 24: {
-	return $this->handleReduceCB();
-}
+					case 22: { return $this->createToken('T_PROGRAM_PART'); }
 					case -21:
 						break;
 
-					case 26: { return $this->createToken('T_STMT'); }
+					case 24: { return $this->createToken('T_STMT'); }
 					case -22:
 						break;
 
-					case 27: {
+					case 25: {
 	return $this->handleReduceCB();
 }
 					case -23:
 						break;
 
-					case 29: { return $this->createToken('T_STMT'); }
+					case 27: { return $this->createToken('T_STMT'); }
 					case -24:
+						break;
+
+					case 28: {
+	return $this->handleReduceCB();
+}
+					case -25:
+						break;
+
+					case 30: { return $this->createToken('T_STMT'); }
+					case -26:
+						break;
+
+					case 31: {
+	return $this->handleReduceCB();
+}
+					case -27:
+						break;
+
+					case 36: { return $this->createToken('T_STMT'); }
+					case -28:
 						break;
 
 						default:

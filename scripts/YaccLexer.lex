@@ -5,6 +5,8 @@
 %%
 
 %{
+	private $splitter = 0;
+
 	private function handleReduceCB() {
 		static $bracesDepth = 0;
 
@@ -37,6 +39,7 @@
 %char
 
 %state REDUCE_CB
+%state PROGRAMS
 
 W	= [a-zA-Z_]
 N	= [0-9]
@@ -50,10 +53,21 @@ L = {W}({W}|{N})*
 	return $this->handleReduceCB();
 }
 
-{S}+	{ return $this->createToken('GAP'); }
-"//".*	{ return $this->createToken('T_COMMENT'); }
+<PROGRAMS>	.	{ return $this->createToken('T_PROGRAM_PART'); }
 
-<YYINITIAL> ^"%%"$					{ return $this->createToken('T_SPLITTER'); }
+{S}+					{ return $this->createToken('GAP'); }
+"/*"[\s\S]*"*/"|"//".*	{ return $this->createToken('T_COMMENT'); }
+
+<YYINITIAL> ^"%%"$	{
+	++$this->splitter;
+
+	if ($this->splitter === 2) {
+		$this->yybegin(self::PROGRAMS);
+	}
+
+	return $this->createToken('T_SPLITTER');
+}
+
 <YYINITIAL> ^("%{"[^%]*"%}"|"%".*)	{ return $this->createToken('T_STMT'); }
 
 <YYINITIAL> "{"	{ return $this->handleReduceCB(); }
