@@ -42,7 +42,7 @@ class YaccLexer extends \JLexPHP\Base  {
 	const REDUCE_CB = 1;
 	static $yy_state_dtrans = [
 		0,
-		9
+		19
 	];
 	static $yy_acpt = [
 		/* 0 */ self::YY_NOT_ACCEPT,
@@ -52,72 +52,107 @@ class YaccLexer extends \JLexPHP\Base  {
 		/* 4 */ self::YY_NO_ANCHOR,
 		/* 5 */ self::YY_NO_ANCHOR,
 		/* 6 */ self::YY_NO_ANCHOR,
-		/* 7 */ self::YY_NO_ANCHOR,
-		/* 8 */ self::YY_NO_ANCHOR,
-		/* 9 */ self::YY_NOT_ACCEPT,
-		/* 10 */ self::YY_NO_ANCHOR,
+		/* 7 */ self::YY_START,
+		/* 8 */ 3 /* self::YY_START | self::YY_END */,
+		/* 9 */ self::YY_NO_ANCHOR,
+		/* 10 */ self::YY_NOT_ACCEPT,
 		/* 11 */ self::YY_NO_ANCHOR,
-		/* 12 */ self::YY_NOT_ACCEPT,
-		/* 13 */ self::YY_NO_ANCHOR,
-		/* 14 */ self::YY_NOT_ACCEPT,
+		/* 12 */ self::YY_NO_ANCHOR,
+		/* 13 */ self::YY_START,
+		/* 14 */ 3 /* self::YY_START | self::YY_END */,
 		/* 15 */ self::YY_NO_ANCHOR,
 		/* 16 */ self::YY_NOT_ACCEPT,
-		/* 17 */ self::YY_NO_ANCHOR,
+		/* 17 */ self::YY_START,
 		/* 18 */ self::YY_NO_ANCHOR,
-		/* 19 */ self::YY_NOT_ACCEPT
+		/* 19 */ self::YY_NOT_ACCEPT,
+		/* 20 */ self::YY_START,
+		/* 21 */ self::YY_NO_ANCHOR,
+		/* 22 */ self::YY_NOT_ACCEPT,
+		/* 23 */ self::YY_START,
+		/* 24 */ self::YY_NO_ANCHOR,
+		/* 25 */ self::YY_NOT_ACCEPT,
+		/* 26 */ self::YY_START,
+		/* 27 */ self::YY_NO_ANCHOR,
+		/* 28 */ self::YY_NOT_ACCEPT,
+		/* 29 */ self::YY_START,
+		/* 30 */ self::YY_NOT_ACCEPT
 	];
 		static $yy_cmap = [
- 3, 3, 3, 3, 3, 3, 3, 3, 8, 8, 4, 3, 8, 4, 3, 3, 3, 3, 3, 3,
+ 3, 3, 3, 3, 3, 3, 3, 3, 8, 8, 12, 3, 8, 4, 3, 3, 3, 3, 3, 3,
  3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 8, 3, 5, 3, 3, 10, 3, 1,
  3, 3, 3, 3, 3, 3, 3, 9, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 3, 3,
  3, 3, 3, 3, 3, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
  6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 3, 2, 3, 3, 6, 3, 6, 6, 6,
  6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
- 6, 6, 6, 11, 3, 3, 3, 3, 0, 0,];
+ 6, 6, 6, 13, 3, 14, 3, 3, 11, 0,];
 
 		static $yy_rmap = [
- 0, 1, 1, 2, 3, 4, 1, 5, 6, 7, 8, 1, 9, 2, 6, 10, 10, 11, 8, 12,
-];
+ 0, 1, 1, 2, 3, 1, 4, 5, 1, 6, 7, 8, 9, 10, 11, 1, 12, 13, 2, 14,
+ 15, 16, 17, 18, 19, 6, 1, 9, 16, 18, 20,];
 
 		static $yy_nxt = [
 [
- 1, 2, 2, 2, 3, 2, 4, 2, 3, 10, 5, 6,
+ 1, 2, 2, 2, 3, 2, 4, 2, 3, 12, 2, 11, 3, 5, 2,
 ],
 [
- -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 ],
 [
- -1, -1, -1, -1, 3, -1, -1, -1, 3, -1, -1, -1,
+ -1, -1, -1, -1, 3, -1, -1, -1, 3, -1, -1, -1, 3, -1, -1,
 ],
 [
- -1, -1, -1, -1, -1, -1, 4, 4, -1, -1, -1, -1,
+ -1, -1, -1, -1, -1, -1, 4, 4, -1, -1, -1, -1, -1, -1, -1,
 ],
 [
- -1, 5, 5, 5, -1, 5, 5, 5, 5, 5, 5, 5,
+ -1, 6, 6, 6, -1, 6, 6, 6, 6, 6, 6, -1, -1, 6, 6,
 ],
 [
- -1, 7, 7, 7, -1, 7, 7, 7, 7, 7, 7, 7,
+ -1, 29, 29, 29, -1, 29, 29, 29, 29, 29, 13, -1, -1, 17, 29,
 ],
 [
- -1, 11, 12, 14, 14, 14, 14, 14, 14, 14, 14, 14,
+ -1, 15, 22, 25, 25, 25, 25, 25, 25, 25, 25, -1, 25, 25, 25,
 ],
 [
- 1, 8, 11, 11, 13, 15, 17, 11, 13, 18, 11, 11,
+ -1, 10, 10, 10, 10, 10, 10, 10, 10, 10, 16, -1, 10, 10, 10,
 ],
 [
- -1, -1, -1, -1, -1, -1, -1, -1, -1, 7, -1, -1,
+ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 7, -1, -1, -1, -1,
 ],
 [
- -1, 14, 14, 14, -1, 14, 14, 14, 14, 14, 14, 14,
+ -1, -1, -1, -1, -1, -1, -1, -1, -1, 6, -1, -1, -1, -1, -1,
 ],
 [
- -1, 16, 19, 16, 16, 11, 16, 16, 16, 16, 16, 16,
+ 8, 29, 29, 29, 14, 29, 29, 29, 29, 29, 29, -1, 8, 29, 29,
 ],
 [
- -1, -1, -1, -1, -1, -1, 17, 17, -1, -1, -1, -1,
+ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 8, -1, -1,
 ],
 [
- -1, 16, 16, 16, -1, 16, 16, 16, 16, 16, 16, 16,
+ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 26,
+],
+[
+ -1, 17, 17, 17, 10, 17, 17, 17, 17, 17, 20, -1, 10, 17, 17,
+],
+[
+ 1, 9, 15, 15, 18, 21, 24, 15, 18, 27, 15, 1, 18, 15, 15,
+],
+[
+ -1, 29, 29, 29, -1, 29, 29, 29, 29, 29, 29, -1, -1, 29, 23,
+],
+[
+ -1, 28, 30, 28, 28, 15, 28, 28, 28, 28, 28, -1, 28, 28, 28,
+],
+[
+ -1, 25, 25, 25, -1, 25, 25, 25, 25, 25, 25, -1, -1, 25, 25,
+],
+[
+ -1, 29, 29, 29, -1, 29, 29, 29, 29, 29, 29, -1, -1, 29, 29,
+],
+[
+ -1, -1, -1, -1, -1, -1, 24, 24, -1, -1, -1, -1, -1, -1, -1,
+],
+[
+ -1, 28, 28, 28, -1, 28, 28, 28, 28, 28, 28, -1, -1, 28, 28,
 ],
 ];
 
@@ -187,56 +222,92 @@ class YaccLexer extends \JLexPHP\Base  {
 					case -5:
 						break;
 
-					case 5: { return $this->createToken('T_STMT'); }
+					case 5: { return $this->handleReduceCB(); }
 					case -6:
 						break;
 
-					case 6: { return $this->handleReduceCB(); }
+					case 6: { return $this->createToken('T_COMMENT'); }
 					case -7:
 						break;
 
-					case 7: { return $this->createToken('T_COMMENT'); }
+					case 7: { return $this->createToken('T_STMT'); }
 					case -8:
 						break;
 
-					case 8: {
-	return $this->handleReduceCB();
-}
+					case 8: { return $this->createToken('T_SPLITTER'); }
 					case -9:
 						break;
 
-					case 10: { return $this->createToken(); }
+					case 9: {
+	return $this->handleReduceCB();
+}
 					case -10:
 						break;
 
-					case 11: {
-	return $this->handleReduceCB();
-}
+					case 11: 
 					case -11:
 						break;
 
-					case 13: {
-	return $this->handleReduceCB();
-}
+					case 12: { return $this->createToken(); }
 					case -12:
+						break;
+
+					case 13: { return $this->createToken('T_STMT'); }
+					case -13:
+						break;
+
+					case 14: { return $this->createToken('T_SPLITTER'); }
+					case -14:
 						break;
 
 					case 15: {
 	return $this->handleReduceCB();
 }
-					case -13:
+					case -15:
 						break;
 
-					case 17: {
-	return $this->handleReduceCB();
-}
-					case -14:
+					case 17: { return $this->createToken('T_STMT'); }
+					case -16:
 						break;
 
 					case 18: {
 	return $this->handleReduceCB();
 }
-					case -15:
+					case -17:
+						break;
+
+					case 20: { return $this->createToken('T_STMT'); }
+					case -18:
+						break;
+
+					case 21: {
+	return $this->handleReduceCB();
+}
+					case -19:
+						break;
+
+					case 23: { return $this->createToken('T_STMT'); }
+					case -20:
+						break;
+
+					case 24: {
+	return $this->handleReduceCB();
+}
+					case -21:
+						break;
+
+					case 26: { return $this->createToken('T_STMT'); }
+					case -22:
+						break;
+
+					case 27: {
+	return $this->handleReduceCB();
+}
+					case -23:
+						break;
+
+					case 29: { return $this->createToken('T_STMT'); }
+					case -24:
 						break;
 
 						default:

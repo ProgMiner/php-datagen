@@ -53,7 +53,8 @@ L = {W}({W}|{N})*
 {S}+	{ return $this->createToken('GAP'); }
 "//".*	{ return $this->createToken('T_COMMENT'); }
 
-<YYINITIAL> "%".*	{ return $this->createToken('T_STMT'); }
+<YYINITIAL> ^"%%"$					{ return $this->createToken('T_SPLITTER'); }
+<YYINITIAL> ^("%{"[^%]*"%}"|"%".*)	{ return $this->createToken('T_STMT'); }
 
 <YYINITIAL> "{"	{ return $this->handleReduceCB(); }
 
