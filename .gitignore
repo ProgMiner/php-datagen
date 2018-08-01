@@ -1,5 +1,6 @@
-/vendor/
+vendor/
 composer.phar
+composer.lock
 
-/jlex-php
-/kmyacc
+jlex-php
+kmyacc

@@ -13,9 +13,10 @@
     "prefer-stable": true,
     "require": {
         "php": "^7.1",
-        "progminer/jlex-php-lib": "master-dev",
-        "progminer/php-datagen-lib": "master-dev",
         "nikic/php-parser": "^4.0.3",
+        "progminer/jlex-php-lib": "master-dev",
+        "progminer/kmyacc-lib": "dev-master",
+        "progminer/php-datagen-lib": "master-dev",
         "symfony/console": "^4.0",
         "symfony/finder": "^4.1"
     },
@@ -42,9 +43,7 @@
 
         "regen-lexer": "@php scripts.php regen-lexer",
         "regen-parser": "@php scripts.php regen-parser",
-        "regen-all": "@php scripts.php regen-all",
-
-        "pre-package-install": "@install-deps"
+        "regen-all": "@php scripts.php regen-all"
     },
     "bin": ["php-datagen"]
 }
