@@ -60,10 +60,12 @@ function _system($cmd, $doOutput = true) {
     return $output;
 }
 
-function _scandir($dir) {
+function _scandir($dir, &$dirs = null) {
     if (is_file($dir)) {
         return [$dir];
     }
+
+    $dirs = [];
 
     $scanDir = function($dir) {
         $files = scandir($dir);
@@ -95,12 +97,16 @@ function _scandir($dir) {
                 continue;
             }
 
+            $dirs[] = $file;
             $ret = array_merge($ret, $scanDir($file));
             $ok = false;
         }
 
         $files = $ret;
     }
+
+    sort($dirs);
+    array_unique($dirs);
 
     return $ret;
 };
@@ -138,10 +144,24 @@ function clean_deps() {
 
     foreach ($dirs as $dir) {
         try {
-            $files = _scandir($dir);
+            $files = _scandir($dir, $innerDirs);
 
             foreach ($files as $file) {
                 unlink($file);
+            }
+
+            $dirsA = [];
+            while (!empty($innerDirs)) {
+                foreach ($innerDirs as $innerDir) {
+                    try {
+                        rmdir($innerDir);
+                    } catch (\Throwable $e) {
+                        $dirsA[] = $innerDir;
+                    }
+                }
+
+                $innerDirs = $dirsA;
+                $dirsA = [];
             }
 
             rmdir($dir);
@@ -172,7 +192,7 @@ function regen_parser($dir = 'app') {
 
         $yacc = file_get_contents($file);
 
-        $yacc = preg_replace('/\$\d+/', '$this->semStack[$0]', $yacc);
+        // $yacc = preg_replace('/\$\d+/', '$this->semStack[$0]', $yacc);
 
         file_put_contents('.regen-parser.tmp.phpy', $yacc);
 
@@ -196,7 +216,7 @@ function regen_parser($dir = 'app') {
     unlink(".regen-parser.tmp.php");
 }
 
-function regen_all() {
-    regen_lexer();
-    regen_parser();
+function regen_all($dir = 'app') {
+    regen_lexer($dir);
+    regen_parser($dir);
 }
