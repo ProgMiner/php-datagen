@@ -27,6 +27,11 @@
             "pdg-classes"
         ]
     },
+    "autoload-dev": {
+        "classmap": [
+            "scripts"
+        ]
+    },
     "config": {
         "optimize-autoloader": true,
         "sort-packages": true
