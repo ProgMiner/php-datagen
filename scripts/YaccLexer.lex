@@ -25,15 +25,14 @@
 		}
 
 		if ($bracesDepth === 0) {
-			$this->yybegin(self::REDUCE_CB);
+			$this->yybegin(self::YYINITIAL);
 		}
 
-		return $this->createToken('T_REDUCE_CB');
+		return $this->createToken(YaccParser::T_REDUCE_CB);
 	}
 %}
 
 %class YaccLexer
-%function nextToken
 
 %line
 %char
@@ -41,36 +40,38 @@
 %state REDUCE_CB
 %state PROGRAMS
 
-W	= [a-zA-Z_]
-N	= [0-9]
-S	= [ \b\n\t\f\r]
+W = [a-zA-Z_]
+N = [0-9]
+S = [ \b\n\t\f\r]
 
 L = {W}({W}|{N})*
 
 %%
 
-<REDUCE_CB> \'(\\.|[^\\\'])*\'|\"(\\.|[^\\\"])*\"|.|{L}|{S}	{
+<REDUCE_CB>	\'(\\.|[^\\\'])*\'|\"(\\.|[^\\\"])*\"|.|{L}|{S}	{
 	return $this->handleReduceCB();
 }
 
-<PROGRAMS>	.	{ return $this->createToken('T_PROGRAM_PART'); }
+<PROGRAMS>	.	{ return $this->createToken(YaccParser::T_PROGRAM_PART); }
 
-{S}+					{ return $this->createToken('GAP'); }
-"/*"[\s\S]*"*/"|"//".*	{ return $this->createToken('T_COMMENT'); }
+{S}+					{}
+"/*"[\s\S]*"*/"|"//".*	{}
 
-<YYINITIAL> ^"%%"$	{
+<YYINITIAL>	^"%%"$	{
 	++$this->splitter;
 
 	if ($this->splitter === 2) {
 		$this->yybegin(self::PROGRAMS);
 	}
 
-	return $this->createToken('T_SPLITTER');
+	return $this->createToken(YaccParser::T_SPLITTER);
 }
 
-<YYINITIAL> ^("%{"[^%]*"%}"|"%".*)	{ return $this->createToken('T_STMT'); }
+<YYINITIAL>	^("%{"[^%]*"%}"|"%".*)	{ return $this->createToken(YaccParser::T_STMT); }
 
-<YYINITIAL> "{"	{ return $this->handleReduceCB(); }
+<YYINITIAL>	\'(\\.|[^\\'])\'	{ return $this->createToken(YaccParser::T_CHAR_TOKEN); }
 
-<YYINITIAL>	{L}	{ return $this->createToken('T_LITERAL'); }
-<YYINITIAL>	.	{ return $this->createToken(); }
+<YYINITIAL>	"{"	{ return $this->handleReduceCB(); }
+
+<YYINITIAL>	{L}	{ return $this->createToken(YaccParser::T_LITERAL); }
+<YYINITIAL>	.	{ return $this->createToken(ord($this->yytext())); }

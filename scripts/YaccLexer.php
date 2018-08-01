@@ -1,7 +1,7 @@
 <?php
 // vim:noexpandtab
 
-class YaccLexer extends \JLexPHP\Base  {
+class YaccLexer extends \JLexPHP\AbstractLexer  {
 	const YY_BUFFER_SIZE = 512;
 	const YY_F = -1;
 	const YY_NO_STATE = -1;
@@ -27,9 +27,9 @@ class YaccLexer extends \JLexPHP\Base  {
 			break;
 		}
 		if ($bracesDepth === 0) {
-			$this->yybegin(self::REDUCE_CB);
+			$this->yybegin(self::YYINITIAL);
 		}
-		return $this->createToken('T_REDUCE_CB');
+		return $this->createToken(YaccParser::T_REDUCE_CB);
 	}
 	protected $yy_count_chars = true;
 	protected $yy_count_lines = true;
@@ -42,10 +42,10 @@ class YaccLexer extends \JLexPHP\Base  {
 	const PROGRAMS = 2;
 	const YYINITIAL = 0;
 	const REDUCE_CB = 1;
-	static $yy_state_dtrans = [
+	protected static $yy_state_dtrans = [
 		0,
-		29,
-		35
+		35,
+		39
 	];
 	static $yy_acpt = [
 		/* 0 */ self::YY_NOT_ACCEPT,
@@ -56,36 +56,40 @@ class YaccLexer extends \JLexPHP\Base  {
 		/* 5 */ self::YY_NO_ANCHOR,
 		/* 6 */ self::YY_NO_ANCHOR,
 		/* 7 */ self::YY_START,
-		/* 8 */ 3 /* self::YY_START | self::YY_END */,
-		/* 9 */ self::YY_NO_ANCHOR,
+		/* 8 */ self::YY_NO_ANCHOR,
+		/* 9 */ 3 /* self::YY_START | self::YY_END */,
 		/* 10 */ self::YY_NO_ANCHOR,
-		/* 11 */ self::YY_NOT_ACCEPT,
-		/* 12 */ self::YY_NO_ANCHOR,
+		/* 11 */ self::YY_NO_ANCHOR,
+		/* 12 */ self::YY_NOT_ACCEPT,
 		/* 13 */ self::YY_NO_ANCHOR,
 		/* 14 */ self::YY_NO_ANCHOR,
-		/* 15 */ self::YY_START,
-		/* 16 */ 3 /* self::YY_START | self::YY_END */,
-		/* 17 */ self::YY_NO_ANCHOR,
+		/* 15 */ self::YY_NO_ANCHOR,
+		/* 16 */ self::YY_START,
+		/* 17 */ 3 /* self::YY_START | self::YY_END */,
 		/* 18 */ self::YY_NO_ANCHOR,
-		/* 19 */ self::YY_NOT_ACCEPT,
-		/* 20 */ self::YY_START,
+		/* 19 */ self::YY_NO_ANCHOR,
+		/* 20 */ self::YY_NOT_ACCEPT,
 		/* 21 */ self::YY_NO_ANCHOR,
-		/* 22 */ self::YY_NO_ANCHOR,
-		/* 23 */ self::YY_NOT_ACCEPT,
-		/* 24 */ self::YY_START,
-		/* 25 */ self::YY_NO_ANCHOR,
-		/* 26 */ self::YY_NOT_ACCEPT,
-		/* 27 */ self::YY_START,
-		/* 28 */ self::YY_NO_ANCHOR,
-		/* 29 */ self::YY_NOT_ACCEPT,
-		/* 30 */ self::YY_START,
-		/* 31 */ self::YY_NO_ANCHOR,
-		/* 32 */ self::YY_NOT_ACCEPT,
-		/* 33 */ self::YY_NOT_ACCEPT,
+		/* 22 */ self::YY_START,
+		/* 23 */ self::YY_NO_ANCHOR,
+		/* 24 */ self::YY_NO_ANCHOR,
+		/* 25 */ self::YY_NOT_ACCEPT,
+		/* 26 */ self::YY_START,
+		/* 27 */ self::YY_NO_ANCHOR,
+		/* 28 */ self::YY_NOT_ACCEPT,
+		/* 29 */ self::YY_START,
+		/* 30 */ self::YY_NO_ANCHOR,
+		/* 31 */ self::YY_NOT_ACCEPT,
+		/* 32 */ self::YY_START,
+		/* 33 */ self::YY_NO_ANCHOR,
 		/* 34 */ self::YY_NOT_ACCEPT,
 		/* 35 */ self::YY_NOT_ACCEPT,
-		/* 36 */ self::YY_START,
-		/* 37 */ self::YY_NOT_ACCEPT
+		/* 36 */ self::YY_NOT_ACCEPT,
+		/* 37 */ self::YY_NOT_ACCEPT,
+		/* 38 */ self::YY_NOT_ACCEPT,
+		/* 39 */ self::YY_NOT_ACCEPT,
+		/* 40 */ self::YY_START,
+		/* 41 */ self::YY_NOT_ACCEPT
 	];
 		static $yy_cmap = [
  3, 3, 3, 3, 3, 3, 3, 3, 8, 8, 14, 3, 8, 4, 3, 3, 3, 3, 3, 3,
@@ -97,15 +101,19 @@ class YaccLexer extends \JLexPHP\Base  {
  6, 6, 6, 15, 3, 16, 3, 3, 13, 0,];
 
 		static $yy_rmap = [
- 0, 1, 1, 2, 3, 1, 4, 5, 1, 6, 1, 7, 8, 9, 1, 10, 11, 1, 2, 12,
- 13, 2, 9, 14, 15, 16, 17, 18, 19, 20, 1, 9, 21, 6, 16, 22, 18, 23,];
+ 0, 1, 2, 3, 4, 1, 5, 6, 1, 1, 7, 1, 8, 9, 1, 1, 10, 11, 1, 3,
+ 12, 13, 14, 3, 13, 15, 16, 17, 18, 19, 20, 21, 1, 13, 22, 23, 24, 7, 17, 25,
+ 19, 26,];
 
 		static $yy_nxt = [
 [
- 1, 2, 2, 2, 3, 2, 4, 2, 3, 13, 2, 4, 2, 12, 3, 5, 2,
+ 1, 2, 14, 14, 3, 14, 4, 14, 3, 21, 14, 4, 14, 13, 3, 5, 14,
 ],
 [
  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+],
+[
+ -1, -1, 12, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, -1, 20, 20, 20,
 ],
 [
  -1, -1, -1, -1, 3, -1, -1, -1, 3, -1, -1, -1, -1, -1, 3, -1, -1,
@@ -117,65 +125,71 @@ class YaccLexer extends \JLexPHP\Base  {
  -1, 6, 6, 6, -1, 6, 6, 6, 6, 6, 6, 6, 6, -1, -1, 6, 6,
 ],
 [
- -1, 36, 36, 36, -1, 36, 36, 36, 36, 36, 36, 36, 15, -1, -1, 20, 36,
+ -1, 40, 40, 40, -1, 40, 40, 40, 40, 40, 40, 40, 16, -1, -1, 22, 40,
 ],
 [
- -1, 17, 32, 33, 33, 33, 33, 33, 33, 33, 33, 33, 33, -1, 33, 33, 33,
+ -1, 18, 36, 37, 37, 37, 37, 37, 37, 37, 37, 37, 37, -1, 37, 37, 37,
 ],
 [
- -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 19, 11, -1, -1, -1, -1, -1,
+ -1, 20, 20, 20, -1, 20, 20, 20, 20, 20, 20, 20, 20, -1, -1, 20, 20,
 ],
 [
  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 7, -1, -1, -1, -1,
 ],
 [
- -1, -1, -1, -1, -1, -1, -1, -1, -1, 6, 11, -1, -1, -1, -1, -1, -1,
+ 9, 40, 40, 40, 17, 40, 40, 40, 40, 40, 40, 40, 40, -1, 9, 40, 40,
 ],
 [
- 8, 36, 36, 36, 16, 36, 36, 36, 36, 36, 36, 36, 36, -1, 8, 36, 36,
+ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 9, -1, -1,
 ],
 [
- -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 8, -1, -1,
+ -1, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
 ],
 [
- -1, -1, -1, -1, -1, -1, -1, -1, -1, 14, -1, -1, -1, -1, -1, -1, -1,
+ -1, -1, -1, -1, -1, -1, -1, -1, -1, 6, 25, -1, -1, -1, -1, -1, -1,
 ],
 [
- -1, 20, 20, 20, 23, 20, 20, 20, 20, 20, 20, 20, 24, -1, 23, 20, 20,
+ -1, 22, 22, 22, 31, 22, 22, 22, 22, 22, 22, 22, 26, -1, 31, 22, 22,
 ],
 [
- -1, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 23, 26, -1, 23, 23, 23,
+ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 28, 25, -1, -1, -1, -1, -1,
 ],
 [
- -1, 36, 36, 36, -1, 36, 36, 36, 36, 36, 36, 36, 36, -1, -1, 36, 27,
+ -1, 40, 40, 40, -1, 40, 40, 40, 40, 40, 40, 40, 40, -1, -1, 40, 29,
 ],
 [
- -1, 34, 37, 34, 34, 17, 34, 34, 34, 34, 34, 34, 34, -1, 34, 34, 34,
+ -1, 38, 41, 38, 38, 18, 38, 38, 38, 38, 38, 38, 38, -1, 38, 38, 38,
 ],
 [
- -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 30,
+ -1, -1, -1, -1, -1, -1, -1, -1, -1, 15, -1, -1, -1, -1, -1, -1, -1,
 ],
 [
- -1, 36, 36, 36, -1, 36, 36, 36, 36, 36, 36, 36, 36, -1, -1, 36, 36,
+ -1, 40, 40, 40, -1, 40, 40, 40, 40, 40, 40, 40, 40, -1, -1, 40, 40,
 ],
 [
- -1, -1, -1, -1, -1, -1, 28, 28, -1, -1, -1, 28, -1, -1, -1, -1, -1,
+ -1, -1, -1, -1, -1, -1, 30, 30, -1, -1, -1, 30, -1, -1, -1, -1, -1,
 ],
 [
- 1, 9, 17, 17, 21, 25, 28, 17, 21, 31, 17, 28, 17, 1, 21, 17, 17,
+ -1, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 31, 34, -1, 31, 31, 31,
 ],
 [
- -1, 33, 33, 33, -1, 33, 33, 33, 33, 33, 33, 33, 33, -1, -1, 33, 33,
+ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 32,
 ],
 [
- 1, 10, 10, 10, 3, 10, 10, 10, 18, 22, 10, 10, 10, 1, 3, 10, 10,
+ 1, 10, 18, 18, 23, 27, 30, 18, 23, 33, 18, 30, 18, 1, 23, 18, 18,
 ],
 [
- -1, 34, 34, 34, -1, 34, 34, 34, 34, 34, 34, 34, 34, -1, -1, 34, 34,
+ -1, 37, 37, 37, -1, 37, 37, 37, 37, 37, 37, 37, 37, -1, -1, 37, 37,
+],
+[
+ 1, 11, 11, 11, 3, 11, 11, 11, 19, 24, 11, 11, 11, 1, 3, 11, 11,
+],
+[
+ -1, 38, 38, 38, -1, 38, 38, 38, 38, 38, 38, 38, 38, -1, -1, 38, 38,
 ],
 ];
 
-	public function /*Yytoken*/ nextToken () {
+	public function /*Yytoken*/ yylex () {
 		$yy_anchor = self::YY_NO_ANCHOR;
 		$yy_state = self::$yy_state_dtrans[$this->yy_lexical_state];
 		$yy_next_state = self::YY_NO_STATE;
@@ -229,15 +243,15 @@ class YaccLexer extends \JLexPHP\Base  {
 					case -2:
 						break;
 
-					case 2: { return $this->createToken(); }
+					case 2: { return $this->createToken(ord($this->yytext())); }
 					case -3:
 						break;
 
-					case 3: { return $this->createToken('GAP'); }
+					case 3: {}
 					case -4:
 						break;
 
-					case 4: { return $this->createToken('T_LITERAL'); }
+					case 4: { return $this->createToken(YaccParser::T_LITERAL); }
 					case -5:
 						break;
 
@@ -245,116 +259,124 @@ class YaccLexer extends \JLexPHP\Base  {
 					case -6:
 						break;
 
-					case 6: { return $this->createToken('T_COMMENT'); }
+					case 6: {}
 					case -7:
 						break;
 
-					case 7: { return $this->createToken('T_STMT'); }
+					case 7: { return $this->createToken(YaccParser::T_STMT); }
 					case -8:
 						break;
 
-					case 8: {
-	++$this->splitter;
-	if ($this->splitter === 2) {
-		$this->yybegin(self::PROGRAMS);
-	}
-	return $this->createToken('T_SPLITTER');
-}
+					case 8: { return $this->createToken(YaccParser::T_CHAR_TOKEN); }
 					case -9:
 						break;
 
 					case 9: {
-	return $this->handleReduceCB();
-}
-					case -10:
-						break;
-
-					case 10: { return $this->createToken('T_PROGRAM_PART'); }
-					case -11:
-						break;
-
-					case 12: 
-					case -12:
-						break;
-
-					case 13: { return $this->createToken(); }
-					case -13:
-						break;
-
-					case 14: { return $this->createToken('T_COMMENT'); }
-					case -14:
-						break;
-
-					case 15: { return $this->createToken('T_STMT'); }
-					case -15:
-						break;
-
-					case 16: {
 	++$this->splitter;
 	if ($this->splitter === 2) {
 		$this->yybegin(self::PROGRAMS);
 	}
-	return $this->createToken('T_SPLITTER');
+	return $this->createToken(YaccParser::T_SPLITTER);
 }
+					case -10:
+						break;
+
+					case 10: {
+	return $this->handleReduceCB();
+}
+					case -11:
+						break;
+
+					case 11: { return $this->createToken(YaccParser::T_PROGRAM_PART); }
+					case -12:
+						break;
+
+					case 13: 
+					case -13:
+						break;
+
+					case 14: { return $this->createToken(ord($this->yytext())); }
+					case -14:
+						break;
+
+					case 15: {}
+					case -15:
+						break;
+
+					case 16: { return $this->createToken(YaccParser::T_STMT); }
 					case -16:
 						break;
 
 					case 17: {
-	return $this->handleReduceCB();
+	++$this->splitter;
+	if ($this->splitter === 2) {
+		$this->yybegin(self::PROGRAMS);
+	}
+	return $this->createToken(YaccParser::T_SPLITTER);
 }
 					case -17:
 						break;
 
-					case 18: { return $this->createToken('T_PROGRAM_PART'); }
+					case 18: {
+	return $this->handleReduceCB();
+}
 					case -18:
 						break;
 
-					case 20: { return $this->createToken('T_STMT'); }
+					case 19: { return $this->createToken(YaccParser::T_PROGRAM_PART); }
 					case -19:
 						break;
 
-					case 21: {
-	return $this->handleReduceCB();
-}
+					case 21: { return $this->createToken(ord($this->yytext())); }
 					case -20:
 						break;
 
-					case 22: { return $this->createToken('T_PROGRAM_PART'); }
+					case 22: { return $this->createToken(YaccParser::T_STMT); }
 					case -21:
 						break;
 
-					case 24: { return $this->createToken('T_STMT'); }
+					case 23: {
+	return $this->handleReduceCB();
+}
 					case -22:
 						break;
 
-					case 25: {
-	return $this->handleReduceCB();
-}
+					case 24: { return $this->createToken(YaccParser::T_PROGRAM_PART); }
 					case -23:
 						break;
 
-					case 27: { return $this->createToken('T_STMT'); }
+					case 26: { return $this->createToken(YaccParser::T_STMT); }
 					case -24:
 						break;
 
-					case 28: {
+					case 27: {
 	return $this->handleReduceCB();
 }
 					case -25:
 						break;
 
-					case 30: { return $this->createToken('T_STMT'); }
+					case 29: { return $this->createToken(YaccParser::T_STMT); }
 					case -26:
 						break;
 
-					case 31: {
+					case 30: {
 	return $this->handleReduceCB();
 }
 					case -27:
 						break;
 
-					case 36: { return $this->createToken('T_STMT'); }
+					case 32: { return $this->createToken(YaccParser::T_STMT); }
 					case -28:
+						break;
+
+					case 33: {
+	return $this->handleReduceCB();
+}
+					case -29:
+						break;
+
+					case 40: { return $this->createToken(YaccParser::T_STMT); }
+					case -30:
 						break;
 
 						default:

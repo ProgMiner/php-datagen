@@ -63,12 +63,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ProgMiner/jlex-php-lib.git",
-                "reference": "61392846b9682c8cabc21667ca5481b1b116c7cd"
+                "reference": "c31bcb33467f966bcf6c57dc140f076ad543f839"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ProgMiner/jlex-php-lib/zipball/61392846b9682c8cabc21667ca5481b1b116c7cd",
-                "reference": "61392846b9682c8cabc21667ca5481b1b116c7cd",
+                "url": "https://api.github.com/repos/ProgMiner/jlex-php-lib/zipball/c31bcb33467f966bcf6c57dc140f076ad543f839",
+                "reference": "c31bcb33467f966bcf6c57dc140f076ad543f839",
                 "shasum": ""
             },
             "require": {
@@ -90,6 +90,9 @@
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Eridan Domoratskiy",
@@ -97,7 +100,7 @@
                 }
             ],
             "description": "PHP classes for JLexPHP generated lexers",
-            "time": "2018-07-29T01:39:02+00:00"
+            "time": "2018-08-01T15:20:55+00:00"
         },
         {
             "name": "progminer/php-datagen-lib",
@@ -139,16 +142,16 @@
         },
         {
             "name": "symfony/console",
-            "version": "v4.1.2",
+            "version": "v4.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
-                "reference": "5c31f6a97c1c240707f6d786e7e59bfacdbc0219"
+                "reference": "ca80b8ced97cf07390078b29773dc384c39eee1f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/console/zipball/5c31f6a97c1c240707f6d786e7e59bfacdbc0219",
-                "reference": "5c31f6a97c1c240707f6d786e7e59bfacdbc0219",
+                "url": "https://api.github.com/repos/symfony/console/zipball/ca80b8ced97cf07390078b29773dc384c39eee1f",
+                "reference": "ca80b8ced97cf07390078b29773dc384c39eee1f",
                 "shasum": ""
             },
             "require": {
@@ -203,20 +206,20 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2018-07-16T14:05:40+00:00"
+            "time": "2018-07-26T11:24:31+00:00"
         },
         {
             "name": "symfony/finder",
-            "version": "v4.1.2",
+            "version": "v4.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
-                "reference": "84714b8417d19e4ba02ea78a41a975b3efaafddb"
+                "reference": "e162f1df3102d0b7472805a5a9d5db9fcf0a8068"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/finder/zipball/84714b8417d19e4ba02ea78a41a975b3efaafddb",
-                "reference": "84714b8417d19e4ba02ea78a41a975b3efaafddb",
+                "url": "https://api.github.com/repos/symfony/finder/zipball/e162f1df3102d0b7472805a5a9d5db9fcf0a8068",
+                "reference": "e162f1df3102d0b7472805a5a9d5db9fcf0a8068",
                 "shasum": ""
             },
             "require": {
@@ -252,7 +255,7 @@
             ],
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
-            "time": "2018-06-19T21:38:16+00:00"
+            "time": "2018-07-26T11:24:31+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
