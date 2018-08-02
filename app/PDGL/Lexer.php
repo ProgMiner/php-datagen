@@ -16,12 +16,12 @@ class Lexer extends \JLexPHP\AbstractLexer  {
 
 	protected $gaps = [];
 	protected $lastToken = null;
-	protected createToken(?int $type = null) {
+	protected function createToken(?int $type = null) {
 		$token = parent::createToken($type);
 		$this->lastToken = $token;
 		return $token;
 	}
-	protected getGaps(bool $clean = true): array {
+	protected function getGaps(bool $clean = true): array {
 		$gaps = $this->gaps;
 		if ($clean) {
 			$this->gaps = [];
