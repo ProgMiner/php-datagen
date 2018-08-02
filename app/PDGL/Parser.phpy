@@ -38,7 +38,7 @@ file_stmt
 	;
 
 class
-	: class_mods T_CLASS T_LITERAL class_ext_impls '{' class_stmts '}'
+	: class_mods T_CLASS literal class_ext_impls '{' class_stmts '}'
 		{
             $$ = new Model\Class_([
                 'name' => $3,
@@ -53,6 +53,17 @@ class
                 'fields' => $6
             ]);
 		}
+	;
+
+literal
+	: T_LITERAL
+	| T_FINAL
+	| T_CLASS
+	| T_EXTENDS
+	| T_IMPLEMENTS
+	| T_DIRECT
+	| T_VAL
+	| T_VAR
 	;
 
 class_mods
@@ -77,9 +88,9 @@ class_implements
 	;
 
 class_name
-	: T_LITERAL
-	| '\\' T_LITERAL			{ $$ = $1.$2.$3; }
-	| class_name '\\' T_LITERAL	{ $$ = $1.$2.$3; }
+	: literal
+	| '\\' literal				{ $$ = $1.$2.$3; }
+	| class_name '\\' literal	{ $$ = $1.$2.$3; }
 	;
 
 class_names_list
@@ -98,7 +109,7 @@ class_stmt
 	;
 
 field
-	: field_mods field_keyword T_LITERAL field_type field_defval ';'
+	: field_mods field_keyword literal field_type field_defval ';'
 		{
             $$ = new Model\Field([
                 'name' => $3,
@@ -168,11 +179,11 @@ field_defval_contents
 
 php_expr
 	: T_NUMBER
-	| T_LITERAL
+	| literal
 	| class_name
 	| T_STRING_SQ
 	| php_string_dq
-	| '$' T_LITERAL			{ $$ = $1.$2; }
+	| '$' php_expr			{ $$ = $1.$2; }
 	| php_expr php_expr		{ $$ = $1.$2; }
 	| '(' php_expr ')'		{ $$ = $1.$2.$3; }
 	| php_expr '='			{ $$ = $1.$2; }
