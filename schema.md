@@ -15,7 +15,7 @@ use <Class full name> [as <Class alias>];
 [final[!]] class <Class name>[ extends <Class name>][ implements <Interface names>] {
 
     // Field declaration
-    [direct] <val/var> <Field name>[: <Type name>][ <:/</>= [`[``]]<Default value>[`[``]]];
+    [direct] <val/var> <Field name>[: <Type name>][ <:/</>= <Default value>];
 }
 */
 ```

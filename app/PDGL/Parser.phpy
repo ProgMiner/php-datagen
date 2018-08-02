@@ -148,9 +148,8 @@ field_typename
 	;
 
 field_defval
-	:	{ $$ = ['assign' => 1, 'value' => null]; }
-
-	| assign field_defval_contents
+	:					{ $$ = ['assign' => 1, 'value' => null]; }
+	| assign php_expr
 		{
             $$ = [
                 'assign' => $1,
@@ -169,12 +168,6 @@ assign
 	: '='				{ $$ = 1; }
 	| T_COLON_ASSIGN	{ $$ = 0; }
 	| T_ARROW_ASSIGN	{ $$ = 2; }
-	;
-
-field_defval_contents
-	: php_expr
-	| '`' php_expr '`'									{ $$ = $2; }
-	| T_TRIPLE_BACKQUOTE php_expr T_TRIPLE_BACKQUOTE	{ $$ = $2; }
 	;
 
 php_expr
