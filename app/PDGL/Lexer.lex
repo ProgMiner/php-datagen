@@ -38,8 +38,6 @@ use PHPDataGen\PDGL;
 		static $quotes = [];
 		static $buf = '';
 
-		echo $depth, " '", implode("', '", $quotes), "' '", $buf, "'\n";
-
 		if ($init) {
 			$this->yybegin(self::STRING_DQ);
 

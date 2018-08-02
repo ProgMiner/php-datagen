@@ -78,8 +78,8 @@ class_implements
 
 class_name
 	: T_LITERAL
-	| '\\' T_LITERAL
-	| class_name '\\' T_LITERAL
+	| '\\' T_LITERAL			{ $$ = $1.$2.$3; }
+	| class_name '\\' T_LITERAL	{ $$ = $1.$2.$3; }
 	;
 
 class_names_list
@@ -110,7 +110,8 @@ field
 
                 'directDefining' => ($5['assign'] & 2) !== 0,
                 'filterDefault'  => ($5['assign'] & 1) !== 0,
-                'default'        => $this->parseDefval($5['value'])
+                'default'        => is_null($5['value'])?
+					null: $this->parseDefval($5['value'])
             ]);
 		}
 	;
@@ -160,64 +161,64 @@ assign
 	;
 
 field_defval_contents
-	: php_expr											{ $$ = $1; }
+	: php_expr
 	| '`' php_expr '`'									{ $$ = $2; }
 	| T_TRIPLE_BACKQUOTE php_expr T_TRIPLE_BACKQUOTE	{ $$ = $2; }
 	;
 
 php_expr
-	: T_LITERAL
-	| '$' T_LITERAL
-	| php_expr php_expr
+	: T_NUMBER
+	| T_LITERAL
 	| class_name
-	| '(' php_expr ')'
-	| php_expr '='
-	| '=' php_expr
-	| '&' php_expr
-	| php_expr '+'
-	| php_expr '-'
-	| php_expr '*'
-	| php_expr '/'
-	| php_expr '.'
-	| php_expr '%'
-	| php_expr '&'
-	| php_expr '|'
-	| php_expr '^'
-	| php_expr '<' '<'
-	| php_expr '>' '>'
-	| php_expr '*' '*'
-	| php_expr '+' '+'
-	| php_expr '-' '-'
-	| '+' '+' php_expr
-	| '-' '-' php_expr
-	| php_expr '|' '|'
-	| php_expr '&' '&'
-	| '+' php_expr
-	| '-' php_expr
-	| '!' php_expr
-	| '~' php_expr
-	| php_expr '=' '=' '='
-	| php_expr '!' '=' '='
-	| php_expr '=' '='
-	| php_expr '!' '='
-	| php_expr '<' '=' '>'
-	| php_expr '<'
-	| php_expr '<' '='
-	| php_expr '>'
-	| php_expr '>' '='
-	| '@' php_expr
-	| php_expr ':' ':'
-	| '[' php_expr ']'
-	| '`' php_expr '`'
-	| '{' php_expr '}'
-	| T_NUMBER
 	| T_STRING_SQ
 	| php_string_dq
+	| '$' T_LITERAL			{ $$ = $1.$2; }
+	| php_expr php_expr		{ $$ = $1.$2; }
+	| '(' php_expr ')'		{ $$ = $1.$2.$3; }
+	| php_expr '='			{ $$ = $1.$2; }
+	| '=' php_expr			{ $$ = $1.$2; }
+	| '&' php_expr			{ $$ = $1.$2; }
+	| php_expr '+'			{ $$ = $1.$2; }
+	| php_expr '-'			{ $$ = $1.$2; }
+	| php_expr '*'			{ $$ = $1.$2; }
+	| php_expr '/'			{ $$ = $1.$2; }
+	| php_expr '.'			{ $$ = $1.$2; }
+	| php_expr '%'			{ $$ = $1.$2; }
+	| php_expr '&'			{ $$ = $1.$2; }
+	| php_expr '|'			{ $$ = $1.$2; }
+	| php_expr '^'			{ $$ = $1.$2; }
+	| php_expr '<' '<'		{ $$ = $1.$2.$3; }
+	| php_expr '>' '>'		{ $$ = $1.$2.$3; }
+	| php_expr '*' '*'		{ $$ = $1.$2.$3; }
+	| php_expr '+' '+'		{ $$ = $1.$2.$3; }
+	| php_expr '-' '-'		{ $$ = $1.$2.$3; }
+	| '+' '+' php_expr		{ $$ = $1.$2.$3; }
+	| '-' '-' php_expr		{ $$ = $1.$2.$3; }
+	| php_expr '|' '|'		{ $$ = $1.$2.$3; }
+	| php_expr '&' '&'		{ $$ = $1.$2.$3; }
+	| '+' php_expr			{ $$ = $1.$2; }
+	| '-' php_expr			{ $$ = $1.$2; }
+	| '!' php_expr			{ $$ = $1.$2; }
+	| '~' php_expr			{ $$ = $1.$2; }
+	| php_expr '=' '=' '='	{ $$ = $1.$2.$3.$4; }
+	| php_expr '!' '=' '='	{ $$ = $1.$2.$3.$4; }
+	| php_expr '=' '='		{ $$ = $1.$2.$3; }
+	| php_expr '!' '='		{ $$ = $1.$2.$3; }
+	| php_expr '<' '=' '>'	{ $$ = $1.$2.$3.$4; }
+	| php_expr '<'			{ $$ = $1.$2; }
+	| php_expr '<' '='		{ $$ = $1.$2.$3; }
+	| php_expr '>'			{ $$ = $1.$2; }
+	| php_expr '>' '='		{ $$ = $1.$2.$3; }
+	| '@' php_expr			{ $$ = $1.$2; }
+	| php_expr ':' ':'		{ $$ = $1.$2.$3; }
+	| '[' php_expr ']'		{ $$ = $1.$2.$3; }
+	| '`' php_expr '`'		{ $$ = $1.$2.$3; }
+	| '{' php_expr '}'		{ $$ = $1.$2.$3; }
 	;
 
 php_string_dq
 	: T_STRING_DQ
-	| php_string_dq T_STRING_DQ
+	| php_string_dq T_STRING_DQ	{ $$ = $1.$2; }
 	;
 
 %%

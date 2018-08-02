@@ -33,7 +33,6 @@ class Lexer extends \JLexPHP\AbstractLexer  {
 		static $depth = 0;
 		static $quotes = [];
 		static $buf = '';
-		echo $depth, " '", implode("', '", $quotes), "' '", $buf, "'\n";
 		if ($init) {
 			$this->yybegin(self::STRING_DQ);
 			$depth = 0;

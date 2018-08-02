@@ -92,24 +92,24 @@ class Parser extends \Kmyacc\AbstractParser {
     ];
 
     protected $yyaction = [
-          100,  170,  171,  173,   21,   20,   22,   69,  121,  122,
-          164,  125,   23,   32,   77,   25,  100,   26,   27,   28,
-           35,   24,  120,   69,   80,  144,   36,   -1,   29,   30,
-           31,   37,   38,   39,   81,  137,  138,  139,   82,  142,
+          100,  126,  129,  173,   21,   20,   22,   69,  121,  122,
+          167,  125,   23,   32,   77,   25,  100,   26,   27,   28,
+           35,   24,  120,   69,   80,  147,   36,   -1,   29,   30,
+           31,   37,   38,   39,   81,  140,  141,  142,   82,  145,
            58,   59,   35,  112,  113,    0,   80,   67,   36,  111,
-           64,   52,   83,   37,   38,   39,   81,  137,  138,  139,
-           82,  142,   58,   59,  169,   35,  143,  167,   54,   80,
-           50,   36,   63,  101,  102,  127,   37,   38,   39,   81,
-          137,  138,  139,   82,  142,   58,   59,   35,  174,   90,
+           64,   52,   83,   37,   38,   39,   81,  140,  141,  142,
+           82,  145,   58,   59,  172,   35,  146,  170,   54,   80,
+           50,   36,   63,  101,  102,  131,   37,   38,   39,   81,
+          140,  141,  142,   82,  145,   58,   59,   35,  174,   90,
            60,   80,  109,   36,   19,   93,   55,   73,   37,   38,
-           39,   81,  137,  138,  139,   82,  142,   58,   59,   35,
-          -40,  117,   53,   80,  166,   36,   42,   40,   41,  130,
-           37,   38,   39,   81,  137,  138,  139,   82,  142,   58,
-           59,   35,   46,   47,   33,   80,   43,   36,   45,  145,
-          160,   34,   37,   38,   39,   81,  137,  138,  139,   82,
-          142,   58,   59,   35,   44,  150,    0,   80,    0,   36,
-            0,    0,    0,    0,   37,   38,   39,   81,  137,  138,
-          139,   82,  142,   58,   59
+           39,   81,  140,  141,  142,   82,  145,   58,   59,   35,
+          -40,  117,   53,   80,  169,   36,   42,   40,   41,  133,
+           37,   38,   39,   81,  140,  141,  142,   82,  145,   58,
+           59,   35,   46,   47,   33,   80,   43,   36,   45,  148,
+          163,   34,   37,   38,   39,   81,  140,  141,  142,   82,
+          145,   58,   59,   35,   44,  153,    0,   80,    0,   36,
+            0,    0,    0,    0,   37,   38,   39,   81,  140,  141,
+          142,   82,  145,   58,   59
     ];
 
     protected $yycheck = [
@@ -152,15 +152,15 @@ class Parser extends \Kmyacc\AbstractParser {
     ];
 
     protected $yydefault = [
-            4,32767,32767,32767,32767,   39,   70,   48,32767,   49,
-           68,   69,   71,   81,   44,32767,   64,   65,32767,   84,
+            4,32767,32767,32767,32767,   39,   73,   51,32767,   52,
+           71,   72,   74,   84,   48,32767,   67,   68,32767,   87,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
-        32767,32767,32767,32767,32767,32767,   47,   56,   50,   51,
-           75,   74,   67,   62,   63,   84,   73,   72,   34,    7,
-           12,   26,32767,32767,32767,32767,32767,   32,   77,   79,
+        32767,32767,32767,32767,32767,32767,   50,   59,   53,   54,
+           78,   77,   70,   65,   66,   87,   76,   75,   34,    7,
+           12,   26,32767,32767,32767,32767,32767,   32,   80,   82,
            21,   14,   12,   30,    8,32767,32767,32767,32767,32767,
-           13,   19,   15,32767,   20,32767,32767,32767,   45,   88,
-        32767,   52,   57,   78
+           13,   19,   15,32767,   20,32767,32767,32767,   44,   46,
+        32767,   55,   60,   81
     ];
 
     protected $yygoto = [
@@ -207,11 +207,11 @@ class Parser extends \Kmyacc\AbstractParser {
             2,    2,    0,    2,    0,    2,    1,    2,    3,    1,
             3,    0,    1,    2,    1,    6,    0,    1,    1,    1,
             0,    2,    1,    2,    0,    2,    1,    1,    1,    1,
-            3,    3,    1,    2,    2,    1,    3,    2,    2,    2,
-            2,    2,    2,    2,    2,    2,    2,    2,    2,    3,
-            3,    3,    3,    3,    3,    3,    3,    3,    2,    2,
-            2,    2,    4,    4,    3,    3,    4,    2,    3,    2,
-            3,    2,    3,    3,    3,    3,    1,    1,    1,    1,
+            3,    3,    1,    1,    1,    1,    1,    2,    2,    3,
+            2,    2,    2,    2,    2,    2,    2,    2,    2,    2,
+            2,    2,    3,    3,    3,    3,    3,    3,    3,    3,
+            3,    2,    2,    2,    2,    4,    4,    3,    3,    4,
+            2,    3,    2,    3,    2,    3,    3,    3,    3,    1,
             2
     ];
 
@@ -286,10 +286,10 @@ class Parser extends \Kmyacc\AbstractParser {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
             },
             17 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? '').($this->yyastk[$yysp - (2 - 1)] ?? ''); 
             },
             18 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             19 => function ($yysp) {
                  $this->yyval = [($this->yyastk[$yysp - (1 - 1)] ?? '')]; 
@@ -321,7 +321,8 @@ class Parser extends \Kmyacc\AbstractParser {
 
                 'directDefining' => (($this->yyastk[$yysp - (6 - 5)] ?? '')['assign'] & 2) !== 0,
                 'filterDefault'  => (($this->yyastk[$yysp - (6 - 5)] ?? '')['assign'] & 1) !== 0,
-                'default'        => $this->parseDefval(($this->yyastk[$yysp - (6 - 5)] ?? '')['value'])
+                'default'        => is_null(($this->yyastk[$yysp - (6 - 5)] ?? '')['value'])?
+					null: $this->parseDefval(($this->yyastk[$yysp - (6 - 5)] ?? '')['value'])
             ]);
 		
             },
@@ -370,7 +371,7 @@ class Parser extends \Kmyacc\AbstractParser {
                  $this->yyval = 2; 
             },
             39 => function ($yysp) {
-                 $this->yyval = ($this->yyastk[$yysp - (1 - 1)] ?? ''); 
+                $this->yyval = $this->yyastk[$yysp] ?? '';
             },
             40 => function ($yysp) {
                  $this->yyval = ($this->yyastk[$yysp - (3 - 2)] ?? ''); 
@@ -394,136 +395,136 @@ class Parser extends \Kmyacc\AbstractParser {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
             },
             47 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             48 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             49 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             50 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             51 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             52 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             53 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             54 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             55 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             56 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             57 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             58 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             59 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             60 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             61 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             62 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             63 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             64 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             65 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             66 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             67 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             68 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             69 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             70 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             71 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             72 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             73 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             74 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             75 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (4 - 1)] ?? '').($this->yyastk[$yysp - (4 - 2)] ?? '').($this->yyastk[$yysp - (4 - 3)] ?? '').($this->yyastk[$yysp - (4 - 4)] ?? ''); 
             },
             76 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (4 - 1)] ?? '').($this->yyastk[$yysp - (4 - 2)] ?? '').($this->yyastk[$yysp - (4 - 3)] ?? '').($this->yyastk[$yysp - (4 - 4)] ?? ''); 
             },
             77 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             78 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             79 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (4 - 1)] ?? '').($this->yyastk[$yysp - (4 - 2)] ?? '').($this->yyastk[$yysp - (4 - 3)] ?? '').($this->yyastk[$yysp - (4 - 4)] ?? ''); 
             },
             80 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             81 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             82 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             83 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             84 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
             85 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             86 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             87 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             88 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? '').($this->yyastk[$yysp - (3 - 2)] ?? '').($this->yyastk[$yysp - (3 - 3)] ?? ''); 
             },
             89 => function ($yysp) {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
             },
             90 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? '').($this->yyastk[$yysp - (2 - 2)] ?? ''); 
             },
         ];
     }
