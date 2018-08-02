@@ -4,10 +4,33 @@
 
 namespace PHPDataGen\PDGL;
 
+use PHPDataGen\PDGL;
+
 %%
 
 %class Lexer
-%function nextToken
+
+%{
+	protected $gaps = [];
+	protected $lastToken = null;
+
+	protected createToken(?int $type = null) {
+		$token = parent::createToken($type);
+
+		$this->lastToken = $token;
+		return $token;
+	}
+
+	protected getGaps(bool $clean = true): array {
+		$gaps = $this->gaps;
+
+		if ($clean) {
+			$this->gaps = [];
+		}
+
+		return $gaps;
+	}
+%}
 
 %line
 %char
@@ -20,23 +43,21 @@ L = {W}({W}|{N})*
 
 %%
 
-{S}+	{ return $this->createToken('GAP'); }
-"//".*	{ return $this->createToken('T_COMMENT'); }
+{S}+|"//".*	{ $this->gaps[] = $this->yytext(); }
 
-<YYINITIAL>	"final!"		{ return $this->createToken('T_FINAL_FINAL'); }
-<YYINITIAL>	"final"			{ return $this->createToken('T_FINAL'); }
-<YYINITIAL>	"class"			{ return $this->createToken('T_CLASS'); }
-<YYINITIAL>	"extends"		{ return $this->createToken('T_EXTENDS'); }
-<YYINITIAL>	"implements"	{ return $this->createToken('T_IMPLEMENTS'); }
-<YYINITIAL>	"direct"		{ return $this->createToken('T_DIRECT'); }
-<YYINITIAL>	"val"			{ return $this->createToken('T_VAL'); }
-<YYINITIAL>	"var"			{ return $this->createToken('T_VAR'); }
+<YYINITIAL>	"final"			{ return $this->createToken(PDGL::T_FINAL); }
+<YYINITIAL>	"class"			{ return $this->createToken(PDGL::T_CLASS); }
+<YYINITIAL>	"extends"		{ return $this->createToken(PDGL::T_EXTENDS); }
+<YYINITIAL>	"implements"	{ return $this->createToken(PDGL::T_IMPLEMENTS); }
+<YYINITIAL>	"direct"		{ return $this->createToken(PDGL::T_DIRECT); }
+<YYINITIAL>	"val"			{ return $this->createToken(PDGL::T_VAL); }
+<YYINITIAL>	"var"			{ return $this->createToken(PDGL::T_VAR); }
 
-<YYINITIAL>	"```"	{ return $this->createToken('T_TRIPLE_BACKQUOTE'); }
-<YYINITIAL>	":="	{ return $this->createToken('T_COLON_ASSIGN'); }
-<YYINITIAL>	"<="	{ return $this->createToken('T_ARROW_ASSIGN'); }
+<YYINITIAL>	"```"	{ return $this->createToken(PDGL::T_TRIPLE_BACKQUOTE); }
+<YYINITIAL>	":="	{ return $this->createToken(PDGL::T_COLON_ASSIGN); }
+<YYINITIAL>	"<="	{ return $this->createToken(PDGL::T_ARROW_ASSIGN); }
 
-<YYINITIAL> \"(\\.|[^\\\"])*\" 	{ return $this->createToken('T_STRING'); }
+<YYINITIAL> \"(\\.|[^\\\"])*\" 	{ return $this->createToken(PDGL::T_STRING); }
 
-<YYINITIAL>	{L}	{ return $this->createToken('T_LITERAL'); }
+<YYINITIAL>	{L}	{ return $this->createToken(PDGL::T_LITERAL); }
 <YYINITIAL>	.	{ return $this->createToken(); }
