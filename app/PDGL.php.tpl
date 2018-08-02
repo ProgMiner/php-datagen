@@ -29,10 +29,11 @@ $meta #
 #semval($,%t) $this->yyval
 #semval(%n) $this->yyastk[$yysp-(%l-%n)]
 #semval(%n,%t) $this->yyastk[$yysp-(%l-%n)]
-
-#include;
-
 namespace PHPDataGen;
+
+/* Unused code
+#include;
+*/
 
 /**
  * This is an automatically GENERATED file, which should not be manually edited.

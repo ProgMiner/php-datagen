@@ -29,12 +29,12 @@ $meta #
 #semval($,%t) $this->yyval
 #semval(%n) ($this->yyastk[$yysp - (%l - %n)] ?? '')
 #semval(%n,%t) ($this->yyastk[$yysp - (%l - %n)] ?? '')
-#include;
 
 namespace PHPDataGen\PDGL;
 
 use PHPDataGen\Model;
 use PHPDataGen\Type;
+#include;
 
 /**
  * This is an automatically GENERATED file, which should not be manually edited.
@@ -123,7 +123,6 @@ class #(-p) extends \Kmyacc\AbstractParser {
         ];
 #endif
     }
-
 #if -t
     public function yytokname($n) {
         switch ($n) {
@@ -148,5 +147,4 @@ class #(-p) extends \Kmyacc\AbstractParser {
         ];
     }
 }
-
 #tailcode;
