@@ -4,6 +4,8 @@
 
 namespace PHPDataGen\PDGL;
 
+use JLexPHP\Token;
+
 use PHPDataGen\PDGL;
 
 %%
@@ -14,7 +16,7 @@ use PHPDataGen\PDGL;
 	protected $gaps = [];
 	protected $lastToken = null;
 
-	protected function createToken(?int $type = null) {
+	public function createToken(?int $type = null): Token {
 		$token = parent::createToken($type);
 
 		$this->lastToken = $token;

@@ -1,6 +1,7 @@
 <?php
 // vim:noexpandtab
 namespace PHPDataGen\PDGL;
+use JLexPHP\Token;
 use PHPDataGen\PDGL;
 
 class Lexer extends \JLexPHP\AbstractLexer  {
@@ -16,7 +17,7 @@ class Lexer extends \JLexPHP\AbstractLexer  {
 
 	protected $gaps = [];
 	protected $lastToken = null;
-	protected function createToken(?int $type = null) {
+	public function createToken(?int $type = null): Token {
 		$token = parent::createToken($type);
 		$this->lastToken = $token;
 		return $token;
