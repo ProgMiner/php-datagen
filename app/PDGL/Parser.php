@@ -43,51 +43,52 @@ use PHPDataGen\Type;
  */
 class Parser extends \Kmyacc\AbstractParser {
 
-    const YYBADCH = 140;
-    const YYMAXLEX = 268;
-    const YYTERMS = 140;
+    const YYBADCH = 139;
+    const YYMAXLEX = 271;
+    const YYTERMS = 139;
     const YYNONTERMS = 26;
 
-    const YYLAST = 417;
+    const YYLAST = 416;
 
     const YY2TBLSTATE = 68;
 
     const YYGLAST = 45;
 
-    const YYSTATES = 285;
+    const YYSTATES = 284;
     const YYNLSTATES = 94;
     const YYINTERRTOK = 1;
     const YYUNEXPECTED = 32767;
     const YYDEFAULT = -32766;
 
     protected $yytranslate = [
-           84,   77,   78,   79,   80,   81,   82,   83,  140,  140,
-          140,  140,  140,  140,  140,  140,  140,  140,  140,  140,
-          140,  140,  140,  140,  140,  140,  140,  140,  140,  140,
-          140,  140,  140,   15,   52,   85,   23,   32,   26,   51,
+           76,   77,   78,   79,   80,   81,   82,   83,  139,  139,
+          139,  139,  139,  139,  139,  139,  139,  139,  139,  139,
+          139,  139,  139,  139,  139,  139,  139,  139,  139,  139,
+          139,  139,   84,   15,   52,   85,   23,   32,   26,   51,
            24,   25,   29,   27,   17,   28,   31,   30,   41,   42,
            43,   44,   45,   46,   47,   48,   49,   50,   19,   18,
-           35,   21,   36,  139,   38,   86,   87,   88,   89,   90,
+           35,   21,   36,   20,   38,   86,   87,   88,   89,   90,
            91,   92,   93,   94,   95,   96,   97,   98,   99,  100,
           101,  102,  103,  104,  105,  106,  107,  108,  109,  110,
           111,   39,   16,   40,   34,  112,   22,  113,  114,  115,
           116,  117,  118,  119,  120,  121,  122,  123,  124,  125,
           126,  127,  128,  129,  130,  131,  132,  133,  134,  135,
-          136,  137,  138,   13,   33,   14,   37,  140,  140,  140,
-          140,  140,  140,  140,  140,  140,  140,  140,  140,  140,
-          140,  140,  140,  140,  140,  140,  140,  140,  140,  140,
-          140,  140,  140,  140,  140,  140,  140,  140,  140,  140,
-          140,  140,  140,  140,  140,  140,  140,  140,  140,  140,
-          140,  140,  140,  140,  140,  140,  140,  140,  140,  140,
-          140,  140,  140,  140,  140,  140,  140,  140,  140,  140,
-          140,  140,  140,  140,  140,  140,  140,  140,  140,  140,
-          140,  140,  140,  140,  140,  140,  140,  140,  140,  140,
-          140,  140,  140,  140,  140,  140,  140,  140,  140,  140,
-          140,  140,  140,  140,  140,  140,  140,  140,  140,  140,
-          140,  140,  140,  140,  140,  140,  140,  140,  140,  140,
-          140,  140,  140,  140,  140,  140,  140,  140,  140,  140,
-          140,  140,  140,  140,  140,  140,    1,    2,    3,    4,
-            5,    6,    7,    8,    9,   10,   11,   12
+          136,  137,  138,   13,   33,   14,   37,  139,  139,  139,
+          139,  139,  139,  139,  139,  139,  139,  139,  139,  139,
+          139,  139,  139,  139,  139,  139,  139,  139,  139,  139,
+          139,  139,  139,  139,  139,  139,  139,  139,  139,  139,
+          139,  139,  139,  139,  139,  139,  139,  139,  139,  139,
+          139,  139,  139,  139,  139,  139,  139,  139,  139,  139,
+          139,  139,  139,  139,  139,  139,  139,  139,  139,  139,
+          139,  139,  139,  139,  139,  139,  139,  139,  139,  139,
+          139,  139,  139,  139,  139,  139,  139,  139,  139,  139,
+          139,  139,  139,  139,  139,  139,  139,  139,  139,  139,
+          139,  139,  139,  139,  139,  139,  139,  139,  139,  139,
+          139,  139,  139,  139,  139,  139,  139,  139,  139,  139,
+          139,  139,  139,  139,  139,  139,  139,  139,  139,  139,
+          139,  139,  139,  139,  139,  139,    1,    2,    3,    4,
+            5,    6,    7,    8,    9,   10,   11,   12,  139,  139,
+          139
     ];
 
     protected $yyaction = [
@@ -104,35 +105,35 @@ class Parser extends \Kmyacc\AbstractParser {
           287,  288,  289,  290,  291,  292,  293,  294,  295,  296,
           301,  303,  304,  305,  306,  307,  308,  309,  310,  311,
           312,  313,  314,  315,  316,  317,  318,  319,  320,  321,
-          322,  323,  324,  325,  326,  327,  328,  333,  -99,  122,
-          123,  -99,  -99,  -99,  -99,  -99,   -1,  -99,  -99,    0,
+          322,  323,  324,  325,  326,  327,  328,  -99,  122,  123,
+          -99,  -99,  -99,  -99,  -99,   -1,  -99,  -99,    0,  -99,
           -99,  -99,  -99,  -99,  -99,  -99,  -99,  -99,  -99,  -99,
           -99,  -99,  -99,  -99,  -99,  -99,  -99,  -99,  -99,  -99,
           -99,  -99,  -99,  -99,  -99,  -99,  -99,  -99,  -99,  -99,
-          -99,  -99,  110,   28,   74,   29,   79,  174,  131,  132,
-           93,   30,   39,   87,   32,   77,   33,   34,   35,  130,
-           64,  110,  154,   62,  153,   79,  121,   36,   37,   38,
-           70,  182,  183,  184,  185,  186,  187,  188,  189,  190,
-          191,    2,    1,  135,   27,   60,  100,   83,   73,   43,
-          111,  112,  137,   90,   42,   44,   63,   31,  103,   65,
-           45,   46,   47,   91,  147,  148,  149,   92,  152,   68,
-           69,   43,  119,  -40,   48,   90,  176,   44,  127,   40,
-           49,   54,   45,   46,   47,   91,  147,  148,  149,   92,
-          152,   68,   69,  179,   43,   55,  177,   50,   90,   51,
-           44,   41,  160,   52,  170,   45,   46,   47,   91,  147,
-          148,  149,   92,  152,   68,   69,  335,   43,  155,  194,
-            0,   90,    0,   44,    0,    0,    0,    6,   45,   46,
-           47,   91,  147,  148,  149,   92,  152,   68,   69,   43,
-            0,    0,    0,   90,    0,   44,   26,    0,    0,    0,
-           45,   46,   47,   91,  147,  148,  149,   92,  152,   68,
-           69,   43,    0,    0,    0,   90,    0,   44,    0,    0,
-            0,  140,   45,   46,   47,   91,  147,  148,  149,   92,
-          152,   68,   69,   43,    0,    0,    0,   90,    0,   44,
-           53,    0,    0,    0,   45,   46,   47,   91,  147,  148,
-          149,   92,  152,   68,   69,   43,    0,    0,    0,   90,
-            0,   44,    0,    0,    0,    0,   45,   46,   47,   91,
-          147,  148,  149,   92,  152,   68,   69,  182,  183,  184,
-          185,  186,  187,  188,  189,  190,  191
+          -99,  110,   28,   74,   29,   79,  174,  131,  132,   93,
+           30,   39,   87,   32,   77,   33,   34,   35,  130,   64,
+          110,  154,   62,  153,   79,  121,   36,   37,   38,   70,
+          182,  183,  184,  185,  186,  187,  188,  189,  190,  191,
+            2,    1,  135,   27,   60,  100,   83,   73,   43,  111,
+          112,  137,   90,   42,   44,   63,   31,  103,   65,   45,
+           46,   47,   91,  147,  148,  149,   92,  152,   68,   69,
+           43,  119,  -40,   48,   90,  176,   44,  127,   40,   49,
+           54,   45,   46,   47,   91,  147,  148,  149,   92,  152,
+           68,   69,  179,   43,   55,  177,   50,   90,   51,   44,
+           41,  160,   52,  170,   45,   46,   47,   91,  147,  148,
+          149,   92,  152,   68,   69,  334,   43,  155,  194,    0,
+           90,    0,   44,    0,    0,    0,    6,   45,   46,   47,
+           91,  147,  148,  149,   92,  152,   68,   69,   43,    0,
+            0,    0,   90,    0,   44,   26,    0,    0,    0,   45,
+           46,   47,   91,  147,  148,  149,   92,  152,   68,   69,
+           43,    0,    0,    0,   90,    0,   44,    0,    0,    0,
+          140,   45,   46,   47,   91,  147,  148,  149,   92,  152,
+           68,   69,   43,    0,    0,    0,   90,    0,   44,   53,
+            0,    0,    0,   45,   46,   47,   91,  147,  148,  149,
+           92,  152,   68,   69,   43,    0,    0,    0,   90,    0,
+           44,    0,    0,    0,    0,   45,   46,   47,   91,  147,
+          148,  149,   92,  152,   68,   69,  182,  183,  184,  185,
+          186,  187,  188,  189,  190,  191
     ];
 
     protected $yycheck = [
@@ -149,66 +150,66 @@ class Parser extends \Kmyacc\AbstractParser {
           102,  103,  104,  105,  106,  107,  108,  109,  110,  111,
           112,  113,  114,  115,  116,  117,  118,  119,  120,  121,
           122,  123,  124,  125,  126,  127,  128,  129,  130,  131,
-          132,  133,  134,  135,  136,  137,  138,  139,    9,    7,
-            8,   12,   13,   14,   15,   16,    0,   18,   19,    0,
-           21,   22,   23,   24,   25,   26,   27,   28,   29,   30,
-           31,   32,   33,   34,   35,   36,   37,   38,   39,   40,
+          132,  133,  134,  135,  136,  137,  138,    9,    7,    8,
+           12,   13,   14,   15,   16,    0,   18,   19,    0,   21,
+           22,   23,   24,   25,   26,   27,   28,   29,   30,   31,
+           32,   33,   34,   35,   36,   37,   38,   39,   40,   41,
+           42,   43,   44,   45,   46,   47,   48,   49,   50,   51,
+           52,   12,   13,    2,   15,   16,   21,   10,   11,   21,
+           21,   22,   23,   24,    3,   26,   27,   28,   21,    4,
+           12,   36,    5,   35,   16,    6,   37,   38,   39,   13,
            41,   42,   43,   44,   45,   46,   47,   48,   49,   50,
-           51,   52,   12,   13,    2,   15,   16,   21,   10,   11,
-           21,   21,   22,   23,   24,    3,   26,   27,   28,   21,
-            4,   12,   36,    5,   35,   16,    6,   37,   38,   39,
-           13,   41,   42,   43,   44,   45,   46,   47,   48,   49,
-           50,   51,   52,    9,    9,   12,   14,   16,   12,   15,
-           12,   12,   12,   19,   13,   21,   19,   22,   15,   17,
-           26,   27,   28,   29,   30,   31,   32,   33,   34,   35,
-           36,   15,   18,   18,   21,   19,   19,   21,   20,   27,
-           21,   21,   26,   27,   28,   29,   30,   31,   32,   33,
-           34,   35,   36,   14,   15,   21,   40,   26,   19,   27,
-           21,   28,   33,   28,   36,   26,   27,   28,   29,   30,
-           31,   32,   33,   34,   35,   36,   14,   15,   29,   52,
-           -1,   19,   -1,   21,   -1,   -1,   -1,   51,   26,   27,
-           28,   29,   30,   31,   32,   33,   34,   35,   36,   15,
-           -1,   -1,   -1,   19,   -1,   21,   22,   -1,   -1,   -1,
-           26,   27,   28,   29,   30,   31,   32,   33,   34,   35,
-           36,   15,   -1,   -1,   -1,   19,   -1,   21,   -1,   -1,
-           -1,   25,   26,   27,   28,   29,   30,   31,   32,   33,
-           34,   35,   36,   15,   -1,   -1,   -1,   19,   -1,   21,
-           22,   -1,   -1,   -1,   26,   27,   28,   29,   30,   31,
-           32,   33,   34,   35,   36,   15,   -1,   -1,   -1,   19,
-           -1,   21,   -1,   -1,   -1,   -1,   26,   27,   28,   29,
-           30,   31,   32,   33,   34,   35,   36,   41,   42,   43,
-           44,   45,   46,   47,   48,   49,   50
+           51,   52,    9,    9,   12,   14,   16,   12,   15,   12,
+           12,   12,   19,   13,   21,   19,   22,   15,   17,   26,
+           27,   28,   29,   30,   31,   32,   33,   34,   35,   36,
+           15,   18,   18,   21,   19,   19,   21,   20,   27,   21,
+           21,   26,   27,   28,   29,   30,   31,   32,   33,   34,
+           35,   36,   14,   15,   21,   40,   26,   19,   27,   21,
+           28,   33,   28,   36,   26,   27,   28,   29,   30,   31,
+           32,   33,   34,   35,   36,   14,   15,   29,   52,   -1,
+           19,   -1,   21,   -1,   -1,   -1,   51,   26,   27,   28,
+           29,   30,   31,   32,   33,   34,   35,   36,   15,   -1,
+           -1,   -1,   19,   -1,   21,   22,   -1,   -1,   -1,   26,
+           27,   28,   29,   30,   31,   32,   33,   34,   35,   36,
+           15,   -1,   -1,   -1,   19,   -1,   21,   -1,   -1,   -1,
+           25,   26,   27,   28,   29,   30,   31,   32,   33,   34,
+           35,   36,   15,   -1,   -1,   -1,   19,   -1,   21,   22,
+           -1,   -1,   -1,   26,   27,   28,   29,   30,   31,   32,
+           33,   34,   35,   36,   15,   -1,   -1,   -1,   19,   -1,
+           21,   -1,   -1,   -1,   -1,   26,   27,   28,   29,   30,
+           31,   32,   33,   34,   35,   36,   41,   42,   43,   44,
+           45,   46,   47,   48,   49,   50
     ];
 
     protected $yybase = [
-          182,  221,   -2,  256,   -2,   -2,  129,  214,  259,  326,
-          236,  282,  370,  370,  370,  304,  370,  370,  370,  370,
-          370,  370,  348,  370,  370,  215,  235,  170,  170,  170,
-          170,  170,  170,  170,  232,  253,  170,  170,  170,  170,
-          232,  253,  170,  233,  239,  251,  252,  255,  240,  254,
-          170,  232,  253,  170,  170,  170,  366,  366,  178,  146,
-          198,  212,  189,  189,  189,  189,  132,  238,  169,  166,
-          200,  198,  196,  217,  223,  149,  192,  213,  197,  218,
-          211,  211,  222,  219,  211,  216,  234,  220,  211,  247,
-          237,  269,  249,  248,    0,   -2,    0,   -2,    0,    0,
-            0,  170,  170,  170,  170,  170,  170,  170,  170,  170,
-          170,  170,  170,  170,  170,  170,  170,  170,  170,  170,
-          170,    0,    0,    0,    0,    0,    0,    0,  170,  170,
-            0,    0,    0,    0,  170,  170,    0,  170,  170,  170,
-          170,  170,  170,  170,    0,  170,  170,    0,    0,    0,
-            0,    0,    0,  182,  196,  200,    0,    0,    0,    0,
-            0,  211
+          181,  220,   -2,  255,   -2,   -2,  128,  213,  258,  325,
+          235,  281,  369,  369,  369,  303,  369,  369,  369,  369,
+          369,  369,  347,  369,  369,  214,  234,  169,  169,  169,
+          169,  169,  169,  169,  231,  252,  169,  169,  169,  169,
+          231,  252,  169,  232,  238,  250,  251,  254,  239,  253,
+          169,  231,  252,  169,  169,  169,  365,  365,  177,  145,
+          197,  211,  188,  188,  188,  188,  131,  237,  168,  165,
+          199,  197,  195,  216,  222,  148,  191,  212,  196,  217,
+          210,  210,  221,  218,  210,  215,  233,  219,  210,  246,
+          236,  268,  248,  247,    0,   -2,    0,   -2,    0,    0,
+            0,  169,  169,  169,  169,  169,  169,  169,  169,  169,
+          169,  169,  169,  169,  169,  169,  169,  169,  169,  169,
+          169,    0,    0,    0,    0,    0,    0,    0,  169,  169,
+            0,    0,    0,    0,  169,  169,    0,  169,  169,  169,
+          169,  169,  169,  169,    0,  169,  169,    0,    0,    0,
+            0,    0,    0,  181,  195,  199,    0,    0,    0,    0,
+            0,  210
     ];
 
     protected $yydefault = [
-            2,32767,32767,32767,32767,32767,  151,32767,32767,32767,
+            4,32767,32767,32767,32767,32767,  151,32767,32767,32767,
         32767,32767,   39,   70,   48,32767,   49,   68,   69,   71,
            81,   44,32767,   64,   65,32767,   84,32767,32767,32767,
         32767,32767,32767,32767,32767,32767,32767,32767,32767,32767,
         32767,32767,  235,32767,   47,   56,   50,   51,   75,   74,
            67,   62,   63,   84,   73,   72,   86,   98,   34,    7,
            12,   26,32767,32767,32767,32767,32767,   32,   77,   79,
-           21,   14,   12,   30,    8,32767,32767,32767,32767,32767,
+           23,   14,   12,   30,    8,32767,32767,32767,32767,32767,
            13,   19,   15,32767,   20,32767,32767,32767,   45,32767,
         32767,   52,   57,   78
     ];
@@ -217,8 +218,8 @@ class Parser extends \Kmyacc\AbstractParser {
            12,   22,    7,    8,   13,   14,   15,    9,   16,   17,
            18,   19,   20,   10,   22,   23,   24,   11,   13,   14,
            16,   17,   18,   14,   14,   16,   23,   24,   22,   14,
-           14,   81,   67,   80,   84,    4,    3,   57,   57,   98,
-          116,    0,  104,    0,  105
+           14,   81,   67,   80,   84,    4,    3,   57,   57,   97,
+          115,    0,  104,    0,  105
     ];
 
     protected $yygcheck = [
@@ -236,8 +237,8 @@ class Parser extends \Kmyacc\AbstractParser {
     ];
 
     protected $yygdefault = [
-        -32768,   75,   59,   97,   99,   76,   78,   61,   71,   72,
-           88,   82,  117,  118,   66,   85,   58,   86,  125,   25,
+        -32768,   75,   59,   96,   99,   76,   78,   61,   71,   72,
+           88,   82,  116,  118,   66,   85,   58,   86,  125,   25,
           129,   21,   56,  181,    5,   89
     ];
 
@@ -266,13 +267,13 @@ class Parser extends \Kmyacc\AbstractParser {
            24,   24,   24,   24,   24,   24,   24,   24,   24,   24,
            24,   24,   24,   24,   24,   24,   24,   24,   24,   24,
            24,   24,   24,   24,   24,   24,   24,   24,   24,   24,
-           24,   25,   25
+           25,   25
     ];
 
     protected $yylen = [
-            1,    1,    0,    1,    2,    1,    7,    0,    1,    2,
+            1,    1,    1,    2,    0,    1,    7,    0,    1,    2,
             2,    2,    0,    2,    0,    2,    1,    2,    3,    1,
-            3,    0,    1,    2,    1,    6,    0,    1,    1,    1,
+            3,    1,    2,    0,    1,    6,    0,    1,    1,    1,
             0,    2,    1,    2,    0,    2,    1,    1,    1,    1,
             3,    3,    1,    2,    2,    1,    3,    2,    2,    2,
             2,    2,    2,    2,    2,    2,    2,    2,    2,    3,
@@ -293,12 +294,546 @@ class Parser extends \Kmyacc\AbstractParser {
             1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
             1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
             1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-            1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-            2,    3,    1
+            1,    1,    1,    1,    1,    1,    1,    1,    1,    2,
+            3,    1
     ];
 
     public function __construct(\JLexPHP\AbstractLexer $lexer) {
         parent::__construct($lexer);
+        $this->yydebug = true;
+
+        $this->yyterminals = [
+            "EOF",
+            "error",
+            "T_FINAL",
+            "T_CLASS",
+            "T_EXTENDS",
+            "T_IMPLEMENTS",
+            "T_DIRECT",
+            "T_VAL",
+            "T_VAR",
+            "T_TRIPLE_BACKQUOTE",
+            "T_COLON_ASSIGN",
+            "T_ARROW_ASSIGN",
+            "T_LITERAL",
+            "'{'",
+            "'}'",
+            "'!'",
+            "'\\\\'",
+            "','",
+            "';'",
+            "':'",
+            "'?'",
+            "'='",
+            "'`'",
+            "'$'",
+            "'('",
+            "')'",
+            "'&'",
+            "'+'",
+            "'-'",
+            "'*'",
+            "'/'",
+            "'.'",
+            "'%'",
+            "'|'",
+            "'^'",
+            "'<'",
+            "'>'",
+            "'~'",
+            "'@'",
+            "'['",
+            "']'",
+            "'0'",
+            "'1'",
+            "'2'",
+            "'3'",
+            "'4'",
+            "'5'",
+            "'6'",
+            "'7'",
+            "'8'",
+            "'9'",
+            "'\\''",
+            "'\"'",
+            "'\\1'",
+            "'\\2'",
+            "'\\3'",
+            "'\\4'",
+            "'\\5'",
+            "'\\6'",
+            "'\\7'",
+            "'\\10'",
+            "'\\11'",
+            "'\\12'",
+            "'\\13'",
+            "'\\14'",
+            "'\\15'",
+            "'\\16'",
+            "'\\17'",
+            "'\\20'",
+            "'\\21'",
+            "'\\22'",
+            "'\\23'",
+            "'\\24'",
+            "'\\25'",
+            "'\\26'",
+            "'\\27'",
+            "'\\30'",
+            "'\\31'",
+            "'\\32'",
+            "'\\33'",
+            "'\\34'",
+            "'\\35'",
+            "'\\36'",
+            "'\\37'",
+            "' '",
+            "'#'",
+            "'A'",
+            "'B'",
+            "'C'",
+            "'D'",
+            "'E'",
+            "'F'",
+            "'G'",
+            "'H'",
+            "'I'",
+            "'J'",
+            "'K'",
+            "'L'",
+            "'M'",
+            "'N'",
+            "'O'",
+            "'P'",
+            "'Q'",
+            "'R'",
+            "'S'",
+            "'T'",
+            "'U'",
+            "'V'",
+            "'W'",
+            "'X'",
+            "'Y'",
+            "'Z'",
+            "'_'",
+            "'a'",
+            "'b'",
+            "'c'",
+            "'d'",
+            "'e'",
+            "'f'",
+            "'g'",
+            "'h'",
+            "'i'",
+            "'j'",
+            "'k'",
+            "'l'",
+            "'m'",
+            "'n'",
+            "'o'",
+            "'p'",
+            "'q'",
+            "'r'",
+            "'s'",
+            "'t'",
+            "'u'",
+            "'v'",
+            "'w'",
+            "'x'",
+            "'y'",
+            "'z'"
+            , "???"
+        ];
+
+        $this->yyproduction = [
+            "start : file",
+            "file : file_stmts",
+            "file_stmts : file_stmt",
+            "file_stmts : file_stmts file_stmt",
+            "file_stmts : /* empty */",
+            "file_stmt : class",
+            "class : class_mods T_CLASS T_LITERAL class_ext_impls '{' class_stmts '}'",
+            "class_mods : /* empty */",
+            "class_mods : T_FINAL",
+            "class_mods : T_FINAL '!'",
+            "class_ext_impls : class_extends class_implements",
+            "class_ext_impls : class_implements class_extends",
+            "class_extends : /* empty */",
+            "class_extends : T_EXTENDS class_name",
+            "class_implements : /* empty */",
+            "class_implements : T_IMPLEMENTS class_names_list",
+            "class_name : T_LITERAL",
+            "class_name : '\\\\' T_LITERAL",
+            "class_name : class_name '\\\\' T_LITERAL",
+            "class_names_list : class_name",
+            "class_names_list : class_names_list ',' class_name",
+            "class_stmts : class_stmt",
+            "class_stmts : class_stmts class_stmt",
+            "class_stmts : /* empty */",
+            "class_stmt : field",
+            "field : field_mods field_keyword T_LITERAL field_type field_defval ';'",
+            "field_mods : /* empty */",
+            "field_mods : T_DIRECT",
+            "field_keyword : T_VAL",
+            "field_keyword : T_VAR",
+            "field_type : /* empty */",
+            "field_type : ':' field_typename",
+            "field_typename : class_name",
+            "field_typename : class_name '?'",
+            "field_defval : /* empty */",
+            "field_defval : assign field_defval_contents",
+            "assign : '='",
+            "assign : T_COLON_ASSIGN",
+            "assign : T_ARROW_ASSIGN",
+            "field_defval_contents : php_expr",
+            "field_defval_contents : '`' php_expr '`'",
+            "field_defval_contents : T_TRIPLE_BACKQUOTE php_expr T_TRIPLE_BACKQUOTE",
+            "php_expr : T_LITERAL",
+            "php_expr : '$' T_LITERAL",
+            "php_expr : php_expr php_expr",
+            "php_expr : class_name",
+            "php_expr : '(' php_expr ')'",
+            "php_expr : php_expr '='",
+            "php_expr : '=' php_expr",
+            "php_expr : '&' php_expr",
+            "php_expr : php_expr '+'",
+            "php_expr : php_expr '-'",
+            "php_expr : php_expr '*'",
+            "php_expr : php_expr '/'",
+            "php_expr : php_expr '.'",
+            "php_expr : php_expr '%'",
+            "php_expr : php_expr '&'",
+            "php_expr : php_expr '|'",
+            "php_expr : php_expr '^'",
+            "php_expr : php_expr '<' '<'",
+            "php_expr : php_expr '>' '>'",
+            "php_expr : php_expr '*' '*'",
+            "php_expr : php_expr '+' '+'",
+            "php_expr : php_expr '-' '-'",
+            "php_expr : '+' '+' php_expr",
+            "php_expr : '-' '-' php_expr",
+            "php_expr : php_expr '|' '|'",
+            "php_expr : php_expr '&' '&'",
+            "php_expr : '+' php_expr",
+            "php_expr : '-' php_expr",
+            "php_expr : '!' php_expr",
+            "php_expr : '~' php_expr",
+            "php_expr : php_expr '=' '=' '='",
+            "php_expr : php_expr '!' '=' '='",
+            "php_expr : php_expr '=' '='",
+            "php_expr : php_expr '!' '='",
+            "php_expr : php_expr '<' '=' '>'",
+            "php_expr : php_expr '<'",
+            "php_expr : php_expr '<' '='",
+            "php_expr : php_expr '>'",
+            "php_expr : php_expr '>' '='",
+            "php_expr : '@' php_expr",
+            "php_expr : php_expr ':' ':'",
+            "php_expr : '[' php_expr ']'",
+            "php_expr : '`' php_expr '`'",
+            "php_expr : '{' php_expr '}'",
+            "php_expr : php_number",
+            "php_expr : php_string",
+            "php_number : '0'",
+            "php_number : '1'",
+            "php_number : '2'",
+            "php_number : '3'",
+            "php_number : '4'",
+            "php_number : '5'",
+            "php_number : '6'",
+            "php_number : '7'",
+            "php_number : '8'",
+            "php_number : '9'",
+            "php_number : php_number php_number",
+            "php_string : '\\'' php_string_sq '\\''",
+            "php_string : '\"' php_string_dq '\"'",
+            "php_string_sq : /* empty */",
+            "php_string_sq : T_FINAL",
+            "php_string_sq : T_CLASS",
+            "php_string_sq : T_EXTENDS",
+            "php_string_sq : T_IMPLEMENTS",
+            "php_string_sq : T_DIRECT",
+            "php_string_sq : T_VAL",
+            "php_string_sq : T_VAR",
+            "php_string_sq : T_TRIPLE_BACKQUOTE",
+            "php_string_sq : T_COLON_ASSIGN",
+            "php_string_sq : T_ARROW_ASSIGN",
+            "php_string_sq : T_LITERAL",
+            "php_string_sq : '\\1'",
+            "php_string_sq : '\\2'",
+            "php_string_sq : '\\3'",
+            "php_string_sq : '\\4'",
+            "php_string_sq : '\\5'",
+            "php_string_sq : '\\6'",
+            "php_string_sq : '\\7'",
+            "php_string_sq : '\\10'",
+            "php_string_sq : '\\11'",
+            "php_string_sq : '\\12'",
+            "php_string_sq : '\\13'",
+            "php_string_sq : '\\14'",
+            "php_string_sq : '\\15'",
+            "php_string_sq : '\\16'",
+            "php_string_sq : '\\17'",
+            "php_string_sq : '\\20'",
+            "php_string_sq : '\\21'",
+            "php_string_sq : '\\22'",
+            "php_string_sq : '\\23'",
+            "php_string_sq : '\\24'",
+            "php_string_sq : '\\25'",
+            "php_string_sq : '\\26'",
+            "php_string_sq : '\\27'",
+            "php_string_sq : '\\30'",
+            "php_string_sq : '\\31'",
+            "php_string_sq : '\\32'",
+            "php_string_sq : '\\33'",
+            "php_string_sq : '\\34'",
+            "php_string_sq : '\\35'",
+            "php_string_sq : '\\36'",
+            "php_string_sq : '\\37'",
+            "php_string_sq : ' '",
+            "php_string_sq : '!'",
+            "php_string_sq : '\"'",
+            "php_string_sq : '#'",
+            "php_string_sq : '$'",
+            "php_string_sq : '%'",
+            "php_string_sq : '&'",
+            "php_string_sq : '\\''",
+            "php_string_sq : '('",
+            "php_string_sq : ')'",
+            "php_string_sq : '*'",
+            "php_string_sq : '+'",
+            "php_string_sq : ','",
+            "php_string_sq : '-'",
+            "php_string_sq : '.'",
+            "php_string_sq : '/'",
+            "php_string_sq : '0'",
+            "php_string_sq : '1'",
+            "php_string_sq : '2'",
+            "php_string_sq : '3'",
+            "php_string_sq : '4'",
+            "php_string_sq : '5'",
+            "php_string_sq : '6'",
+            "php_string_sq : '7'",
+            "php_string_sq : '8'",
+            "php_string_sq : '9'",
+            "php_string_sq : ':'",
+            "php_string_sq : ';'",
+            "php_string_sq : '<'",
+            "php_string_sq : '='",
+            "php_string_sq : '>'",
+            "php_string_sq : '?'",
+            "php_string_sq : '@'",
+            "php_string_sq : 'A'",
+            "php_string_sq : 'B'",
+            "php_string_sq : 'C'",
+            "php_string_sq : 'D'",
+            "php_string_sq : 'E'",
+            "php_string_sq : 'F'",
+            "php_string_sq : 'G'",
+            "php_string_sq : 'H'",
+            "php_string_sq : 'I'",
+            "php_string_sq : 'J'",
+            "php_string_sq : 'K'",
+            "php_string_sq : 'L'",
+            "php_string_sq : 'M'",
+            "php_string_sq : 'N'",
+            "php_string_sq : 'O'",
+            "php_string_sq : 'P'",
+            "php_string_sq : 'Q'",
+            "php_string_sq : 'R'",
+            "php_string_sq : 'S'",
+            "php_string_sq : 'T'",
+            "php_string_sq : 'U'",
+            "php_string_sq : 'V'",
+            "php_string_sq : 'W'",
+            "php_string_sq : 'X'",
+            "php_string_sq : 'Y'",
+            "php_string_sq : 'Z'",
+            "php_string_sq : '['",
+            "php_string_sq : '\\\\'",
+            "php_string_sq : ']'",
+            "php_string_sq : '^'",
+            "php_string_sq : '_'",
+            "php_string_sq : '`'",
+            "php_string_sq : 'a'",
+            "php_string_sq : 'b'",
+            "php_string_sq : 'c'",
+            "php_string_sq : 'd'",
+            "php_string_sq : 'e'",
+            "php_string_sq : 'f'",
+            "php_string_sq : 'g'",
+            "php_string_sq : 'h'",
+            "php_string_sq : 'i'",
+            "php_string_sq : 'j'",
+            "php_string_sq : 'k'",
+            "php_string_sq : 'l'",
+            "php_string_sq : 'm'",
+            "php_string_sq : 'n'",
+            "php_string_sq : 'o'",
+            "php_string_sq : 'p'",
+            "php_string_sq : 'q'",
+            "php_string_sq : 'r'",
+            "php_string_sq : 's'",
+            "php_string_sq : 't'",
+            "php_string_sq : 'u'",
+            "php_string_sq : 'v'",
+            "php_string_sq : 'w'",
+            "php_string_sq : 'x'",
+            "php_string_sq : 'y'",
+            "php_string_sq : 'z'",
+            "php_string_sq : '{'",
+            "php_string_sq : '|'",
+            "php_string_sq : '}'",
+            "php_string_sq : '~'",
+            "php_string_sq : php_string_sq php_string_sq",
+            "php_string_dq : '{' php_expr '}'",
+            "php_string_dq : php_string_sq"
+        ];
+    }
+    public function yytokname($n) {
+        switch ($n) {
+            case 0: return "EOF";
+            case 256: return "error";
+            case 257: return "T_FINAL";
+            case 258: return "T_CLASS";
+            case 259: return "T_EXTENDS";
+            case 260: return "T_IMPLEMENTS";
+            case 261: return "T_DIRECT";
+            case 262: return "T_VAL";
+            case 263: return "T_VAR";
+            case 264: return "T_TRIPLE_BACKQUOTE";
+            case 265: return "T_COLON_ASSIGN";
+            case 266: return "T_ARROW_ASSIGN";
+            case 267: return "T_LITERAL";
+            case 123: return "'{'";
+            case 125: return "'}'";
+            case 33: return "'!'";
+            case 92: return "'\\\\'";
+            case 44: return "','";
+            case 59: return "';'";
+            case 58: return "':'";
+            case 63: return "'?'";
+            case 61: return "'='";
+            case 96: return "'`'";
+            case 36: return "'$'";
+            case 40: return "'('";
+            case 41: return "')'";
+            case 38: return "'&'";
+            case 43: return "'+'";
+            case 45: return "'-'";
+            case 42: return "'*'";
+            case 47: return "'/'";
+            case 46: return "'.'";
+            case 37: return "'%'";
+            case 124: return "'|'";
+            case 94: return "'^'";
+            case 60: return "'<'";
+            case 62: return "'>'";
+            case 126: return "'~'";
+            case 64: return "'@'";
+            case 91: return "'['";
+            case 93: return "']'";
+            case 48: return "'0'";
+            case 49: return "'1'";
+            case 50: return "'2'";
+            case 51: return "'3'";
+            case 52: return "'4'";
+            case 53: return "'5'";
+            case 54: return "'6'";
+            case 55: return "'7'";
+            case 56: return "'8'";
+            case 57: return "'9'";
+            case 39: return "'\\''";
+            case 34: return "'\"'";
+            case 0: return "'\\1'";
+            case 0: return "'\\2'";
+            case 0: return "'\\3'";
+            case 0: return "'\\4'";
+            case 0: return "'\\5'";
+            case 0: return "'\\6'";
+            case 0: return "'\\7'";
+            case 0: return "'\\10'";
+            case 1: return "'\\11'";
+            case 2: return "'\\12'";
+            case 3: return "'\\13'";
+            case 4: return "'\\14'";
+            case 5: return "'\\15'";
+            case 6: return "'\\16'";
+            case 7: return "'\\17'";
+            case 0: return "'\\20'";
+            case 1: return "'\\21'";
+            case 2: return "'\\22'";
+            case 3: return "'\\23'";
+            case 4: return "'\\24'";
+            case 5: return "'\\25'";
+            case 6: return "'\\26'";
+            case 7: return "'\\27'";
+            case 0: return "'\\30'";
+            case 1: return "'\\31'";
+            case 2: return "'\\32'";
+            case 3: return "'\\33'";
+            case 4: return "'\\34'";
+            case 5: return "'\\35'";
+            case 6: return "'\\36'";
+            case 7: return "'\\37'";
+            case 32: return "' '";
+            case 35: return "'#'";
+            case 65: return "'A'";
+            case 66: return "'B'";
+            case 67: return "'C'";
+            case 68: return "'D'";
+            case 69: return "'E'";
+            case 70: return "'F'";
+            case 71: return "'G'";
+            case 72: return "'H'";
+            case 73: return "'I'";
+            case 74: return "'J'";
+            case 75: return "'K'";
+            case 76: return "'L'";
+            case 77: return "'M'";
+            case 78: return "'N'";
+            case 79: return "'O'";
+            case 80: return "'P'";
+            case 81: return "'Q'";
+            case 82: return "'R'";
+            case 83: return "'S'";
+            case 84: return "'T'";
+            case 85: return "'U'";
+            case 86: return "'V'";
+            case 87: return "'W'";
+            case 88: return "'X'";
+            case 89: return "'Y'";
+            case 90: return "'Z'";
+            case 95: return "'_'";
+            case 97: return "'a'";
+            case 98: return "'b'";
+            case 99: return "'c'";
+            case 100: return "'d'";
+            case 101: return "'e'";
+            case 102: return "'f'";
+            case 103: return "'g'";
+            case 104: return "'h'";
+            case 105: return "'i'";
+            case 106: return "'j'";
+            case 107: return "'k'";
+            case 108: return "'l'";
+            case 109: return "'m'";
+            case 110: return "'n'";
+            case 111: return "'o'";
+            case 112: return "'p'";
+            case 113: return "'q'";
+            case 114: return "'r'";
+            case 115: return "'s'";
+            case 116: return "'t'";
+            case 117: return "'u'";
+            case 118: return "'v'";
+            case 119: return "'w'";
+            case 120: return "'x'";
+            case 121: return "'y'";
+            case 122: return "'z'";
+        default:
+            return "???";
+        }
     }
 
     protected function initReduceCallbacks() {
@@ -310,13 +845,13 @@ class Parser extends \Kmyacc\AbstractParser {
                  $this->yyval = new Model\File(['fields' => ($this->yyastk[$yysp - (1 - 1)] ?? '')]); 
             },
             2 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
-            },
-            3 => function ($yysp) {
                  $this->yyval = [($this->yyastk[$yysp - (1 - 1)] ?? '')]; 
             },
-            4 => function ($yysp) {
+            3 => function ($yysp) {
                  $this->yyval = array_merge(($this->yyastk[$yysp - (2 - 1)] ?? ''), [($this->yyastk[$yysp - (2 - 2)] ?? '')]); 
+            },
+            4 => function ($yysp) {
+                 $this->yyval = []; 
             },
             5 => function ($yysp) {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
@@ -380,13 +915,13 @@ class Parser extends \Kmyacc\AbstractParser {
                  $this->yyval = array_merge(($this->yyastk[$yysp - (3 - 1)] ?? ''), ($this->yyastk[$yysp - (3 - 3)] ?? '')); 
             },
             21 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
-            },
-            22 => function ($yysp) {
                  $this->yyval = [($this->yyastk[$yysp - (1 - 1)] ?? '')]; 
             },
-            23 => function ($yysp) {
+            22 => function ($yysp) {
                  $this->yyval = array_merge(($this->yyastk[$yysp - (2 - 1)] ?? ''), ($this->yyastk[$yysp - (2 - 2)] ?? '')); 
+            },
+            23 => function ($yysp) {
+                 $this->yyval = []; 
             },
             24 => function ($yysp) {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
@@ -1058,9 +1593,6 @@ class Parser extends \Kmyacc\AbstractParser {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
             },
             241 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
-            },
-            242 => function ($yysp) {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
             },
         ];

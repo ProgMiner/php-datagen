@@ -23,7 +23,7 @@ use PHPDataGen\PDGL;
 		return $token;
 	}
 
-	protected function getGaps(bool $clean = true): array {
+	public function getGaps(bool $clean = true): array {
 		$gaps = $this->gaps;
 
 		if ($clean) {
@@ -32,10 +32,60 @@ use PHPDataGen\PDGL;
 
 		return $gaps;
 	}
+
+	protected function handleStringDQ(bool $init = false) {
+		static $depth = 0;
+		static $quotes = [];
+		static $buf = '';
+
+		echo $depth, " '", implode("', '", $quotes), "' '", $buf, "'\n";
+
+		if ($init) {
+			$this->yybegin(self::STRING_DQ);
+
+			$depth = 0;
+			$quotes = [];
+			$buf = '';
+		}
+
+		if ($depth === count($quotes)) {
+			if (in_array($this->yytext(), ["'", '"'])) {
+				$quotes[] = $this->yytext();
+			} else if ($this->yytext() === '}') {
+				--$depth;
+			}
+		} else if ($depth < count($quotes)) {
+			if ($buf === '\\') {
+				$buf = '';
+			} else if ($buf === '$') {
+				if ($this->yytext() === '{') {
+					++$depth;
+				}
+
+				$buf = '';
+			} else {
+				if ($this->yytext() === '\\') {
+					$buf = '\\';
+				} else if ($quotes[count($quotes) - 1] === '"' && $this->yytext() === '$') {
+					$buf = '$';
+				} else if ($this->yytext() === $quotes[count($quotes) - 1]) {
+					array_pop($quotes);
+				}
+			}
+		}
+
+		if ($depth === 0 && empty($quotes)) {
+			$this->yybegin(self::YYINITIAL);
+		}
+
+		return $this->createToken(PDGL::T_STRING_DQ);
+	}
 %}
 
 %line
 %char
+
+%state STRING_DQ
 
 W	= [a-zA-Z_]
 N	= [0-9]
@@ -44,6 +94,9 @@ S	= [ \b\n\t\f\r]
 L = {W}({W}|{N})*
 
 %%
+
+<STRING_DQ>	.	{ return $this->handleStringDQ(); }
+<YYINITIAL>	\"	{ return $this->handleStringDQ(true); }
 
 {S}+|"//".*	{ $this->gaps[] = $this->yytext(); }
 
@@ -54,6 +107,9 @@ L = {W}({W}|{N})*
 <YYINITIAL>	"direct"		{ return $this->createToken(PDGL::T_DIRECT); }
 <YYINITIAL>	"val"			{ return $this->createToken(PDGL::T_VAL); }
 <YYINITIAL>	"var"			{ return $this->createToken(PDGL::T_VAR); }
+
+<YYINITIAL>	{N}+					{ return $this->createToken(PDGL::T_NUMBER); }
+<YYINITIAL>	"'"(\\.|[^\\\'])*"'"	{ return $this->createToken(PDGL::T_STRING_SQ); }
 
 <YYINITIAL>	"```"	{ return $this->createToken(PDGL::T_TRIPLE_BACKQUOTE); }
 <YYINITIAL>	":="	{ return $this->createToken(PDGL::T_COLON_ASSIGN); }

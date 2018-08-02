@@ -49,4 +49,7 @@ final class PDGL {
     const T_COLON_ASSIGN = 265;
     const T_ARROW_ASSIGN = 266;
     const T_LITERAL = 267;
+    const T_NUMBER = 268;
+    const T_STRING_SQ = 269;
+    const T_STRING_DQ = 270;
 }
