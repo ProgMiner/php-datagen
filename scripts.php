@@ -43,6 +43,10 @@ try {
 }
 
 function _system($cmd, $doOutput = true) {
+    if ($doOutput) {
+        echo ">>> $cmd\n";
+    }
+
     exec($cmd, $output, $ret);
 
     if ($ret != 0) {
@@ -50,8 +54,6 @@ function _system($cmd, $doOutput = true) {
     }
 
     if ($doOutput) {
-        echo ">>> $cmd\n";
-
         foreach ($output as $line) {
             echo "> $line\n";
         }
@@ -169,39 +171,38 @@ function clean_deps() {
     }
 }
 
-function regen_lexer($dir = 'app') {
+function regen_lexer($dir = 'app', $debug = 'false') {
     $files = _scandir($dir);
 
     foreach ($files as $file) {
-        if (preg_match('/(.*)\\.lex/', $file, $matches) !== 1) {
+        if (preg_match('/^(.*)\\.lex$/', $file, $matches) !== 1) {
             continue;
         }
 
+        $options = ($debug === 'true' or $debug === true)?
+            '-v': '';
+
         $dest = $matches[1].".php";
-        _system("java -jar jlex-php/JLexPHP.jar -v $file $dest");
+        _system("java -jar jlex-php/JLexPHP.jar $options $file $dest");
     }
 }
 
-function regen_parser($dir = 'app') {
+function regen_parser($dir = 'app', $debug = 'false') {
     $files = _scandir($dir);
 
     foreach ($files + ["$dir/PDGL.phpy"] as $file) {
-        if (preg_match('/(.*)\\.phpy/', $file, $matches) !== 1) {
+        if (preg_match('/^(.*)\\.phpy$/', $file, $matches) !== 1) {
             continue;
         }
 
-        $yacc = file_get_contents($file);
+        $options = ($debug === 'true' or $debug === true)?
+            '-t': '';
 
-        // $yacc = preg_replace('/\$\d+/', '$this->semStack[$0]', $yacc);
-
-        file_put_contents('.regen-parser.tmp.phpy', $yacc);
+        $name = explode(DIRECTORY_SEPARATOR, $matches[1]);
+        $name = $name[count($name) - 1];
 
         $model = $matches[1].".php.tpl";
-        $dest = $matches[1].".php";
-
-        _system("kmyacc/kmyacc -l -m $model .regen-parser.tmp.phpy");
-
-        copy('.regen-parser.tmp.php', $dest);
+        _system("kmyacc/kmyacc $options -l -p $name -m $model $file");
 
         if ($file !== "$dir/PDGL.phpy") {
             copy($file, "$dir/PDGL.phpy");
@@ -211,12 +212,9 @@ function regen_parser($dir = 'app') {
     if (file_exists("$dir/PDGL.phpy")) {
         unlink("$dir/PDGL.phpy");
     }
-
-    unlink(".regen-parser.tmp.phpy");
-    unlink(".regen-parser.tmp.php");
 }
 
-function regen_all($dir = 'app') {
-    regen_lexer($dir);
-    regen_parser($dir);
+function regen_all($dir = 'app', $debug = 'false') {
+    regen_lexer($dir, $debug);
+    regen_parser($dir, $debug);
 }
