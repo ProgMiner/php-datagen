@@ -78,7 +78,7 @@ class_ext_impls
 	;
 
 class_extends
-	:						{ $$ = null; }
+	:						{ $$ = ''; }
 	| T_EXTENDS class_name	{ $$ = $2; }
 	;
 
@@ -89,7 +89,7 @@ class_implements
 
 class_name
 	: literal
-	| '\\' literal				{ $$ = $1.$2.$3; }
+	| '\\' literal				{ $$ = $1.$2; }
 	| class_name '\\' literal	{ $$ = $1.$2.$3; }
 	;
 

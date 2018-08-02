@@ -27,8 +27,8 @@ SOFTWARE. */
 $meta #
 #semval($) $this->yyval
 #semval($,%t) $this->yyval
-#semval(%n) ($this->yyastk[$yysp - (%l - %n)] ?? '')
-#semval(%n,%t) ($this->yyastk[$yysp - (%l - %n)] ?? '')
+#semval(%n) $this->yyastk[$yysp - (%l - %n)]
+#semval(%n,%t) $this->yyastk[$yysp - (%l - %n)]
 namespace PHPDataGen\PDGL;
 
 use PhpParser\ParserFactory;
