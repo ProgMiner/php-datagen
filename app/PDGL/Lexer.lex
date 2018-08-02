@@ -57,7 +57,5 @@ L = {W}({W}|{N})*
 <YYINITIAL>	":="	{ return $this->createToken(PDGL::T_COLON_ASSIGN); }
 <YYINITIAL>	"<="	{ return $this->createToken(PDGL::T_ARROW_ASSIGN); }
 
-<YYINITIAL> \"(\\.|[^\\\"])*\" 	{ return $this->createToken(PDGL::T_STRING); }
-
 <YYINITIAL>	{L}	{ return $this->createToken(PDGL::T_LITERAL); }
 <YYINITIAL>	.	{ return $this->createToken(); }
