@@ -185,7 +185,7 @@ php_expr
 	| php_string_dq
 	| '$' php_expr			{ $$ = $1.$2; }
 	| php_expr php_expr		{ $$ = $1.$2; }
-	| '(' php_expr ')'		{ $$ = $1.$2.$3; }
+	| '(' php_expr_list ')'	{ $$ = $1.$2.$3; }
 	| php_expr '='			{ $$ = $1.$2; }
 	| '=' php_expr			{ $$ = $1.$2; }
 	| '&' php_expr			{ $$ = $1.$2; }
@@ -222,9 +222,25 @@ php_expr
 	| php_expr '>' '='		{ $$ = $1.$2.$3; }
 	| '@' php_expr			{ $$ = $1.$2; }
 	| php_expr ':' ':'		{ $$ = $1.$2.$3; }
-	| '[' php_expr ']'		{ $$ = $1.$2.$3; }
+	| '[' php_expr_list ']'	{ $$ = $1.$2.$3; }
 	| '`' php_expr '`'		{ $$ = $1.$2.$3; }
-	| '{' php_expr '}'		{ $$ = $1.$2.$3; }
+	| '{' php_stmts '}'		{ $$ = $1.$2.$3; }
+	;
+
+php_expr_list
+	:						{ $$ = ''; }
+	| php_expr
+	| php_expr ',' php_expr	{ $$ = $1.$2.$3; }
+	;
+
+php_stmt
+	: php_expr ';'	{ $$ = $1.$2; }
+	;
+
+php_stmts
+	:
+	| php_stmt
+	| php_stmt php_stmt	{ $$ = $1.$2; }
 	;
 
 php_string_dq
