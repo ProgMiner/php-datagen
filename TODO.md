@@ -1,5 +1,6 @@
 # TODO
 
+- Constants
 - Annotations
 - Interfaces
 - Data classes
