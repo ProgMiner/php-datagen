@@ -58,19 +58,6 @@ class Parser extends \Kmyacc\AbstractParser {
     const YYUNEXPECTED = 32767;
     const YYDEFAULT = -32766;
 
-    const YYERRTOK = 256;
-    const T_FINAL = 257;
-    const T_CLASS = 258;
-    const T_EXTENDS = 259;
-    const T_IMPLEMENTS = 260;
-    const T_DIRECT = 261;
-    const T_VAL = 262;
-    const T_VAR = 263;
-    const T_TRIPLE_BACKQUOTE = 264;
-    const T_COLON_ASSIGN = 265;
-    const T_ARROW_ASSIGN = 266;
-    const T_LITERAL = 267;
-
     protected $yytranslate = [
            84,   77,   78,   79,   80,   81,   82,   83,  140,  140,
           140,  140,  140,  140,  140,  140,  140,  140,  140,  140,

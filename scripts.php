@@ -190,7 +190,8 @@ function regen_lexer($dir = 'app', $debug = 'false') {
 function regen_parser($dir = 'app', $debug = 'false') {
     $files = _scandir($dir);
 
-    foreach ($files + ["$dir/PDGL.phpy"] as $file) {
+    $files[] = "$dir/PDGL.phpy";
+    foreach ($files as $file) {
         if (preg_match('/^(.*)\\.phpy$/', $file, $matches) !== 1) {
             continue;
         }

@@ -64,10 +64,6 @@ class #(-p) extends \Kmyacc\AbstractParser {
     const YYUNEXPECTED = #(YYUNEXPECTED);
     const YYDEFAULT = #(YYDEFAULT);
 
-#tokenval
-    const %s = %n;
-#endtokenval
-
     protected $yytranslate = [
         #listvar yytranslate
     ];
