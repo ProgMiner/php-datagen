@@ -43,9 +43,7 @@ class
             $$ = new Model\Class_([
                 'name' => $3,
 
-                'data'       => ($1 & 4) !== 0,
-                'final'      => ($1 & 1) !== 0,
-                'finalFinal' => ($1 & 2) !== 0,
+				'flags' => $1,
 
                 'extends'    => $4['extends'],
                 'implements' => $4['implements'],
@@ -67,9 +65,15 @@ literal
 	;
 
 class_mods
-	:				{ $$ = 0; }
-	| T_FINAL		{ $$ = 1; }
-	| T_FINAL '!'	{ $$ = 3; }
+	:						{ $$ = 0; }
+	| class_mod				{ $$ = $1; }
+	| class_mods class_mod	{ $$ = static::applyFlag($1, $2); }
+	;
+
+class_mod
+	: T_FINAL		{ $$ = Model\Class_::FLAG_FINAL; }
+	| T_FINAL '!'	{ $$ = Model\Class_::FLAG_FINAL_FINAL; }
+//	| T_DATA		{ $$ = Model\Class_::FLAG_DATA; }
 	;
 
 class_ext_impls
@@ -114,27 +118,24 @@ field
             $$ = new Model\Field([
                 'name' => $3,
 
-                'editable' => $2,
-                'direct'   => ($1 & 1) !== 0,
+				'flags' => $1 | $2 | $5['assign'],
 
                 'type' => $4,
 
-                'directDefining' => ($5['assign'] & 2) !== 0,
-                'filterDefault'  => ($5['assign'] & 1) !== 0,
-                'default'        => is_null($5['value'])?
-					null: $this->parseDefval($5['value'])
+                'default' => is_null($5['value'])?
+					null: static::parseDefval($5['value'])
             ]);
 		}
 	;
 
 field_mods
 	:			{ $$ = 0; }
-	| T_DIRECT	{ $$ = 1; }
+	| T_DIRECT	{ $$ = Model\Field::FLAG_DIRECT; }
 	;
 
 field_keyword
-	: T_VAL	{ $$ = false; }
-	| T_VAR	{ $$ = true; }
+	: T_VAL	{ $$ = 0; }
+	| T_VAR	{ $$ = Model\Field::FLAG_EDITABLE; }
 	;
 
 field_type
@@ -148,7 +149,7 @@ field_typename
 	;
 
 field_defval
-	:					{ $$ = ['assign' => 1, 'value' => null]; }
+	:					{ $$ = ['assign' => 0, 'value' => null]; }
 	| assign php_expr
 		{
             $$ = [
@@ -158,16 +159,10 @@ field_defval
 		}
 	;
 
-/* Assign
- *
- * 1st bit - filter default
- * 2nd bit - direct defining
- *
- */
 assign
-	: '='				{ $$ = 1; }
+	: '='				{ $$ = Model\Field::FLAG_FILTER_DEFAULT; }
 	| T_COLON_ASSIGN	{ $$ = 0; }
-	| T_ARROW_ASSIGN	{ $$ = 2; }
+	| T_ARROW_ASSIGN	{ $$ = Model\Field::FLAG_DIRECT_DEFINING; }
 	;
 
 php_expr
@@ -243,7 +238,15 @@ php_string_dq
 
 %%
 
-    public function parseDefval(string $value): Node\Expr {
+	public static function applyFlag(int $flags, int $flag): int {
+		if ($flags & $flag) {
+			$this->yyerror('Flag has already set');
+		}
+
+		return $flags | $flag;
+	}
+
+    public static function parseDefval(string $value): Node\Expr {
         static $parser = null;
 
         if (is_null($parser)) {

@@ -27,20 +27,28 @@ namespace PHPDataGen\Model;
 use PhpParser\Node;
 
 use PHPDataGen\Type;
+use PHPDataGen\Model;
 
 /**pdgl
 
-final class Field {
+class Field extends Model {
 
     var name: string;
 
-    var editable: bool <= false;
-    var direct:   bool <= false;
+    var flags: int = 4;
+    var type:  Type;
 
-    var type: Type;
-
-    var directDefining: bool <= false;
-    var filterDefault:  bool <= true;
-    var default:        Node\Expr?;
+    var default: Node\Expr?;
 }
 */
+
+/**
+ * @author Eridan Domoratskiy
+ */
+class Field extends Data_Field {
+
+    const FLAG_EDITABLE        = 1;
+    const FLAG_DIRECT          = 2;
+    const FLAG_FILTER_DEFAULT  = 4;
+    const FLAG_DIRECT_DEFINING = 8;
+}

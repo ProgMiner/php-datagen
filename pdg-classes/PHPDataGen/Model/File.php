@@ -2,7 +2,7 @@
 
 namespace PHPDataGen\Model;
 
-class File
+class File extends \PHPDataGen\Model
 {
     use \PHPDataGen\DataClassTrait;
     private const FIELDS = ['namespace' => 'Namespace', 'uses' => 'Uses', 'class' => 'Class'];

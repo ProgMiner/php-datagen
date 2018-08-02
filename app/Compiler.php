@@ -111,10 +111,22 @@ class Compiler {
         return $result;
     }
 
+    protected function testFlag($flags, int $flag) {
+        if (!is_int($flags)) {
+            if (!isset($flags->flags)) {
+                throw new \InvalidArgumentException('Flags is not int and has not flags property');
+            }
+
+            $flags = $flags->flags;
+        }
+
+        return ($flags & $flag) === $flag;
+    }
+
     protected function makeClassName(Model\Class_ $model): string {
         $ret = '';
 
-        if (!$model->final) {
+        if (!$this->testFlag($model, Model\Class_::FLAG_FINAL)) {
             $ret .= $this->classPrefix;
         }
 
@@ -132,15 +144,11 @@ class Compiler {
 
         $result = $factory->class($this->makeClassName($model));
 
-        if ($model->finalFinal) {
-            if (!$model->final) {
-                throw new CompilationException('Class cannot be final final and not final');
-            }
-
+        if ($this->testFlag($model, Model\Class_::FLAG_FINAL_FINAL)) {
             $result->makeFinal();
         }
 
-        if (!$model->final) {
+        if (!$this->testFlag($model, Model\Class_::FLAG_FINAL)) {
             $result->makeAbstract();
         }
 
@@ -166,13 +174,13 @@ class Compiler {
         foreach ($model->fields as $field) {
             $builder = $factory->property($field->name);
 
-            if ($field->direct) {
+            if ($this->testFlag($field, Model\Field::FLAG_DIRECT)) {
                 $builder->makeProtected();
             } else {
                 $builder->makePrivate();
             }
 
-            if ($field->directDefining) {
+            if ($this->testFlag($field, Model\Field::FLAG_DIRECT_DEFINING)) {
                 $builder->setDefault($field->default);
             } else {
                 $builder->setDefault($field->type->getDefaultValue());
@@ -193,7 +201,7 @@ class Compiler {
                     $getter->setReturnType($field->type->toTypeHint());
                 }
 
-                if ($field->editable) {
+                if ($this->testFlag($field, Model\Field::FLAG_EDITABLE)) {
                     $getter->makeReturnByRef();
                 }
 
@@ -225,7 +233,7 @@ class Compiler {
             }
 
             // Setter
-            if ($field->editable) {
+            if ($this->testFlag($field, Model\Field::FLAG_EDITABLE)) {
                 $setter = $factory->method($this->convertFieldNameForMethod($field->name, 'set'))->
                     makePublic()->
 
@@ -297,12 +305,12 @@ class Compiler {
 
         // Default values
         foreach ($model->fields as $field) {
-            if ($field->directDefining || is_null($field->default)) {
+            if ($this->testFlag($field, Model\Field::FLAG_DIRECT_DEFINING) || is_null($field->default)) {
                 continue;
             }
 
             $value = null;
-            if ($field->filterDefault) {
+            if ($this->testFlag($field, Model\Field::FLAG_FILTER_DEFAULT)) {
                 $value = $factory->methodCall(
                     new Node\Expr\Variable('this'),
                     $this->convertFieldNameForMethod($field->name, 'validate'),

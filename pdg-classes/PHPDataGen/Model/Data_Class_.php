@@ -2,19 +2,18 @@
 
 namespace PHPDataGen\Model;
 
-class Class_
+abstract class Data_Class_ extends \PHPDataGen\Model
 {
     use \PHPDataGen\DataClassTrait;
-    private const FIELDS = ['name' => 'Name', 'data' => 'Data', 'final' => 'Final', 'finalFinal' => 'FinalFinal', 'extends' => 'Extends', 'implements' => 'Implements', 'fields' => 'Fields'];
+    private const FIELDS = ['name' => 'Name', 'flags' => 'Flags', 'extends' => 'Extends', 'implements' => 'Implements', 'fields' => 'Fields'];
     private $name = '';
-    private $data = false;
-    private $final = false;
-    private $finalFinal = false;
+    private $flags = 0;
     private $extends = '';
     private $implements = [];
     private $fields = [];
     public function __construct(array $init = [])
     {
+        $this->flags = $this->validateFlags(0);
         foreach ($init as $field => $value) {
             $this->{$field} = $this->{'validate' . self::FIELDS[$field]}($value);
         }
@@ -33,46 +32,18 @@ class Class_
         $this->name = $this->validateName($value);
         return $oldValue;
     }
-    public function &getData() : bool
+    public function &getFlags() : int
     {
-        return $this->data;
+        return $this->flags;
     }
-    protected function validateData($value) : bool
+    protected function validateFlags($value) : int
     {
         return $value;
     }
-    public function setData($value) : bool
+    public function setFlags($value) : int
     {
-        $oldValue = $this->data;
-        $this->data = $this->validateData($value);
-        return $oldValue;
-    }
-    public function &getFinal() : bool
-    {
-        return $this->final;
-    }
-    protected function validateFinal($value) : bool
-    {
-        return $value;
-    }
-    public function setFinal($value) : bool
-    {
-        $oldValue = $this->final;
-        $this->final = $this->validateFinal($value);
-        return $oldValue;
-    }
-    public function &getFinalFinal() : bool
-    {
-        return $this->finalFinal;
-    }
-    protected function validateFinalFinal($value) : bool
-    {
-        return $value;
-    }
-    public function setFinalFinal($value) : bool
-    {
-        $oldValue = $this->finalFinal;
-        $this->finalFinal = $this->validateFinalFinal($value);
+        $oldValue = $this->flags;
+        $this->flags = $this->validateFlags($value);
         return $oldValue;
     }
     public function &getExtends() : string
