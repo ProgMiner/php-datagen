@@ -10,7 +10,7 @@ class Class_
     private $data = false;
     private $final = false;
     private $finalFinal = false;
-    private $extends = null;
+    private $extends = '';
     private $implements = [];
     private $fields = [];
     public function __construct(array $init = [])
@@ -75,15 +75,15 @@ class Class_
         $this->finalFinal = $this->validateFinalFinal($value);
         return $oldValue;
     }
-    public function &getExtends() : ?string
+    public function &getExtends() : string
     {
         return $this->extends;
     }
-    protected function validateExtends($value) : ?string
+    protected function validateExtends($value) : string
     {
         return $value;
     }
-    public function setExtends($value) : ?string
+    public function setExtends($value) : string
     {
         $oldValue = $this->extends;
         $this->extends = $this->validateExtends($value);

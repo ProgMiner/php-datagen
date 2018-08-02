@@ -144,7 +144,7 @@ class Compiler {
             $result->makeAbstract();
         }
 
-        if (!is_null($model->extends)) {
+        if (!empty($model->extends)) {
             $result->extend($model->extends);
         }
 

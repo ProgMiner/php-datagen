@@ -28,8 +28,6 @@ use PhpParser\NodeVisitorAbstract;
 use PhpParser\Comment;
 use PhpParser\Node;
 
-use PHPDataGen\Builder;
-
 /**
  * PHP walker
  *
@@ -43,31 +41,29 @@ class PHPWalker extends NodeVisitorAbstract {
     protected $code = '';
 
     /**
-     * @var Builder\File File builder
+     * @var Model\File File model
      */
-    protected $builder;
+    protected $model;
 
-    public function __construct(?Builder\File $builder = null) {
-        $this->builder = $builder ?? new Builder\File();
+    public function __construct(?Model\File $model = null) {
+        $this->model = $model ?? new Model\File();
     }
 
     public function getCode(): string {
         return $this->code;
     }
 
-    public function getBuilder(): Builder\File {
-        return $this->builder;
+    public function getModel(): Model\File {
+        return $this->model;
     }
 
     public function leaveNode(Node $node) {
         if (is_a($node, Node\Stmt\Namespace_::class, false)) {
-            $this->builder->setNamespace($node->name);
+            $this->model->namespace = $node->name;
         }
 
         if (is_a($node, Node\Stmt\Use_::class, false)) {
-            $this->builder->addUse(
-                new Node\Stmt\Use_($node->uses, $node->type)
-            );
+            $this->model->uses[] = new Node\Stmt\Use_($node->uses, $node->type);
         }
 
         foreach ($node->getComments() as $comment) {

@@ -31,6 +31,6 @@ final class File {
     var namespace: string;
     var uses: array; // PhpParser\Node\Stmt\Use_
 
-    var class: Class_;
+    var class: Class_?;
 }
 */

@@ -34,7 +34,7 @@ final class Class_ {
     var final:      bool <= false;
     var finalFinal: bool <= false;
 
-    var extends: string?;
+    var extends: string;
     var implements: array;
 
     var fields: array;

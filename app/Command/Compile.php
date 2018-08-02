@@ -41,8 +41,8 @@ use PhpParser\Node;
 use PHPDataGen\Exception;
 use PHPDataGen\PHPWalker;
 use PHPDataGen\Compiler;
-use PHPDataGen\Parsing;
 use PHPDataGen\Model;
+use PHPDataGen\PDGL;
 
 /**
  * Compile command
@@ -69,27 +69,29 @@ class Compile extends Command {
         $phpTraverser->addVisitor($phpWalker);
         $phpTraverser->traverse($phpAST);
 
-        $pdglParser = new Parsing\Parser(
-            new Parsing\Conveyor($phpWalker->getCode()),
-            $phpWalker->getBuilder()
+        $pdglParser = new PDGL\Parser(
+            new PDGL\Lexer($phpWalker->getCode())
         );
 
+        $models = [];
         try {
-            $pdglParser->parse();
+            $models = $pdglParser->yyparse();
         } catch (Exception\Parsing $e) {
             $io->error("Parsing error: {$e->getMessage()}");
             return;
         }
 
-        $models = (function($builders) {
+        $model = $phpWalker->getModel();
+        $models = (function($classes) use($model) {
             $ret = [];
 
-            foreach ($builders as $builder) {
-                $ret[] = $builder->build();
+            foreach ($classes as $class) {
+                $model->class = $class;
+                $ret[] = clone $model;
             }
 
             return $ret;
-        })($pdglParser->getCurrentState()->getBuilders());
+        })($models);
 
         $editTime = -1;
         if ($checkTime) {
