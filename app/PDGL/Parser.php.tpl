@@ -29,8 +29,10 @@ $meta #
 #semval($,%t) $this->yyval
 #semval(%n) ($this->yyastk[$yysp - (%l - %n)] ?? '')
 #semval(%n,%t) ($this->yyastk[$yysp - (%l - %n)] ?? '')
-
 namespace PHPDataGen\PDGL;
+
+use PhpParser\ParserFactory;
+use PhpParser\Node;
 
 use PHPDataGen\Model;
 use PHPDataGen\Type;
@@ -146,5 +148,5 @@ class #(-p) extends \Kmyacc\AbstractParser {
 #endreduce
         ];
     }
-}
 #tailcode;
+}

@@ -24,8 +24,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-
 namespace PHPDataGen\PDGL;
+
+use PhpParser\ParserFactory;
+use PhpParser\Node;
 
 use PHPDataGen\Model;
 use PHPDataGen\Type;
@@ -299,7 +301,6 @@ class Parser extends \Kmyacc\AbstractParser {
         parent::__construct($lexer);
     }
 
-
     protected function initReduceCallbacks() {
         $this->reduceCallbacks = [
             0 => function ($yysp) {
@@ -315,25 +316,25 @@ class Parser extends \Kmyacc\AbstractParser {
                  $this->yyval = [($this->yyastk[$yysp - (1 - 1)] ?? '')]; 
             },
             4 => function ($yysp) {
-                 ($this->yyastk[$yysp - (2 - 1)] ?? '')[] = ($this->yyastk[$yysp - (2 - 2)] ?? ''); $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? ''); 
+                 $this->yyval = array_merge(($this->yyastk[$yysp - (2 - 1)] ?? ''), [($this->yyastk[$yysp - (2 - 2)] ?? '')]); 
             },
             5 => function ($yysp) {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
             },
             6 => function ($yysp) {
                 
-			$this->yyval = new Model\Class_([
-				'name' => ($this->yyastk[$yysp - (7 - 3)] ?? ''),
+            $this->yyval = new Model\Class_([
+                'name' => ($this->yyastk[$yysp - (7 - 3)] ?? ''),
 
-				'data'       => (($this->yyastk[$yysp - (7 - 1)] ?? '') & 4) !== false,
-				'final'      => (($this->yyastk[$yysp - (7 - 1)] ?? '') & 1) !== false,
-				'finalFinal' => (($this->yyastk[$yysp - (7 - 1)] ?? '') & 2) !== false,
+                'data'       => (($this->yyastk[$yysp - (7 - 1)] ?? '') & 4) !== false,
+                'final'      => (($this->yyastk[$yysp - (7 - 1)] ?? '') & 1) !== false,
+                'finalFinal' => (($this->yyastk[$yysp - (7 - 1)] ?? '') & 2) !== false,
 
-				'extends'    => ($this->yyastk[$yysp - (7 - 4)] ?? '')['extends'],
-				'implements' => ($this->yyastk[$yysp - (7 - 4)] ?? '')['implements'],
+                'extends'    => ($this->yyastk[$yysp - (7 - 4)] ?? '')['extends'],
+                'implements' => ($this->yyastk[$yysp - (7 - 4)] ?? '')['implements'],
 
-				'fields' => ($this->yyastk[$yysp - (7 - 6)] ?? '')
-			]);
+                'fields' => ($this->yyastk[$yysp - (7 - 6)] ?? '')
+            ]);
 		
             },
             7 => function ($yysp) {
@@ -376,7 +377,7 @@ class Parser extends \Kmyacc\AbstractParser {
                  $this->yyval = [($this->yyastk[$yysp - (1 - 1)] ?? '')]; 
             },
             20 => function ($yysp) {
-                 ($this->yyastk[$yysp - (3 - 1)] ?? '')[] = ($this->yyastk[$yysp - (3 - 3)] ?? ''); $this->yyval = ($this->yyastk[$yysp - (3 - 1)] ?? ''); 
+                 $this->yyval = array_merge(($this->yyastk[$yysp - (3 - 1)] ?? ''), ($this->yyastk[$yysp - (3 - 3)] ?? '')); 
             },
             21 => function ($yysp) {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
@@ -385,25 +386,25 @@ class Parser extends \Kmyacc\AbstractParser {
                  $this->yyval = [($this->yyastk[$yysp - (1 - 1)] ?? '')]; 
             },
             23 => function ($yysp) {
-                 ($this->yyastk[$yysp - (2 - 1)] ?? '')[] = ($this->yyastk[$yysp - (2 - 2)] ?? ''); $this->yyval = ($this->yyastk[$yysp - (2 - 1)] ?? ''); 
+                 $this->yyval = array_merge(($this->yyastk[$yysp - (2 - 1)] ?? ''), ($this->yyastk[$yysp - (2 - 2)] ?? '')); 
             },
             24 => function ($yysp) {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
             },
             25 => function ($yysp) {
                 
-			$this->yyval = new Model\Field([
-				'name' => ($this->yyastk[$yysp - (6 - 3)] ?? ''),
+            $this->yyval = new Model\Field([
+                'name' => ($this->yyastk[$yysp - (6 - 3)] ?? ''),
 
-				'editable' => ($this->yyastk[$yysp - (6 - 2)] ?? ''),
-				'direct'   => (($this->yyastk[$yysp - (6 - 1)] ?? '') & 1) !== false,
+                'editable' => ($this->yyastk[$yysp - (6 - 2)] ?? ''),
+                'direct'   => (($this->yyastk[$yysp - (6 - 1)] ?? '') & 1) !== false,
 
-				'type' => ($this->yyastk[$yysp - (6 - 4)] ?? ''),
+                'type' => ($this->yyastk[$yysp - (6 - 4)] ?? ''),
 
-				'directDefining' => (($this->yyastk[$yysp - (6 - 5)] ?? '')['assign'] & 2) !== false,
-				'filterDefault'  => (($this->yyastk[$yysp - (6 - 5)] ?? '')['assign'] & 1) !== false,
-				'default'        => $this->parsePHP(($this->yyastk[$yysp - (6 - 5)] ?? '')['value'])
-			];
+                'directDefining' => (($this->yyastk[$yysp - (6 - 5)] ?? '')['assign'] & 2) !== false,
+                'filterDefault'  => (($this->yyastk[$yysp - (6 - 5)] ?? '')['assign'] & 1) !== false,
+                'default'        => $this->parsePHP(($this->yyastk[$yysp - (6 - 5)] ?? '')['value'])
+            ]);
 		
             },
             26 => function ($yysp) {
@@ -435,10 +436,10 @@ class Parser extends \Kmyacc\AbstractParser {
             },
             35 => function ($yysp) {
                 
-			$this->yyval = [
-				'assign' => ($this->yyastk[$yysp - (2 - 1)] ?? ''),
-				'value'  => ($this->yyastk[$yysp - (2 - 2)] ?? ''),
-			];
+            $this->yyval = [
+                'assign' => ($this->yyastk[$yysp - (2 - 1)] ?? ''),
+                'value'  => ($this->yyastk[$yysp - (2 - 2)] ?? ''),
+            ];
 		
             },
             36 => function ($yysp) {
@@ -1064,5 +1065,13 @@ class Parser extends \Kmyacc\AbstractParser {
             },
         ];
     }
-}
 
+    public function parsePHP(string $code): Node\Expr {
+        $value = "<?php $value;";
+
+        $parser = (new ParserFactory())->create(ParserFactory::ONLY_PHP7);
+        $ret = $parser->parse($value);
+
+        return $ret[0]->expr;
+    }
+}

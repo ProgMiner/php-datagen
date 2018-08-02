@@ -30,10 +30,7 @@ $meta #
 #semval(%n) $this->yyastk[$yysp-(%l-%n)]
 #semval(%n,%t) $this->yyastk[$yysp-(%l-%n)]
 namespace PHPDataGen;
-
-/* Unused code
 #include;
-*/
 
 /**
  * This is an automatically GENERATED file, which should not be manually edited.
