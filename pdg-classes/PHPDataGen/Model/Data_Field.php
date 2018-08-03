@@ -6,7 +6,7 @@ abstract class Data_Field extends \PHPDataGen\Model
 {
     use \PHPDataGen\DataClassTrait;
     private const FIELDS = ['name' => 'Name', 'flags' => 'Flags', 'type' => 'Type', 'default' => 'Default'];
-    private $name = '';
+    private $name = null;
     private $flags = 0;
     private $type = null;
     private $default = null;
@@ -17,15 +17,15 @@ abstract class Data_Field extends \PHPDataGen\Model
             $this->{$field} = $this->{'validate' . self::FIELDS[$field]}($value);
         }
     }
-    public function &getName() : string
+    public function &getName() : \PhpParser\Node\Identifier
     {
         return $this->name;
     }
-    protected function validateName($value) : string
+    protected function validateName($value) : \PhpParser\Node\Identifier
     {
         return $value;
     }
-    public function setName($value) : string
+    public function setName($value) : \PhpParser\Node\Identifier
     {
         $oldValue = $this->name;
         $this->name = $this->validateName($value);

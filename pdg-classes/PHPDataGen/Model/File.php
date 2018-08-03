@@ -6,7 +6,7 @@ class File extends \PHPDataGen\Model
 {
     use \PHPDataGen\DataClassTrait;
     private const FIELDS = ['namespace' => 'Namespace', 'uses' => 'Uses', 'class' => 'Class'];
-    private $namespace = '';
+    private $namespace = null;
     private $uses = [];
     private $class = null;
     public function __construct(array $init = [])
@@ -15,15 +15,15 @@ class File extends \PHPDataGen\Model
             $this->{$field} = $this->{'validate' . self::FIELDS[$field]}($value);
         }
     }
-    public function &getNamespace() : string
+    public function &getNamespace() : ?\PhpParser\Node\Name
     {
         return $this->namespace;
     }
-    protected function validateNamespace($value) : string
+    protected function validateNamespace($value) : ?\PhpParser\Node\Name
     {
         return $value;
     }
-    public function setNamespace($value) : string
+    public function setNamespace($value) : ?\PhpParser\Node\Name
     {
         $oldValue = $this->namespace;
         $this->namespace = $this->validateNamespace($value);

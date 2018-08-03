@@ -104,8 +104,8 @@ class Compiler {
 
         $result[] = $this->compileClass($model->class);
 
-        if (!empty($model->namespace)) {
-            $result = [new Node\Stmt\Namespace_(new Node\Name($model->namespace), $result)];
+        if (!is_null($model->namespace)) {
+            $result = [new Node\Stmt\Namespace_($model->namespace, $result)];
         }
 
         return $result;
@@ -123,16 +123,16 @@ class Compiler {
         return ($flags & $flag) === $flag;
     }
 
-    protected function makeClassName(Model\Class_ $model): string {
+    protected function makeClassName(Model\Class_ $model): Node\Identifier {
         $ret = '';
 
         if (!$this->testFlag($model, Model\Class_::FLAG_FINAL)) {
             $ret .= $this->classPrefix;
         }
 
-        $ret .= $model->name;
+        $ret .= (string) $model->name;
 
-        return $ret;
+        return new Node\Identifier($ret);
     }
 
     protected function convertFieldNameForMethod(string $name, string $prefix = ''): string {
@@ -152,7 +152,7 @@ class Compiler {
             $result->makeAbstract();
         }
 
-        if (!empty($model->extends)) {
+        if (!is_null($model->extends)) {
             $result->extend($model->extends);
         }
 
@@ -193,8 +193,10 @@ class Compiler {
         $result->addStmt($this->buildClassConstructor($model, $factory));
 
         foreach ($model->fields as $field) {
+            $nameForMethod = $this->convertFieldNameForMethod($field->name);
+
             { // Getter
-                $getter = $factory->method($this->convertFieldNameForMethod($field->name, 'get'))->
+                $getter = $factory->method("get$nameForMethod")->
                     makePublic();
 
                 if (!$field->type->mixed) {
@@ -216,7 +218,7 @@ class Compiler {
             }
 
             { // Validator
-                $validator = $factory->method($this->convertFieldNameForMethod($field->name, 'validate'))->
+                $validator = $factory->method("validate$nameForMethod")->
                     makeProtected()->
 
                     addParam($factory->param('value'));
@@ -234,7 +236,7 @@ class Compiler {
 
             // Setter
             if ($this->testFlag($field, Model\Field::FLAG_EDITABLE)) {
-                $setter = $factory->method($this->convertFieldNameForMethod($field->name, 'set'))->
+                $setter = $factory->method("set$nameForMethod")->
                     makePublic()->
 
                     addParam($factory->param('value'));
@@ -261,7 +263,7 @@ class Compiler {
                         ),
                         $factory->methodCall(
                             new Node\Expr\Variable('this'),
-                            $this->convertFieldNameForMethod($field->name, 'validate'),
+                            "validate$nameForMethod",
                             [new Node\Expr\Variable('value')]
                         )
                     )
@@ -284,7 +286,7 @@ class Compiler {
         $fields = [];
 
         foreach ($model->fields as $field) {
-            $fields[$field->name] = $this->convertFieldNameForMethod($field->name);
+            $fields[(string) $field->name] = $this->convertFieldNameForMethod($field->name);
         }
 
         return new Node\Stmt\ClassConst(

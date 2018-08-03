@@ -24,20 +24,22 @@ SOFTWARE. */
 
 namespace PHPDataGen\Model;
 
+use PhpParser\Node;
+
 use PHPDataGen\Model;
 
 /**pdgl
 
 class Class_ extends Model {
 
-    var name: string;
+    var name: Node\Identifier;
 
     var flags: int = 0;
 
-    var extends:    string;
-    var implements: array;
+    var extends:    Node\Name?;
+    var implements: array; // Node\Name[]
 
-    var fields: array;
+    var fields: array; // Field[]
 }
 */
 

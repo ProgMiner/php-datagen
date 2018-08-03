@@ -6,9 +6,9 @@ abstract class Data_Class_ extends \PHPDataGen\Model
 {
     use \PHPDataGen\DataClassTrait;
     private const FIELDS = ['name' => 'Name', 'flags' => 'Flags', 'extends' => 'Extends', 'implements' => 'Implements', 'fields' => 'Fields'];
-    private $name = '';
+    private $name = null;
     private $flags = 0;
-    private $extends = '';
+    private $extends = null;
     private $implements = [];
     private $fields = [];
     public function __construct(array $init = [])
@@ -18,15 +18,15 @@ abstract class Data_Class_ extends \PHPDataGen\Model
             $this->{$field} = $this->{'validate' . self::FIELDS[$field]}($value);
         }
     }
-    public function &getName() : string
+    public function &getName() : \PhpParser\Node\Identifier
     {
         return $this->name;
     }
-    protected function validateName($value) : string
+    protected function validateName($value) : \PhpParser\Node\Identifier
     {
         return $value;
     }
-    public function setName($value) : string
+    public function setName($value) : \PhpParser\Node\Identifier
     {
         $oldValue = $this->name;
         $this->name = $this->validateName($value);
@@ -46,15 +46,15 @@ abstract class Data_Class_ extends \PHPDataGen\Model
         $this->flags = $this->validateFlags($value);
         return $oldValue;
     }
-    public function &getExtends() : string
+    public function &getExtends() : ?\PhpParser\Node\Name
     {
         return $this->extends;
     }
-    protected function validateExtends($value) : string
+    protected function validateExtends($value) : ?\PhpParser\Node\Name
     {
         return $value;
     }
-    public function setExtends($value) : string
+    public function setExtends($value) : ?\PhpParser\Node\Name
     {
         $oldValue = $this->extends;
         $this->extends = $this->validateExtends($value);

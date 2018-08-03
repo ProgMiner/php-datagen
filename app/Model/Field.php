@@ -33,7 +33,7 @@ use PHPDataGen\Model;
 
 class Field extends Model {
 
-    var name: string;
+    var name: Node\Identifier;
 
     var flags: int = 4;
     var type:  Type;

@@ -24,13 +24,15 @@ SOFTWARE. */
 
 namespace PHPDataGen\Model;
 
+use PhpParser\Node;
+
 use PHPDataGen\Model;
 
 /**pdgl
 
 final class File extends Model {
 
-    var namespace: string;
+    var namespace: Node\Name?;
     var uses:      array;  // \PhpParser\Node\Stmt\Use_[]
 
     var class: Class_?;
