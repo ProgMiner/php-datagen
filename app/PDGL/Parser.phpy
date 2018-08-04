@@ -86,6 +86,11 @@ gap
     | T_GAP
     ;
 
+stmt_end
+    : gap
+    | ';'
+    ;
+
 // </General rules>
 
 file
@@ -148,7 +153,7 @@ class_stmt
     ;
 
 field
-    : field_mods field_keyword identifier_ex field_type field_defval ';'
+    : field_mods field_keyword identifier_ex field_type field_defval stmt_end
         {
             $$ = new Model\Field([
                 'name' => $3,
