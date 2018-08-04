@@ -1,7 +1,5 @@
 <?php
 
-// vim:noexpandtab
-
 namespace PHPDataGen\PDGL;
 
 use JLexPHP\Token;
@@ -13,71 +11,73 @@ use PHPDataGen\PDGL;
 %class Lexer
 
 %{
-	protected $gaps = [];
-	protected $lastToken = null;
+    public $sendGaps = false;
 
-	public function createToken(?int $type = null): Token {
-		$token = parent::createToken($type);
+    protected $gaps = [];
+    protected $lastToken = null;
 
-		$this->lastToken = $token;
-		return $token;
-	}
+    public function createToken(?int $type = null): Token {
+        $token = parent::createToken($type);
 
-	public function getGaps(bool $clean = true): array {
-		$gaps = $this->gaps;
+        $this->lastToken = $token;
+        return $token;
+    }
 
-		if ($clean) {
-			$this->gaps = [];
-		}
+    public function getGaps(bool $clean = true): array {
+        $gaps = $this->gaps;
 
-		return $gaps;
-	}
+        if ($clean) {
+            $this->gaps = [];
+        }
 
-	protected function handleStringDQ(bool $init = false) {
-		static $depth = 0;
-		static $quotes = [];
-		static $buf = '';
+        return $gaps;
+    }
 
-		if ($init) {
-			$this->yybegin(self::STRING_DQ);
+    protected function handleStringDQ(bool $init = false) {
+        static $depth = 0;
+        static $quotes = [];
+        static $buf = '';
 
-			$depth = 0;
-			$quotes = [];
-			$buf = '';
-		}
+        if ($init) {
+            $this->yybegin(self::STRING_DQ);
 
-		if ($depth === count($quotes)) {
-			if (in_array($this->yytext(), ["'", '"'])) {
-				$quotes[] = $this->yytext();
-			} else if ($this->yytext() === '}') {
-				--$depth;
-			}
-		} else if ($depth < count($quotes)) {
-			if ($buf === '\\') {
-				$buf = '';
-			} else if ($buf === '$') {
-				if ($this->yytext() === '{') {
-					++$depth;
-				}
+            $depth = 0;
+            $quotes = [];
+            $buf = '';
+        }
 
-				$buf = '';
-			} else {
-				if ($this->yytext() === '\\') {
-					$buf = '\\';
-				} else if ($quotes[count($quotes) - 1] === '"' && $this->yytext() === '$') {
-					$buf = '$';
-				} else if ($this->yytext() === $quotes[count($quotes) - 1]) {
-					array_pop($quotes);
-				}
-			}
-		}
+        if ($depth === count($quotes)) {
+            if (in_array($this->yytext(), ["'", '"'])) {
+                $quotes[] = $this->yytext();
+            } else if ($this->yytext() === '}') {
+                --$depth;
+            }
+        } else if ($depth < count($quotes)) {
+            if ($buf === '\\') {
+                $buf = '';
+            } else if ($buf === '$') {
+                if ($this->yytext() === '{') {
+                    ++$depth;
+                }
 
-		if ($depth === 0 && empty($quotes)) {
-			$this->yybegin(self::YYINITIAL);
-		}
+                $buf = '';
+            } else {
+                if ($this->yytext() === '\\') {
+                    $buf = '\\';
+                } else if ($quotes[count($quotes) - 1] === '"' && $this->yytext() === '$') {
+                    $buf = '$';
+                } else if ($this->yytext() === $quotes[count($quotes) - 1]) {
+                    array_pop($quotes);
+                }
+            }
+        }
 
-		return $this->createToken(PDGL::T_STRING_DQ);
-	}
+        if ($depth === 0 && empty($quotes)) {
+            $this->yybegin(self::YYINITIAL);
+        }
+
+        return $this->createToken(PDGL::T_STRING_DQ);
+    }
 %}
 
 %line
@@ -85,33 +85,40 @@ use PHPDataGen\PDGL;
 
 %state STRING_DQ
 
-W	= [a-zA-Z_]
-N	= [0-9]
-S	= [ \b\n\t\f\r]
+W   = [a-zA-Z_]
+N   = [0-9]
+S   = [ \b\n\t\f\r]
 
 L = {W}({W}|{N})*
 
 %%
 
-<STRING_DQ>	.	{ return $this->handleStringDQ(); }
-<YYINITIAL>	\"	{ return $this->handleStringDQ(true); }
+<STRING_DQ> .   { return $this->handleStringDQ(); }
+<YYINITIAL> \"  { return $this->handleStringDQ(true); }
 
-{S}+|"//".*	{ $this->gaps[] = $this->yytext(); }
+({S}|"//".*)+   {
+    $token = $this->createToken(PDGL::T_GAP);
+    $this->gaps[] = $token;
 
-<YYINITIAL>	"final"			{ return $this->createToken(PDGL::T_FINAL); }
-<YYINITIAL>	"class"			{ return $this->createToken(PDGL::T_CLASS); }
-<YYINITIAL>	"extends"		{ return $this->createToken(PDGL::T_EXTENDS); }
-<YYINITIAL>	"implements"	{ return $this->createToken(PDGL::T_IMPLEMENTS); }
-<YYINITIAL>	"direct"		{ return $this->createToken(PDGL::T_DIRECT); }
-<YYINITIAL>	"val"			{ return $this->createToken(PDGL::T_VAL); }
-<YYINITIAL>	"var"			{ return $this->createToken(PDGL::T_VAR); }
+    if ($this->sendGaps) {
+        return $token;
+    }
+}
 
-<YYINITIAL>	{N}+					{ return $this->createToken(PDGL::T_NUMBER); }
-<YYINITIAL>	"'"(\\.|[^\\\'])*"'"	{ return $this->createToken(PDGL::T_STRING_SQ); }
+<YYINITIAL> "final"         { return $this->createToken(PDGL::T_FINAL); }
+<YYINITIAL> "class"         { return $this->createToken(PDGL::T_CLASS); }
+<YYINITIAL> "extends"       { return $this->createToken(PDGL::T_EXTENDS); }
+<YYINITIAL> "implements"    { return $this->createToken(PDGL::T_IMPLEMENTS); }
+<YYINITIAL> "direct"        { return $this->createToken(PDGL::T_DIRECT); }
+<YYINITIAL> "val"           { return $this->createToken(PDGL::T_VAL); }
+<YYINITIAL> "var"           { return $this->createToken(PDGL::T_VAR); }
 
-<YYINITIAL>	"```"	{ return $this->createToken(PDGL::T_TRIPLE_BACKQUOTE); }
-<YYINITIAL>	":="	{ return $this->createToken(PDGL::T_COLON_ASSIGN); }
-<YYINITIAL>	"<="	{ return $this->createToken(PDGL::T_ARROW_ASSIGN); }
+<YYINITIAL> {N}+                    { return $this->createToken(PDGL::T_NUMBER); }
+<YYINITIAL> "'"(\\.|[^\\\'])*"'"    { return $this->createToken(PDGL::T_STRING_SQ); }
 
-<YYINITIAL>	{L}	{ return $this->createToken(PDGL::T_LITERAL); }
-<YYINITIAL>	.	{ return $this->createToken(); }
+<YYINITIAL> "```"   { return $this->createToken(PDGL::T_TRIPLE_BACKQUOTE); }
+<YYINITIAL> ":="    { return $this->createToken(PDGL::T_COLON_ASSIGN); }
+<YYINITIAL> "<="    { return $this->createToken(PDGL::T_ARROW_ASSIGN); }
+
+<YYINITIAL> {L} { return $this->createToken(PDGL::T_LITERAL); }
+<YYINITIAL> .   { return $this->createToken(); }

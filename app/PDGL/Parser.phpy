@@ -1,4 +1,4 @@
-// vim: syntax=yacc noexpandtab
+// vim: syntax=yacc
 
 %pure_parser
 %expect 6
@@ -21,6 +21,8 @@
 %token T_STRING_SQ
 %token T_STRING_DQ
 
+%right T_GAP
+
 %start file
 
 %%
@@ -28,37 +30,37 @@
 // <General rules>
 
 literal
-	: T_LITERAL
-	| T_DIRECT
-	| T_VAL
-	| T_VAR
-	;
+    : T_LITERAL
+    | T_DIRECT
+    | T_VAL
+    | T_VAR
+    ;
 
 identifier
-	: literal	{ $$ = new Node\Identifier($1); }
-	;
+    : literal   { $$ = new Node\Identifier($1); }
+    ;
 
 identifier_ex_name
-	: literal
-	| T_FINAL
-	| T_CLASS
-	| T_EXTENDS
-	| T_IMPLEMENTS
-	;
+    : literal
+    | T_FINAL
+    | T_CLASS
+    | T_EXTENDS
+    | T_IMPLEMENTS
+    ;
 
 identifier_ex
-	: identifier_ex_name	{ $$ = new Node\Identifier($1); }
-	;
+    : identifier_ex_name    { $$ = new Node\Identifier($1); }
+    ;
 
 name_parts
-	: literal					{ $$ = [$1]; }
-	| name_parts '\\' literal	{ $$ = array_merge($1, [$3]); }
+    : literal                   { $$ = [$1]; }
+    | name_parts '\\' literal   { $$ = array_merge($1, [$3]); }
 
 name
-	: name_parts				{ $$ = new Node\Name($1); }
-	| '\\' name_parts			{ $$ = new Node\Name\FullyQualified($2); }
-	| T_LITERAL '\\' name_parts
-		{
+    : name_parts                { $$ = new Node\Name($1); }
+    | '\\' name_parts           { $$ = new Node\Name\FullyQualified($2); }
+    | T_LITERAL '\\' name_parts
+        {
             // Hack for emulate T_NAMESPACE token
 
             if (strtolower($1) === 'namespace') {
@@ -66,37 +68,42 @@ name
             } else {
                 $$ = new Node\Name(array_merge([$1], $3));
             }
-		}
-	;
+        }
+    ;
 
 names_list
-	: name					{ $$ = [$1]; }
-	| names_list ',' name	{ $$ = array_merge($1, [$3]); }
-	;
+    : name                  { $$ = [$1]; }
+    | names_list ',' name   { $$ = array_merge($1, [$3]); }
+    ;
 
 type
-	: name		{ $$ = new Type($1, false); }
-	| name '?'	{ $$ = new Type($1, true); }
-	;
+    : name      { $$ = new Type($1, false); }
+    | name '?'  { $$ = new Type($1, true); }
+    ;
+
+gap
+    :       { $$ = ''; }
+    | T_GAP
+    ;
 
 // </General rules>
 
 file
-	: file_stmts
-	;
+    : file_stmts
+    ;
 
 file_stmts
-	:						{ $$ = []; }
-	| file_stmts file_stmt	{ $$ = array_merge($1, [$2]); }
-	;
+    :                       { $$ = []; }
+    | file_stmts file_stmt  { $$ = array_merge($1, [$2]); }
+    ;
 
 file_stmt
-	: class
-	;
+    : class
+    ;
 
 class
-	: class_mods T_CLASS identifier class_extends class_implements '{' class_stmts '}'
-		{
+    : class_mods T_CLASS identifier class_extends class_implements '{' class_stmts '}'
+        {
             $$ = new Model\Class_([
                 'name' => $3,
 
@@ -107,42 +114,42 @@ class
 
                 'fields' => $7
             ]);
-		}
-	;
+        }
+    ;
 
 class_mods
-	:						{ $$ = 0; }
-	| class_mods class_mod	{ $$ = static::applyFlag($1, $2); }
-	;
+    :                       { $$ = 0; }
+    | class_mods class_mod  { $$ = static::applyFlag($1, $2); }
+    ;
 
 class_mod
-	: T_FINAL		{ $$ = Model\Class_::FLAG_FINAL; }
-	| T_FINAL '!'	{ $$ = Model\Class_::FLAG_FINAL_FINAL; }
-//	| T_DATA		{ $$ = Model\Class_::FLAG_DATA; }
-	;
+    : T_FINAL       { $$ = Model\Class_::FLAG_FINAL; }
+    | T_FINAL '!'   { $$ = Model\Class_::FLAG_FINAL_FINAL; }
+//  | T_DATA        { $$ = Model\Class_::FLAG_DATA; }
+    ;
 
 class_extends
-	:					{ $$ = null; }
-	| T_EXTENDS name	{ $$ = $2; }
-	;
+    :                   { $$ = null; }
+    | T_EXTENDS name    { $$ = $2; }
+    ;
 
 class_implements
-	:							{ $$ = []; }
-	| T_IMPLEMENTS names_list	{ $$ = $2; }
-	;
+    :                           { $$ = []; }
+    | T_IMPLEMENTS names_list   { $$ = $2; }
+    ;
 
 class_stmts
-	:							{ $$ = []; }
-	| class_stmts class_stmt	{ $$ = array_merge($1, [$2]); }
-	;
+    :                           { $$ = []; }
+    | class_stmts class_stmt    { $$ = array_merge($1, [$2]); }
+    ;
 
 class_stmt
-	: field
-	;
+    : field
+    ;
 
 field
-	: field_mods field_keyword identifier_ex field_type field_defval ';'
-		{
+    : field_mods field_keyword identifier_ex field_type field_defval ';'
+        {
             $$ = new Model\Field([
                 'name' => $3,
 
@@ -153,104 +160,98 @@ field
                 'default' => is_null($5['value'])?
                     null: static::parseDefval($5['value'])
             ]);
-		}
-	;
+
+            $this->lexer->sendGaps = false;
+        }
+    ;
 
 field_mods
-	:			{ $$ = 0; }
-	| T_DIRECT	{ $$ = Model\Field::FLAG_DIRECT; }
-	;
+    :           { $$ = 0; }
+    | T_DIRECT  { $$ = Model\Field::FLAG_DIRECT; }
+    ;
 
 field_keyword
-	: T_VAL	{ $$ = 0; }
-	| T_VAR	{ $$ = Model\Field::FLAG_EDITABLE; }
-	;
+    : T_VAL { $$ = 0; }
+    | T_VAR { $$ = Model\Field::FLAG_EDITABLE; }
+    ;
 
 field_type
-	:			{ $$ = new Type('mixed', false); }
-	| ':' type	{ $$ = $2; }
-	;
+    :           { $$ = new Type('mixed', false); }
+    | ':' type  { $$ = $2; }
+    ;
 
 field_defval
-	:					{ $$ = ['assign' => 0, 'value' => null]; }
-	| assign php_expr	{ $$ = ['assign' => $1, 'value'  => $2]; }
-	;
+    :                       { $$ = ['assign' => 0, 'value' => null]; }
+    | assign gap php_expr   { $$ = ['assign' => $1, 'value'  => $3]; }
+    ;
 
 assign
-	: '='				{ $$ = Model\Field::FLAG_FILTER_DEFAULT; }
-	| T_COLON_ASSIGN	{ $$ = 0; }
-	| T_ARROW_ASSIGN	{ $$ = Model\Field::FLAG_DIRECT_DEFINING; }
-	;
+    : '='               { $this->lexer->sendGaps = true; $$ = Model\Field::FLAG_FILTER_DEFAULT; }
+    | T_COLON_ASSIGN    { $this->lexer->sendGaps = true; $$ = 0; }
+    | T_ARROW_ASSIGN    { $this->lexer->sendGaps = true; $$ = Model\Field::FLAG_DIRECT_DEFINING; }
+    ;
 
 php_expr
-	: T_NUMBER
-	| literal
-	| T_STRING_SQ
-	| php_string_dq
-	| '$' php_expr			{ $$ = $1.$2; }
-	| php_expr '\\'			{ $$ = $1.$2; }
-	| php_expr php_expr		{ $$ = $1.$2; }
-	| '(' php_expr_list ')'	{ $$ = $1.$2.$3; }
-	| php_expr '='			{ $$ = $1.$2; }
-	| '=' php_expr			{ $$ = $1.$2; }
-	| '&' php_expr			{ $$ = $1.$2; }
-	| php_expr '+'			{ $$ = $1.$2; }
-	| php_expr '-'			{ $$ = $1.$2; }
-	| php_expr '*'			{ $$ = $1.$2; }
-	| php_expr '/'			{ $$ = $1.$2; }
-	| php_expr '.'			{ $$ = $1.$2; }
-	| php_expr '%'			{ $$ = $1.$2; }
-	| php_expr '&'			{ $$ = $1.$2; }
-	| php_expr '|'			{ $$ = $1.$2; }
-	| php_expr '^'			{ $$ = $1.$2; }
-	| php_expr '<' '<'		{ $$ = $1.$2.$3; }
-	| php_expr '>' '>'		{ $$ = $1.$2.$3; }
-	| php_expr '*' '*'		{ $$ = $1.$2.$3; }
-	| php_expr '+' '+'		{ $$ = $1.$2.$3; }
-	| php_expr '-' '-'		{ $$ = $1.$2.$3; }
-	| '+' '+' php_expr		{ $$ = $1.$2.$3; }
-	| '-' '-' php_expr		{ $$ = $1.$2.$3; }
-	| php_expr '|' '|'		{ $$ = $1.$2.$3; }
-	| php_expr '&' '&'		{ $$ = $1.$2.$3; }
-	| '+' php_expr			{ $$ = $1.$2; }
-	| '-' php_expr			{ $$ = $1.$2; }
-	| '!' php_expr			{ $$ = $1.$2; }
-	| '~' php_expr			{ $$ = $1.$2; }
-	| php_expr '=' '=' '='	{ $$ = $1.$2.$3.$4; }
-	| php_expr '!' '=' '='	{ $$ = $1.$2.$3.$4; }
-	| php_expr '=' '='		{ $$ = $1.$2.$3; }
-	| php_expr '!' '='		{ $$ = $1.$2.$3; }
-	| php_expr '<' '=' '>'	{ $$ = $1.$2.$3.$4; }
-	| php_expr '<'			{ $$ = $1.$2; }
-	| php_expr '<' '='		{ $$ = $1.$2.$3; }
-	| php_expr '>'			{ $$ = $1.$2; }
-	| php_expr '>' '='		{ $$ = $1.$2.$3; }
-	| '@' php_expr			{ $$ = $1.$2; }
-	| php_expr ':' ':'		{ $$ = $1.$2.$3; }
-	| '[' php_expr_list ']'	{ $$ = $1.$2.$3; }
-	| '`' php_expr '`'		{ $$ = $1.$2.$3; }
-	| '{' php_stmts '}'		{ $$ = $1.$2.$3; }
-	;
+    : php_expr_part
+    | php_expr php_expr_part    { $$ = $1.$2; }
+    ;
 
-php_expr_list
-	:						{ $$ = ''; }
-	| php_expr
-	| php_expr ',' php_expr	{ $$ = $1.$2.$3; }
-	;
-
-php_stmt
-	: php_expr ';'	{ $$ = $1.$2; }
-	;
+php_expr_part
+    : identifier_ex_name
+    | T_STRING_SQ
+    | php_string_dq
+    | php_op
+    | T_GAP
+    | '{' php_stmts '}' { $$ = $1.$2.$3; }
+    ;
 
 php_stmts
-	:						{ $$ = ''; }
-	| php_stmts php_stmt	{ $$ = $1.$2; }
-	;
+    :                       { $$ = ''; }
+    | php_stmts php_stmt    { $$ = $1.$2; }
+
+php_stmt
+    : php_expr
+    | ';'
+    ;
+
+php_op
+    : '[' | ']' | '(' | ')' | '$' | '\\' | '~' | '@' | '!' | '*' | '/' | '%' | '+' | '-' | '.' | '>' | '<' | '&' | '^' | '|' | '='
+
+    | '*' '*'       { $$ = "**"; }
+    | '+' '+'       { $$ = "++"; }
+    | '-' '-'       { $$ = "--"; }
+    | '<' '<'       { $$ = "<<"; }
+    | '>' '>'       { $$ = ">>"; }
+    | '<' '='       { $$ = "<="; }
+    | '>' '='       { $$ = ">="; }
+    | '=' '='       { $$ = "=="; }
+    | '!' '='       { $$ = "!="; }
+    | '<' '>'       { $$ = "<>"; }
+    | '&' '&'       { $$ = "&&"; }
+    | '|' '|'       { $$ = "||"; }
+    | '?' '?'       { $$ = "??"; }
+    | '?' ':'       { $$ = "?:"; }
+    | '+' '='       { $$ = "+="; }
+    | '-' '='       { $$ = "-="; }
+    | '*' '='       { $$ = "*="; }
+    | '/' '='       { $$ = "/="; }
+    | '.' '='       { $$ = ".="; }
+    | '%' '='       { $$ = "%="; }
+    | '&' '='       { $$ = "&="; }
+    | '|' '='       { $$ = "|="; }
+    | '^' '='       { $$ = "^="; }
+    | '=' '=' '='   { $$ = "==="; }
+    | '!' '=' '='   { $$ = "!=="; }
+    | '<' '=' '>'   { $$ = "<=>"; }
+    | '*' '*' '='   { $$ = "**="; }
+    | '<' '<' '='   { $$ = "<<="; }
+    | '>' '>' '='   { $$ = ">>="; }
+    ;
 
 php_string_dq
-	: T_STRING_DQ
-	| php_string_dq T_STRING_DQ	{ $$ = $1.$2; }
-	;
+    : T_STRING_DQ
+    | php_string_dq T_STRING_DQ { $$ = $1.$2; }
+    ;
 
 %%
 

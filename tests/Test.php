@@ -23,6 +23,18 @@ class Test {
     var B4: string = "Bar";
     var B5: string := "Baz";
 
+    val fuckParser = (function($test = 'A') {
+        echo '123';
+
+        try {
+            throw new \Exception('AAA');
+        } catch (\Exception $e) {
+            echo $e->getMessage();
+        }
+
+        return "Jopa {${'test'}}";
+    })('lol');
+
     direct val C;
     direct val C1: string;
     direct val C2 = "Foo";

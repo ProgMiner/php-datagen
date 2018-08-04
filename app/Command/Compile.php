@@ -75,7 +75,7 @@ class Compile extends Command {
 
         $models = [];
         try {
-            $models = $pdglParser->yyparse();
+            $models = $pdglParser->yyparse() ?? [];
         } catch (Exception\Parsing $e) {
             $io->error("Parsing error: {$e->getMessage()}");
             return;

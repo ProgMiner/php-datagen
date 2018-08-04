@@ -52,4 +52,5 @@ final class PDGL {
     const T_NUMBER = 268;
     const T_STRING_SQ = 269;
     const T_STRING_DQ = 270;
+    const T_GAP = 271;
 }

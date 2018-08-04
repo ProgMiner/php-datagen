@@ -1,5 +1,4 @@
 <?php
-// vim:noexpandtab
 namespace PHPDataGen\PDGL;
 use JLexPHP\Token;
 use PHPDataGen\PDGL;
@@ -15,59 +14,60 @@ class Lexer extends \JLexPHP\AbstractLexer  {
 	const YY_BOL = 128;
 	const YY_EOF = 129;
 
-	protected $gaps = [];
-	protected $lastToken = null;
-	public function createToken(?int $type = null): Token {
-		$token = parent::createToken($type);
-		$this->lastToken = $token;
-		return $token;
-	}
-	public function getGaps(bool $clean = true): array {
-		$gaps = $this->gaps;
-		if ($clean) {
-			$this->gaps = [];
-		}
-		return $gaps;
-	}
-	protected function handleStringDQ(bool $init = false) {
-		static $depth = 0;
-		static $quotes = [];
-		static $buf = '';
-		if ($init) {
-			$this->yybegin(self::STRING_DQ);
-			$depth = 0;
-			$quotes = [];
-			$buf = '';
-		}
-		if ($depth === count($quotes)) {
-			if (in_array($this->yytext(), ["'", '"'])) {
-				$quotes[] = $this->yytext();
-			} else if ($this->yytext() === '}') {
-				--$depth;
-			}
-		} else if ($depth < count($quotes)) {
-			if ($buf === '\\') {
-				$buf = '';
-			} else if ($buf === '$') {
-				if ($this->yytext() === '{') {
-					++$depth;
-				}
-				$buf = '';
-			} else {
-				if ($this->yytext() === '\\') {
-					$buf = '\\';
-				} else if ($quotes[count($quotes) - 1] === '"' && $this->yytext() === '$') {
-					$buf = '$';
-				} else if ($this->yytext() === $quotes[count($quotes) - 1]) {
-					array_pop($quotes);
-				}
-			}
-		}
-		if ($depth === 0 && empty($quotes)) {
-			$this->yybegin(self::YYINITIAL);
-		}
-		return $this->createToken(PDGL::T_STRING_DQ);
-	}
+    public $sendGaps = false;
+    protected $gaps = [];
+    protected $lastToken = null;
+    public function createToken(?int $type = null): Token {
+        $token = parent::createToken($type);
+        $this->lastToken = $token;
+        return $token;
+    }
+    public function getGaps(bool $clean = true): array {
+        $gaps = $this->gaps;
+        if ($clean) {
+            $this->gaps = [];
+        }
+        return $gaps;
+    }
+    protected function handleStringDQ(bool $init = false) {
+        static $depth = 0;
+        static $quotes = [];
+        static $buf = '';
+        if ($init) {
+            $this->yybegin(self::STRING_DQ);
+            $depth = 0;
+            $quotes = [];
+            $buf = '';
+        }
+        if ($depth === count($quotes)) {
+            if (in_array($this->yytext(), ["'", '"'])) {
+                $quotes[] = $this->yytext();
+            } else if ($this->yytext() === '}') {
+                --$depth;
+            }
+        } else if ($depth < count($quotes)) {
+            if ($buf === '\\') {
+                $buf = '';
+            } else if ($buf === '$') {
+                if ($this->yytext() === '{') {
+                    ++$depth;
+                }
+                $buf = '';
+            } else {
+                if ($this->yytext() === '\\') {
+                    $buf = '\\';
+                } else if ($quotes[count($quotes) - 1] === '"' && $this->yytext() === '$') {
+                    $buf = '$';
+                } else if ($this->yytext() === $quotes[count($quotes) - 1]) {
+                    array_pop($quotes);
+                }
+            }
+        }
+        if ($depth === 0 && empty($quotes)) {
+            $this->yybegin(self::YYINITIAL);
+        }
+        return $this->createToken(PDGL::T_STRING_DQ);
+    }
 	protected $yy_count_chars = true;
 	protected $yy_count_lines = true;
 
@@ -80,7 +80,7 @@ class Lexer extends \JLexPHP\AbstractLexer  {
 	const YYINITIAL = 0;
 	protected static $yy_state_dtrans = [
 		0,
-		31
+		34
 	];
 	static $yy_acpt = [
 		/* 0 */ self::YY_NOT_ACCEPT,
@@ -117,7 +117,7 @@ class Lexer extends \JLexPHP\AbstractLexer  {
 		/* 31 */ self::YY_NOT_ACCEPT,
 		/* 32 */ self::YY_NO_ANCHOR,
 		/* 33 */ self::YY_NO_ANCHOR,
-		/* 34 */ self::YY_NO_ANCHOR,
+		/* 34 */ self::YY_NOT_ACCEPT,
 		/* 35 */ self::YY_NO_ANCHOR,
 		/* 36 */ self::YY_NO_ANCHOR,
 		/* 37 */ self::YY_NO_ANCHOR,
@@ -144,7 +144,8 @@ class Lexer extends \JLexPHP\AbstractLexer  {
 		/* 58 */ self::YY_NO_ANCHOR,
 		/* 59 */ self::YY_NO_ANCHOR,
 		/* 60 */ self::YY_NO_ANCHOR,
-		/* 61 */ self::YY_NO_ANCHOR
+		/* 61 */ self::YY_NO_ANCHOR,
+		/* 62 */ self::YY_NO_ANCHOR
 	];
 		static $yy_cmap = [
  1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 4, 1, 3, 4, 1, 1, 1, 1, 1, 1,
@@ -157,58 +158,66 @@ class Lexer extends \JLexPHP\AbstractLexer  {
 
 		static $yy_rmap = [
  0, 1, 1, 1, 2, 3, 4, 1, 1, 1, 5, 5, 1, 5, 5, 5, 5, 5, 1, 6,
- 7, 8, 9, 2, 10, 6, 11, 7, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,
- 24, 25, 26, 27, 5, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 5, 41,
- 42, 43,];
+ 6, 7, 8, 2, 9, 9, 10, 6, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
+ 23, 24, 25, 26, 27, 5, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 5,
+ 41, 42, 43,];
 
 		static $yy_nxt = [
 [
- 1, 2, 3, 4, 4, 20, 5, 56, 58, 58, 58, 59, 58, 60, 58, 58, 61, 58, 58, 58,
- 37, 6, 25, 2, 29, 32, 2, 34, 58,
+ 1, 2, 3, 4, 4, 20, 5, 57, 59, 59, 59, 60, 59, 61, 59, 59, 62, 59, 59, 59,
+ 38, 6, 25, 2, 29, 32, 2, 35, 59,
 ],
 [
  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
  -1, -1, -1, -1, -1, -1, -1, -1, -1,
 ],
 [
- -1, -1, -1, 4, 4, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+ -1, -1, -1, 4, 4, 19, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
  -1, -1, -1, -1, -1, -1, -1, -1, -1,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 43, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 44, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
  -1, 6, -1, -1, -1, -1, -1, -1, -1,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
-],
-[
- -1, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
- 19, 19, 7, 24, 19, 19, 19, 19, 19,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
  -1, -1, -1, -1, -1, 21, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
  -1, -1, -1, -1, -1, -1, -1, -1, -1,
 ],
 [
- -1, 21, 21, 21, -1, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
+ -1, 21, 21, 21, 4, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21, 21,
  21, 21, 21, 21, 21, 21, 21, 21, 21,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 10, 58, 58, 58, 58, 58, 58, 58, 58, 11,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 10, 59, 59, 59, 59, 59, 59, 59, 59, 11,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, 19, 19, 19, -1, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19, 19,
- 19, 19, 19, 19, 19, 19, 19, 19, 19,
+ -1, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+ 24, 24, 7, 28, 24, 24, 24, 24, 24,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 13, 58, 58, 58, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 13, 59, 59, 59, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
+],
+[
+ -1, 24, 24, 24, -1, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24,
+ 24, 24, 24, 24, 24, 24, 24, 24, 24,
+],
+[
+ -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
+ -1, -1, -1, -1, 31, -1, -1, -1, -1,
+],
+[
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 59, 14, 59, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
@@ -216,11 +225,11 @@ class Lexer extends \JLexPHP\AbstractLexer  {
 ],
 [
  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
- -1, -1, -1, -1, 28, -1, -1, -1, -1,
+ -1, -1, -1, -1, -1, -1, 8, -1, -1,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 58, 14, 58, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 59, 59, 59, 59, 15, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
  1, 18, 18, 23, 4, 27, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18, 18,
@@ -228,115 +237,107 @@ class Lexer extends \JLexPHP\AbstractLexer  {
 ],
 [
  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
- -1, -1, -1, -1, -1, -1, 8, -1, -1,
-],
-[
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 58, 58, 58, 58, 15, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
-],
-[
- -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,
  -1, -1, -1, -1, -1, -1, 9, -1, -1,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 58, 16, 58, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 59, 16, 59, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 58, 17, 58, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 59, 17, 59, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 22, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 22, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 26, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 26, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 58, 30, 58, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 59, 30, 59, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 33, 58, 58, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 33, 59, 59, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 35, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 36, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 58, 58, 58, 58, 36, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 59, 59, 59, 59, 37, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 38, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 39, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 49, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 50, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 39, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 40, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 58, 58, 58, 58, 50, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 59, 59, 59, 59, 51, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 51,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 52,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 57, 58, 58, 58, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 58, 59, 59, 59, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 58, 58, 52, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 59, 59, 53, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 58, 58, 40, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 59, 59, 41, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 41, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 42, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 54, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 55, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 58, 58, 55, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 59, 59, 56, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 42, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 43, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 45, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 46, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 58, 58, 53, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 59, 59, 54, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 46, 58, 58, 58, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 47, 59, 59, 59, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 58, 58, 58, 58, 58, 58, 58, 47, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 59, 59, 59, 59, 59, 59, 59, 48, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 [
- -1, -1, -1, -1, -1, -1, 58, 48, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58, 58,
- 58, 44, -1, -1, -1, -1, -1, -1, 58,
+ -1, -1, -1, -1, -1, -1, 59, 49, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59, 59,
+ 59, 45, -1, -1, -1, -1, -1, -1, 59,
 ],
 ];
 
@@ -402,7 +403,13 @@ class Lexer extends \JLexPHP\AbstractLexer  {
 					case -4:
 						break;
 
-					case 4: { $this->gaps[] = $this->yytext(); }
+					case 4: {
+    $token = $this->createToken(PDGL::T_GAP);
+    $this->gaps[] = $token;
+    if ($this->sendGaps) {
+        return $token;
+    }
+}
 					case -5:
 						break;
 
@@ -466,7 +473,13 @@ class Lexer extends \JLexPHP\AbstractLexer  {
 					case -20:
 						break;
 
-					case 21: { $this->gaps[] = $this->yytext(); }
+					case 21: {
+    $token = $this->createToken(PDGL::T_GAP);
+    $this->gaps[] = $token;
+    if ($this->sendGaps) {
+        return $token;
+    }
+}
 					case -21:
 						break;
 
@@ -506,115 +519,115 @@ class Lexer extends \JLexPHP\AbstractLexer  {
 					case -30:
 						break;
 
-					case 34: { return $this->createToken(); }
+					case 35: { return $this->createToken(); }
 					case -31:
 						break;
 
-					case 35: { return $this->createToken(PDGL::T_LITERAL); }
+					case 36: { return $this->createToken(PDGL::T_LITERAL); }
 					case -32:
 						break;
 
-					case 36: { return $this->createToken(PDGL::T_LITERAL); }
+					case 37: { return $this->createToken(PDGL::T_LITERAL); }
 					case -33:
 						break;
 
-					case 37: { return $this->createToken(PDGL::T_LITERAL); }
+					case 38: { return $this->createToken(PDGL::T_LITERAL); }
 					case -34:
 						break;
 
-					case 38: { return $this->createToken(PDGL::T_LITERAL); }
+					case 39: { return $this->createToken(PDGL::T_LITERAL); }
 					case -35:
 						break;
 
-					case 39: { return $this->createToken(PDGL::T_LITERAL); }
+					case 40: { return $this->createToken(PDGL::T_LITERAL); }
 					case -36:
 						break;
 
-					case 40: { return $this->createToken(PDGL::T_LITERAL); }
+					case 41: { return $this->createToken(PDGL::T_LITERAL); }
 					case -37:
 						break;
 
-					case 41: { return $this->createToken(PDGL::T_LITERAL); }
+					case 42: { return $this->createToken(PDGL::T_LITERAL); }
 					case -38:
 						break;
 
-					case 42: { return $this->createToken(PDGL::T_LITERAL); }
+					case 43: { return $this->createToken(PDGL::T_LITERAL); }
 					case -39:
 						break;
 
-					case 43: { return $this->createToken(PDGL::T_LITERAL); }
+					case 44: { return $this->createToken(PDGL::T_LITERAL); }
 					case -40:
 						break;
 
-					case 44: { return $this->createToken(PDGL::T_LITERAL); }
+					case 45: { return $this->createToken(PDGL::T_LITERAL); }
 					case -41:
 						break;
 
-					case 45: { return $this->createToken(PDGL::T_LITERAL); }
+					case 46: { return $this->createToken(PDGL::T_LITERAL); }
 					case -42:
 						break;
 
-					case 46: { return $this->createToken(PDGL::T_LITERAL); }
+					case 47: { return $this->createToken(PDGL::T_LITERAL); }
 					case -43:
 						break;
 
-					case 47: { return $this->createToken(PDGL::T_LITERAL); }
+					case 48: { return $this->createToken(PDGL::T_LITERAL); }
 					case -44:
 						break;
 
-					case 48: { return $this->createToken(PDGL::T_LITERAL); }
+					case 49: { return $this->createToken(PDGL::T_LITERAL); }
 					case -45:
 						break;
 
-					case 49: { return $this->createToken(PDGL::T_LITERAL); }
+					case 50: { return $this->createToken(PDGL::T_LITERAL); }
 					case -46:
 						break;
 
-					case 50: { return $this->createToken(PDGL::T_LITERAL); }
+					case 51: { return $this->createToken(PDGL::T_LITERAL); }
 					case -47:
 						break;
 
-					case 51: { return $this->createToken(PDGL::T_LITERAL); }
+					case 52: { return $this->createToken(PDGL::T_LITERAL); }
 					case -48:
 						break;
 
-					case 52: { return $this->createToken(PDGL::T_LITERAL); }
+					case 53: { return $this->createToken(PDGL::T_LITERAL); }
 					case -49:
 						break;
 
-					case 53: { return $this->createToken(PDGL::T_LITERAL); }
+					case 54: { return $this->createToken(PDGL::T_LITERAL); }
 					case -50:
 						break;
 
-					case 54: { return $this->createToken(PDGL::T_LITERAL); }
+					case 55: { return $this->createToken(PDGL::T_LITERAL); }
 					case -51:
 						break;
 
-					case 55: { return $this->createToken(PDGL::T_LITERAL); }
+					case 56: { return $this->createToken(PDGL::T_LITERAL); }
 					case -52:
 						break;
 
-					case 56: { return $this->createToken(PDGL::T_LITERAL); }
+					case 57: { return $this->createToken(PDGL::T_LITERAL); }
 					case -53:
 						break;
 
-					case 57: { return $this->createToken(PDGL::T_LITERAL); }
+					case 58: { return $this->createToken(PDGL::T_LITERAL); }
 					case -54:
 						break;
 
-					case 58: { return $this->createToken(PDGL::T_LITERAL); }
+					case 59: { return $this->createToken(PDGL::T_LITERAL); }
 					case -55:
 						break;
 
-					case 59: { return $this->createToken(PDGL::T_LITERAL); }
+					case 60: { return $this->createToken(PDGL::T_LITERAL); }
 					case -56:
 						break;
 
-					case 60: { return $this->createToken(PDGL::T_LITERAL); }
+					case 61: { return $this->createToken(PDGL::T_LITERAL); }
 					case -57:
 						break;
 
-					case 61: { return $this->createToken(PDGL::T_LITERAL); }
+					case 62: { return $this->createToken(PDGL::T_LITERAL); }
 					case -58:
 						break;
 

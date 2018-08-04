@@ -5,7 +5,7 @@ namespace Foo;
 abstract class Data_Test
 {
     use \PHPDataGen\DataClassTrait;
-    private const FIELDS = ['A' => 'A', 'A1' => 'A1', 'A2' => 'A2', 'A3' => 'A3', 'A4' => 'A4', 'A5' => 'A5', 'B' => 'B', 'B1' => 'B1', 'B2' => 'B2', 'B3' => 'B3', 'B4' => 'B4', 'B5' => 'B5', 'C' => 'C', 'C1' => 'C1', 'C2' => 'C2', 'C3' => 'C3', 'C4' => 'C4', 'C5' => 'C5', 'D' => 'D', 'D1' => 'D1', 'D2' => 'D2', 'D3' => 'D3', 'D4' => 'D4', 'D5' => 'D5'];
+    private const FIELDS = ['A' => 'A', 'A1' => 'A1', 'A2' => 'A2', 'A3' => 'A3', 'A4' => 'A4', 'A5' => 'A5', 'B' => 'B', 'B1' => 'B1', 'B2' => 'B2', 'B3' => 'B3', 'B4' => 'B4', 'B5' => 'B5', 'fuckParser' => 'FuckParser', 'C' => 'C', 'C1' => 'C1', 'C2' => 'C2', 'C3' => 'C3', 'C4' => 'C4', 'C5' => 'C5', 'D' => 'D', 'D1' => 'D1', 'D2' => 'D2', 'D3' => 'D3', 'D4' => 'D4', 'D5' => 'D5'];
     private $A = null;
     private $A1 = '';
     private $A2 = null;
@@ -18,6 +18,7 @@ abstract class Data_Test
     private $B3 = null;
     private $B4 = '';
     private $B5 = '';
+    private $fuckParser = null;
     protected $C = null;
     protected $C1 = '';
     protected $C2 = null;
@@ -40,6 +41,15 @@ abstract class Data_Test
         $this->B3 = "Fee";
         $this->B4 = $this->validateB4("Bar");
         $this->B5 = "Baz";
+        $this->fuckParser = $this->validateFuckParser((function ($test = 'A') {
+            echo '123';
+            try {
+                throw new \Exception('AAA');
+            } catch (\Exception $e) {
+                echo $e->getMessage();
+            }
+            return "Jopa {${'test'}}";
+        })('lol'));
         $this->C2 = $this->validateC2("Foo");
         $this->C3 = "Fee";
         $this->C4 = $this->validateC4("Bar");
@@ -183,6 +193,14 @@ abstract class Data_Test
         $oldValue = $this->B5;
         $this->B5 = $this->validateB5($value);
         return $oldValue;
+    }
+    public function getFuckParser()
+    {
+        return $this->fuckParser;
+    }
+    protected function validateFuckParser($value)
+    {
+        return $value;
     }
     public function getC()
     {
