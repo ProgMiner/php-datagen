@@ -32,9 +32,9 @@ $meta #
 namespace PHPDataGen\PDGL;
 
 use PhpParser\ParserFactory;
-use PhpParser\Node;
+use PhpParser\Node as PHPNode;
 
-use PHPDataGen\Model;
+use PHPDataGen\Node;
 use PHPDataGen\Type;
 #include;
 

@@ -26,9 +26,9 @@ namespace PHPDataGen;
 
 use PhpParser\BuilderFactory;
 use PhpParser\BuilderHelpers;
-use PhpParser\Node;
+use PhpParser\Node as PHPNode;
 
-use PHPDataGen\Model;
+use PHPDataGen\Node;
 
 /**
  * Compiler
@@ -64,48 +64,48 @@ class Compiler {
     }
 
     /**
-     * Makes path of file for save compiled file model
+     * Makes path of file for save compiled file node
      *
      * Returns array with directory and filename.
      *
-     * @param Model\File $model File model that will be compiled
+     * @param Node\File $node File node that will be compiled
      * @param string     $ext   File extension (.php by default)
      *
      * @return string[] Made path
      */
-    public function makePath(Model\File $model, ?string $dir = null, string $ext = '.php'): array {
-        if (is_null($model->class)) {
+    public function makePath(Node\File $node, ?string $dir = null, string $ext = '.php'): array {
+        if (is_null($node->class)) {
             throw new UnexpectedValueException('File without class cannot be saved');
         }
 
         $dir = $dir ?? $this->baseDir;
 
-        $path = str_replace('\\', '/', $model->namespace);
+        $path = str_replace('\\', '/', $node->namespace);
         if (!empty($path)) {
             $dir .= '/'.$path;
         }
 
-        return [$dir, $this->makeClassName($model->class).$ext];
+        return [$dir, $this->makeClassName($node->class).$ext];
     }
 
     /**
-     * Compiles file model to PHP AST
+     * Compiles file node to PHP AST
      *
-     * @param Model\File $model File model
+     * @param Node\File $node File node
      *
      * @return array PHP AST
      */
-    public function compile(Model\File $model): array {
-        if (is_null($model->class)) {
+    public function compile(Node\File $node): array {
+        if (is_null($node->class)) {
             throw new UnexpectedValueException('File without class cannot be saved');
         }
 
-        $result = $model->uses;
+        $result = $node->uses;
 
-        $result[] = $this->compileClass($model->class);
+        $result[] = $this->compileClass($node->class);
 
-        if (!is_null($model->namespace)) {
-            $result = [new Node\Stmt\Namespace_($model->namespace, $result)];
+        if (!is_null($node->namespace)) {
+            $result = [new PHPNode\Stmt\Namespace_($node->namespace, $result)];
         }
 
         return $result;
@@ -123,64 +123,64 @@ class Compiler {
         return ($flags & $flag) === $flag;
     }
 
-    protected function makeClassName(Model\Class_ $model): Node\Identifier {
+    protected function makeClassName(Node\Class_ $node): PHPNode\Identifier {
         $ret = '';
 
-        if (!$this->testFlag($model, Model\Class_::FLAG_FINAL)) {
+        if (!$this->testFlag($node, Node\Class_::FLAG_FINAL)) {
             $ret .= $this->classPrefix;
         }
 
-        $ret .= (string) $model->name;
+        $ret .= (string) $node->name;
 
-        return new Node\Identifier($ret);
+        return new PHPNode\Identifier($ret);
     }
 
     protected function convertFieldNameForMethod(string $name, string $prefix = ''): string {
         return $prefix.ucwords($name);
     }
 
-    protected function compileClass(Model\Class_ $model): Node\Stmt\Class_ {
+    protected function compileClass(Node\Class_ $node): PHPNode\Stmt\Class_ {
         $factory = new BuilderFactory();
 
-        $result = $factory->class($this->makeClassName($model));
+        $result = $factory->class($this->makeClassName($node));
 
-        if ($this->testFlag($model, Model\Class_::FLAG_FINAL_FINAL)) {
+        if ($this->testFlag($node, Node\Class_::FLAG_FINAL_FINAL)) {
             $result->makeFinal();
         }
 
-        if (!$this->testFlag($model, Model\Class_::FLAG_FINAL)) {
+        if (!$this->testFlag($node, Node\Class_::FLAG_FINAL)) {
             $result->makeAbstract();
         }
 
-        if (!is_null($model->extends)) {
-            $result->extend($model->extends);
+        if (!is_null($node->extends)) {
+            $result->extend($node->extends);
         }
 
-        if (!empty($model->implements)) {
-            $result->implement(...$model->implements);
+        if (!empty($node->implements)) {
+            $result->implement(...$node->implements);
         }
 
         // TODO Library use disabling
         $result->addStmt(
-            new Node\Stmt\TraitUse([
-                new Node\Name\FullyQualified('PHPDataGen\\DataClassTrait')
+            new PHPNode\Stmt\TraitUse([
+                new PHPNode\Name\FullyQualified('PHPDataGen\\DataClassTrait')
             ])
         );
 
         // Fields const
-        $result->addStmt($this->buildClassFieldsConst($model, $factory));
+        $result->addStmt($this->buildClassFieldsConst($node, $factory));
 
         // Properties
-        foreach ($model->fields as $field) {
+        foreach ($node->fields as $field) {
             $builder = $factory->property($field->name);
 
-            if ($this->testFlag($field, Model\Field::FLAG_DIRECT)) {
+            if ($this->testFlag($field, Node\Field::FLAG_DIRECT)) {
                 $builder->makeProtected();
             } else {
                 $builder->makePrivate();
             }
 
-            if ($this->testFlag($field, Model\Field::FLAG_DIRECT_DEFINING)) {
+            if ($this->testFlag($field, Node\Field::FLAG_DIRECT_DEFINING)) {
                 $builder->setDefault($field->default);
             } else {
                 $builder->setDefault($field->type->getDefaultValue());
@@ -190,9 +190,9 @@ class Compiler {
         }
 
         // Constructor
-        $result->addStmt($this->buildClassConstructor($model, $factory));
+        $result->addStmt($this->buildClassConstructor($node, $factory));
 
-        foreach ($model->fields as $field) {
+        foreach ($node->fields as $field) {
             $nameForMethod = $this->convertFieldNameForMethod($field->name);
 
             { // Getter
@@ -203,13 +203,13 @@ class Compiler {
                     $getter->setReturnType($field->type->toTypeHint());
                 }
 
-                if ($this->testFlag($field, Model\Field::FLAG_EDITABLE)) {
+                if ($this->testFlag($field, Node\Field::FLAG_EDITABLE)) {
                     $getter->makeReturnByRef();
                 }
 
-                $getter->addStmt(new Node\Stmt\Return_(
-                    new Node\Expr\PropertyFetch(
-                        new Node\Expr\Variable('this'),
+                $getter->addStmt(new PHPNode\Stmt\Return_(
+                    new PHPNode\Expr\PropertyFetch(
+                        new PHPNode\Expr\Variable('this'),
                         $field->name
                     )
                 ));
@@ -227,15 +227,15 @@ class Compiler {
                     $validator->setReturnType($field->type->toTypeHint());
                 }
 
-                $validator->addStmt(new Node\Stmt\Return_(
-                    new Node\Expr\Variable('value')
+                $validator->addStmt(new PHPNode\Stmt\Return_(
+                    new PHPNode\Expr\Variable('value')
                 ));
 
                 $result->addStmt($validator->getNode());
             }
 
             // Setter
-            if ($this->testFlag($field, Model\Field::FLAG_EDITABLE)) {
+            if ($this->testFlag($field, Node\Field::FLAG_EDITABLE)) {
                 $setter = $factory->method("set$nameForMethod")->
                     makePublic()->
 
@@ -245,32 +245,32 @@ class Compiler {
                     $setter->setReturnType($field->type->toTypeHint());
                 }
 
-                $setter->addStmt(new Node\Stmt\Expression(
-                    new Node\Expr\Assign(
-                        new Node\Expr\Variable('oldValue'),
-                        new Node\Expr\PropertyFetch(
-                            new Node\Expr\Variable('this'),
+                $setter->addStmt(new PHPNode\Stmt\Expression(
+                    new PHPNode\Expr\Assign(
+                        new PHPNode\Expr\Variable('oldValue'),
+                        new PHPNode\Expr\PropertyFetch(
+                            new PHPNode\Expr\Variable('this'),
                             $field->name
                         )
                     )
                 ));
 
-                $setter->addStmt(new Node\Stmt\Expression(
-                    new Node\Expr\Assign(
-                        new Node\Expr\PropertyFetch(
-                            new Node\Expr\Variable('this'),
+                $setter->addStmt(new PHPNode\Stmt\Expression(
+                    new PHPNode\Expr\Assign(
+                        new PHPNode\Expr\PropertyFetch(
+                            new PHPNode\Expr\Variable('this'),
                             $field->name
                         ),
                         $factory->methodCall(
-                            new Node\Expr\Variable('this'),
+                            new PHPNode\Expr\Variable('this'),
                             "validate$nameForMethod",
-                            [new Node\Expr\Variable('value')]
+                            [new PHPNode\Expr\Variable('value')]
                         )
                     )
                 ));
 
-                $setter->addStmt(new Node\Stmt\Return_(
-                    new Node\Expr\Variable('oldValue')
+                $setter->addStmt(new PHPNode\Stmt\Return_(
+                    new PHPNode\Expr\Variable('oldValue')
                 ));
 
                 $result->addStmt($setter->getNode());
@@ -282,20 +282,20 @@ class Compiler {
         return $result->getNode();
     }
 
-    protected function buildClassFieldsConst(Model\Class_ $model, BuilderFactory $factory): Node\Stmt\ClassConst {
+    protected function buildClassFieldsConst(Node\Class_ $node, BuilderFactory $factory): PHPNode\Stmt\ClassConst {
         $fields = [];
 
-        foreach ($model->fields as $field) {
+        foreach ($node->fields as $field) {
             $fields[(string) $field->name] = $this->convertFieldNameForMethod($field->name);
         }
 
-        return new Node\Stmt\ClassConst(
-            [new Node\Const_('FIELDS', $factory->val($fields))],
-            Node\Stmt\Class_::MODIFIER_PRIVATE
+        return new PHPNode\Stmt\ClassConst(
+            [new PHPNode\Const_('FIELDS', $factory->val($fields))],
+            PHPNode\Stmt\Class_::MODIFIER_PRIVATE
         );
     }
 
-    protected function buildClassConstructor(Model\Class_ $model, BuilderFactory $factory): Node\Stmt\ClassMethod {
+    protected function buildClassConstructor(Node\Class_ $node, BuilderFactory $factory): PHPNode\Stmt\ClassMethod {
         $result = $factory->method('__construct')->
             makePublic()->
             addParam(
@@ -306,15 +306,15 @@ class Compiler {
                 );
 
         // Default values
-        foreach ($model->fields as $field) {
-            if ($this->testFlag($field, Model\Field::FLAG_DIRECT_DEFINING) || is_null($field->default)) {
+        foreach ($node->fields as $field) {
+            if ($this->testFlag($field, Node\Field::FLAG_DIRECT_DEFINING) || is_null($field->default)) {
                 continue;
             }
 
             $value = null;
-            if ($this->testFlag($field, Model\Field::FLAG_FILTER_DEFAULT)) {
+            if ($this->testFlag($field, Node\Field::FLAG_FILTER_DEFAULT)) {
                 $value = $factory->methodCall(
-                    new Node\Expr\Variable('this'),
+                    new PHPNode\Expr\Variable('this'),
                     $this->convertFieldNameForMethod($field->name, 'validate'),
                     [$field->default]
                 );
@@ -322,9 +322,9 @@ class Compiler {
                 $value = $field->default;
             }
 
-            $result->addStmt(new Node\Expr\Assign(
-                new Node\Expr\PropertyFetch(
-                    new Node\Expr\Variable('this'),
+            $result->addStmt(new PHPNode\Expr\Assign(
+                new PHPNode\Expr\PropertyFetch(
+                    new PHPNode\Expr\Variable('this'),
                     $field->name
                 ),
                 $value
@@ -334,24 +334,24 @@ class Compiler {
         // foreach ($init as $field => $value) {
         //     $this->{$field} = $this->{'validate' . self::FIELDS[$field]}($value);
         // }
-        $result->addStmt(new Node\Stmt\Foreach_(
-            new Node\Expr\Variable('init'),
-            new Node\Expr\Variable('value'),
+        $result->addStmt(new PHPNode\Stmt\Foreach_(
+            new PHPNode\Expr\Variable('init'),
+            new PHPNode\Expr\Variable('value'),
             [
-                'keyVar' => new Node\Expr\Variable('field'),
-                'stmts' => [new Node\Stmt\Expression(
-                    new Node\Expr\Assign(
-                        new Node\Expr\PropertyFetch(
-                            new Node\Expr\Variable('this'),
-                            new Node\Expr\Variable('field')
+                'keyVar' => new PHPNode\Expr\Variable('field'),
+                'stmts' => [new PHPNode\Stmt\Expression(
+                    new PHPNode\Expr\Assign(
+                        new PHPNode\Expr\PropertyFetch(
+                            new PHPNode\Expr\Variable('this'),
+                            new PHPNode\Expr\Variable('field')
                         ),
                         $factory->methodCall(
-                            new Node\Expr\Variable('this'),
-                            $factory->concat('validate', new Node\Expr\ArrayDimFetch(
+                            new PHPNode\Expr\Variable('this'),
+                            $factory->concat('validate', new PHPNode\Expr\ArrayDimFetch(
                                 $factory->classConstFetch('self', 'FIELDS'),
-                                new Node\Expr\Variable('field')
+                                new PHPNode\Expr\Variable('field')
                             )),
-                            [new Node\Expr\Variable('value')]
+                            [new PHPNode\Expr\Variable('value')]
                         )
                     )
                 )]

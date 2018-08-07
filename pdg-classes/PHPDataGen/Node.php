@@ -2,7 +2,7 @@
 
 namespace PHPDataGen;
 
-class Model
+class Node
 {
     use \PHPDataGen\DataClassTrait;
     private const FIELDS = ['attributes' => 'Attributes'];

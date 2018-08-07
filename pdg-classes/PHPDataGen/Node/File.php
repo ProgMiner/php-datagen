@@ -1,14 +1,15 @@
 <?php
 
-namespace PHPDataGen\Model;
+namespace PHPDataGen\Node;
 
-class File extends \PHPDataGen\Model
+class File extends \PHPDataGen\Node
 {
     use \PHPDataGen\DataClassTrait;
-    private const FIELDS = ['namespace' => 'Namespace', 'uses' => 'Uses', 'class' => 'Class'];
+    private const FIELDS = ['namespace' => 'Namespace', 'uses' => 'Uses', 'class' => 'Class', 'attributes' => 'Attributes'];
     private $namespace = null;
     private $uses = [];
     private $class = null;
+    private $attributes = [];
     public function __construct(array $init = [])
     {
         foreach ($init as $field => $value) {
@@ -43,18 +44,32 @@ class File extends \PHPDataGen\Model
         $this->uses = $this->validateUses($value);
         return $oldValue;
     }
-    public function &getClass() : ?\PHPDataGen\Model\Class_
+    public function &getClass() : ?\PHPDataGen\Node\Class_
     {
         return $this->class;
     }
-    protected function validateClass($value) : ?\PHPDataGen\Model\Class_
+    protected function validateClass($value) : ?\PHPDataGen\Node\Class_
     {
         return $value;
     }
-    public function setClass($value) : ?\PHPDataGen\Model\Class_
+    public function setClass($value) : ?\PHPDataGen\Node\Class_
     {
         $oldValue = $this->class;
         $this->class = $this->validateClass($value);
+        return $oldValue;
+    }
+    public function &getAttributes() : array
+    {
+        return $this->attributes;
+    }
+    protected function validateAttributes($value) : array
+    {
+        return $value;
+    }
+    public function setAttributes($value) : array
+    {
+        $oldValue = $this->attributes;
+        $this->attributes = $this->validateAttributes($value);
         return $oldValue;
     }
 }

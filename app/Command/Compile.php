@@ -32,16 +32,16 @@ use Symfony\Component\Console\Style;
 
 use PhpParser\PrettyPrinterAbstract;
 use PhpParser\NodeVisitorAbstract;
+use PhpParser\Node as PHPNode;
 use PhpParser\PrettyPrinter;
 use PhpParser\ParserFactory;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor;
-use PhpParser\Node;
 
 use PHPDataGen\Exception;
 use PHPDataGen\PHPWalker;
 use PHPDataGen\Compiler;
-use PHPDataGen\Model;
+use PHPDataGen\Node;
 use PHPDataGen\PDGL;
 
 /**
@@ -73,47 +73,47 @@ class Compile extends Command {
             new PDGL\Lexer($phpWalker->getCode())
         );
 
-        $models = [];
+        $nodes = [];
         try {
-            $models = $pdglParser->yyparse() ?? [];
+            $nodes = $pdglParser->yyparse() ?? [];
         } catch (Exception\Parsing $e) {
             $io->error("Parsing error: {$e->getMessage()}");
             return;
         }
 
-        $model = $phpWalker->getModel();
-        $models = (function($classes) use($model) {
+        $node = $phpWalker->getNode();
+        $nodes = (function($classes) use($node) {
             $ret = [];
 
             foreach ($classes as $class) {
-                $model->class = $class;
-                $ret[] = clone $model;
+                $node->class = $class;
+                $ret[] = clone $node;
             }
 
             return $ret;
-        })($models);
+        })($nodes);
 
         $editTime = -1;
         if ($checkTime) {
             $editTime = filemtime($file);
         }
 
-        foreach ($models as $model) {
-            $this->compileModel($model, $compiler, $io, $printer, $force, $editTime);
+        foreach ($nodes as $node) {
+            $this->compileNode($node, $compiler, $io, $printer, $force, $editTime);
         }
     }
 
-    protected function compileModel(
-        Model\File $model,
+    protected function compileNode(
+        Node\File $node,
         Compiler $compiler,
         Style\OutputStyle $io,
         PrettyPrinterAbstract $printer,
         bool $force = true,
         int $sourceChanged = -1
     ) {
-        $io->title($model->namespace.'\\'.$model->class->name);
+        $io->title($node->namespace.'\\'.$node->class->name);
 
-        $resultPath = $compiler->makePath($model);
+        $resultPath = $compiler->makePath($node);
         $resultPath[0] = './'.$resultPath[0];
 
         if (!file_exists($resultPath[0])) {
@@ -142,7 +142,7 @@ class Compile extends Command {
         }
 
         try {
-            $result = $compiler->compile($model);
+            $result = $compiler->compile($node);
         } catch (Exception\Compilation $e) {
             $io->error("Compilation error: {$e->getMessage()}");
             return;
@@ -153,8 +153,8 @@ class Compile extends Command {
 
         // TODO
         $phpTraverser->addVisitor(new class extends NodeVisitorAbstract {
-            public function leaveNode(Node $node) {
-                if (is_a($node, Node\Stmt\Use_::class, false)) {
+            public function leaveNode(PHPNode $node) {
+                if (is_a($node, PHPNode\Stmt\Use_::class, false)) {
                     return NodeTraverser::REMOVE_NODE;
                 }
             }

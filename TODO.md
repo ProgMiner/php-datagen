@@ -1,7 +1,8 @@
 # TODO
 
+- Full PHP parser
+- Other PDG classes extension
 - Constants
-- Annotations
 - Interfaces
 - Data classes
 - Private fields

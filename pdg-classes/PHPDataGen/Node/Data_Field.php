@@ -1,15 +1,16 @@
 <?php
 
-namespace PHPDataGen\Model;
+namespace PHPDataGen\Node;
 
-abstract class Data_Field extends \PHPDataGen\Model
+abstract class Data_Field extends \PHPDataGen\Node
 {
     use \PHPDataGen\DataClassTrait;
-    private const FIELDS = ['name' => 'Name', 'flags' => 'Flags', 'type' => 'Type', 'default' => 'Default'];
+    private const FIELDS = ['name' => 'Name', 'flags' => 'Flags', 'type' => 'Type', 'default' => 'Default', 'attributes' => 'Attributes'];
     private $name = null;
     private $flags = 0;
     private $type = null;
     private $default = null;
+    private $attributes = [];
     public function __construct(array $init = [])
     {
         $this->flags = $this->validateFlags(4);
@@ -71,6 +72,20 @@ abstract class Data_Field extends \PHPDataGen\Model
     {
         $oldValue = $this->default;
         $this->default = $this->validateDefault($value);
+        return $oldValue;
+    }
+    public function &getAttributes() : array
+    {
+        return $this->attributes;
+    }
+    protected function validateAttributes($value) : array
+    {
+        return $value;
+    }
+    public function setAttributes($value) : array
+    {
+        $oldValue = $this->attributes;
+        $this->attributes = $this->validateAttributes($value);
         return $oldValue;
     }
 }

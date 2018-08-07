@@ -42,14 +42,14 @@ try {
     throw $e;
 }
 
-function _system($cmd, $doOutput = true) {
+function _system($cmd, bool $dieOnError = true, bool $doOutput = true) {
     if ($doOutput) {
         echo ">>> $cmd\n";
     }
 
     exec($cmd, $output, $ret);
 
-    if ($ret != 0) {
+    if ($dieOnError && $ret != 0) {
         die("\"$cmd\" returns not 0");
     }
 
@@ -131,7 +131,7 @@ function install_deps() {
         }
     }
 
-    _system("cd jlex-php && mvn package");
+    _system("cd jlex-php && mvn package", false);
     _system("cd kmyacc && make all");
 
     if (copy('kmyacc/src/kmyacc', 'kmyacc/kmyacc')) {

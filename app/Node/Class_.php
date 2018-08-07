@@ -22,12 +22,35 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-namespace PHPDataGen;
+namespace PHPDataGen\Node;
+
+use PhpParser\Node as PHPNode;
+
+use PHPDataGen\Node;
 
 /**pdgl
 
-final class Model {
+class Class_ extends Node {
 
-    var attributes: array;
+    var name: PHPNode\Identifier;
+
+    var flags: int = 0;
+
+    var extends:    PHPNode\Name?;
+    var implements: array; // PHPNode\Name[]
+
+    var fields: array; // Field[]
+
+    var attributes: array; // TODO
 }
 */
+
+/**
+ * @author Eridan Domoratskiy
+ */
+class Class_ extends Data_Class_ {
+
+    const FLAG_FINAL       = 1;
+    const FLAG_FINAL_FINAL = 3;
+    const FLAG_DATA        = 4;
+}

@@ -25,8 +25,8 @@ SOFTWARE. */
 namespace PHPDataGen;
 
 use PhpParser\NodeVisitorAbstract;
+use PhpParser\Node as PHPNode;
 use PhpParser\Comment;
-use PhpParser\Node;
 
 /**
  * PHP walker
@@ -41,29 +41,29 @@ class PHPWalker extends NodeVisitorAbstract {
     protected $code = '';
 
     /**
-     * @var Model\File File model
+     * @var Node\File File node
      */
-    protected $model;
+    protected $node;
 
-    public function __construct(?Model\File $model = null) {
-        $this->model = $model ?? new Model\File();
+    public function __construct(?Node\File $node = null) {
+        $this->node = $node ?? new Node\File();
     }
 
     public function getCode(): string {
         return $this->code;
     }
 
-    public function getModel(): Model\File {
-        return $this->model;
+    public function getNode(): Node\File {
+        return $this->node;
     }
 
-    public function leaveNode(Node $node) {
-        if (is_a($node, Node\Stmt\Namespace_::class, false)) {
-            $this->model->namespace = $node->name;
+    public function leaveNode(PHPNode $node) {
+        if (is_a($node, PHPNode\Stmt\Namespace_::class, false)) {
+            $this->node->namespace = $node->name;
         }
 
-        if (is_a($node, Node\Stmt\Use_::class, false)) {
-            $this->model->uses[] = new Node\Stmt\Use_($node->uses, $node->type);
+        if (is_a($node, PHPNode\Stmt\Use_::class, false)) {
+            $this->node->uses[] = new PHPNode\Stmt\Use_($node->uses, $node->type);
         }
 
         foreach ($node->getComments() as $comment) {

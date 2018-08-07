@@ -7,6 +7,9 @@ use Foo\Bar\Baz as Foo;
 
 /**pdgl
 
+@abc
+@aaa(test)
+@aaa(test, sgxgch)
 class Test {
 
     val A
