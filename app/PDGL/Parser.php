@@ -46,16 +46,16 @@ class Parser extends \Kmyacc\AbstractParser {
     const YYBADCH = 43;
     const YYMAXLEX = 272;
     const YYTERMS = 43;
-    const YYNONTERMS = 47;
+    const YYNONTERMS = 48;
 
-    const YYLAST = 118;
+    const YYLAST = 121;
 
-    const YY2TBLSTATE = 22;
+    const YY2TBLSTATE = 23;
 
     const YYGLAST = 53;
 
-    const YYSTATES = 167;
-    const YYNLSTATES = 75;
+    const YYSTATES = 170;
+    const YYNLSTATES = 76;
     const YYINTERRTOK = 1;
     const YYUNEXPECTED = 32767;
     const YYDEFAULT = -32766;
@@ -92,91 +92,93 @@ class Parser extends \Kmyacc\AbstractParser {
     ];
 
     protected $yyaction = [
-           82,   83,   84,   85,   77,   78,   79,  205,  -40,   76,
-          150,  151,  215,  154,  167,  177,   23,   48,  169,    3,
-            0,    1,  195,   57,  -39,   24,    4,   13,  166,  168,
-           25,   58,   59,   26,   19,   60,   27,   20,   28,   61,
-           29,   77,   78,   79,   70,  204,   76,   82,   83,   84,
-           85,  145,  146,  199,   66,  193,   71,  190,  194,  196,
-           16,  200,  186,  198,  208,  207,   68,  197,   69,  144,
-          137,  185,  138,  139,   11,  216,   15,  112,   96,   41,
-           34,   72,   12,   17,  156,   14,  211,    0,   94,    0,
-          165,   98,    0,   10,    0,    0,  107,  155,    0,    0,
-          157,   73,  -55,  -56,    0,  125,    0,    0,  213,  214,
-          212,  209,  210,  206,  202,  203,  201,   65
+           83,   84,   85,   86,   78,   79,   80,  208,  -40,   77,
+          153,  154,  218,  157,  170,  180,   24,   49,  172,    3,
+           99,    1,  198,   57,   72,   25,    4,   16,  169,  171,
+           26,   58,   59,   27,   20,   60,   28,   21,   29,   61,
+           30,   78,   79,   80,   70,  207,   77,   83,   84,   85,
+           86,  148,  149,  202,  193,  196,   71,   66,  197,  199,
+          -39,  203,  189,  201,  211,   69,   68,  200,  210,  147,
+            0,  188,  141,  142,   11,   13,  219,  113,  140,   97,
+           14,   10,  160,   17,   15,   12,  159,  214,    0,    0,
+           43,    0,   95,    0,   99,  168,    0,    0,   35,    0,
+          158,  108,    0,    0,   74,  -57,  -58,    0,  128,    0,
+            0,  216,  217,  215,  212,  213,  209,  205,  206,  204,
+           65
     ];
 
     protected $yycheck = [
             2,    3,    4,    5,    6,    7,    8,   27,    0,   11,
            12,   13,   14,   15,   16,   17,   18,    2,   20,   21,
-            0,   23,   42,   25,    0,   27,   28,    4,   30,   31,
+           19,   23,   42,   25,   23,   27,   28,    3,   30,   31,
            32,   33,   34,   35,   36,   37,   38,   39,   40,   41,
            42,    6,    7,    8,   27,   27,   11,    2,    3,    4,
             5,    9,   10,   27,   27,   38,   39,   27,   40,   18,
-            3,   27,   36,   27,   38,   38,   32,   26,   38,   27,
-            6,   35,    7,    8,    5,   14,   16,   11,   15,   17,
-           21,   23,   26,   16,   29,   17,   38,   -1,   18,   -1,
-           19,   19,   -1,   20,   -1,   -1,   22,   22,   -1,   -1,
-           24,   24,   24,   24,   -1,   25,   -1,   -1,   27,   27,
-           27,   27,   27,   27,   27,   27,   27,   27
+            0,   27,   36,   27,   38,   38,   32,   26,   38,   27,
+            0,   35,    7,    8,    5,    4,   14,   11,    6,   15,
+           17,   20,   24,   16,   16,   26,   29,   38,   -1,   -1,
+           17,   -1,   18,   -1,   19,   19,   -1,   -1,   21,   -1,
+           22,   22,   -1,   -1,   24,   24,   24,   -1,   25,   -1,
+           -1,   27,   27,   27,   27,   27,   27,   27,   27,   27,
+           27
     ];
 
     protected $yybase = [
-           24,   71,   71,   -2,   -2,   -2,   -2,   -2,   -2,   45,
-           60,   60,   60,   60,   60,   35,   35,   35,   42,   26,
-           17,   72,   65,   41,   27,   34,   36,   30,   18,  -20,
-           78,   73,    8,   15,   66,   73,   79,   73,   59,   15,
-           23,   66,   69,   64,   56,   63,   20,   67,   80,   57,
-           67,   74,   62,   58,   68,   77,   70,   90,   89,   88,
-           87,   86,   61,   75,   76,   85,   84,   55,   83,   82,
-           48,   81,    0,    0,    0,    0,   -2,   -2,    0,    0,
-            0,    0,    0,    0,   35,   35,   35,   35,   35,   35,
-            0,    0,    0,    0,    0,    0,   63
+           60,   76,   76,   -2,   -2,   -2,   -2,   -2,   -2,   45,
+           68,   68,   68,   68,   68,   35,   35,   35,    1,   42,
+           26,   17,   75,   65,   41,   30,   34,   36,   27,   18,
+          -20,   81,    8,   61,   15,   66,   61,   82,   61,   77,
+           15,   71,   72,   66,   69,   59,   64,   70,   67,   83,
+           24,   67,   80,   79,   73,   63,   74,   93,   92,   91,
+           90,   89,   62,   78,   58,   88,   87,   57,   86,   85,
+           49,   84,    0,    0,    0,    0,    0,   -2,   -2,    0,
+            0,    0,    0,    0,    0,   35,   35,   35,   35,   35,
+           35,    0,    0,    0,   64,    0,    0,    0,   64
     ];
 
     protected $yydefault = [
-           24,   85,   86,   83,   83,32767,   68,   84,   89,32767,
-        32767,32767,32767,32767,32767,32767,32767,32767,   67,  100,
-          104,   20,32767,32767,  108,   96,   99,  103,  105,  107,
-           24,   25,   24,   45,   33,   25,   24,   26,   31,   46,
-           51,32767,   53,   61,   65,   20,32767,   14,   49,32767,
-           15,32767,   34,32767,   54,32767,   18,   95,   97,   98,
-          101,  106,   77,32767,32767,  117,  116,32767,  109,  113,
-          114,  112,   24,   24,   24
+           24,   87,   88,   85,   85,32767,   70,   86,   91,32767,
+        32767,32767,32767,32767,32767,32767,32767,32767,   20,   69,
+          102,  106,   20,32767,32767,  110,   98,  101,  105,  107,
+          109,   24,   24,   25,   47,   33,   25,   24,   26,   31,
+           48,   53,   63,32767,   55,   67,   20,32767,   14,   51,
+        32767,   15,32767,32767,   34,   56,   18,   97,   99,  100,
+          103,  108,   79,32767,32767,  119,  118,32767,  111,  115,
+          116,  114,   24,   24,   24,   24
     ];
 
     protected $yygoto = [
-           87,   87,   87,   87,   87,   87,   80,   88,   35,   91,
-           56,  127,   92,  163,   35,    7,    7,    6,   67,  148,
-          148,  148,   50,  117,   86,  133,  123,   43,    5,  111,
-          103,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-            0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
-           30,  119,  135
+           88,   88,   88,   88,   88,   88,   81,   89,   36,   92,
+           56,  130,   93,  166,   36,    7,    7,    6,   67,  151,
+          151,  151,   51,   75,   87,  118,  136,   42,  126,  112,
+          104,    5,    0,    0,    0,    0,    0,    0,    0,    0,
+            0,    0,    0,    0,    0,    0,    0,    0,    0,   31,
+          121,  120,  138
     ];
 
     protected $yygcheck = [
             2,    2,    2,    2,    2,    2,    2,    2,   12,    7,
-            7,    7,    7,   46,   12,   39,   39,   39,   43,   40,
-           40,   40,    6,   23,    4,   32,   30,   13,   10,   20,
-           15,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
-           -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+            7,    7,    7,   47,   12,   40,   40,   40,   44,   41,
+           41,   41,    6,   11,    4,   23,   33,   13,   31,   20,
+           15,   10,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,
+           -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   12,
            12,   12,   12
     ];
 
     protected $yygbase = [
             0,    0,  -10,    0,   15,    0,    7,   -2,    0,    0,
-          -17,    0,  -22,   -8,    0,   -7,    0,    0,    0,    0,
-          -12,    0,    0,   -9,    0,    0,    0,    0,    0,    0,
-          -13,    0,  -11,    0,    0,    0,    0,    0,    0,   12,
-           13,    0,    0,   14,    0,    0,   11
+          -15,    1,  -23,   -9,    0,   -8,    0,    0,    0,    0,
+          -14,    0,    0,   -7,    0,    0,    0,    0,    0,    0,
+            0,  -12,    0,  -11,    0,    0,    0,    0,    0,    0,
+           12,   13,    0,    0,   14,    0,    0,   11
     ];
 
     protected $yygdefault = [
-        -32768,   46,   81,   40,  149,   44,   47,  105,   54,  141,
-           97,   74,   31,   33,   37,  102,   38,  104,   51,   52,
-          110,  113,   32,  116,  118,   49,   42,   53,   55,   39,
-          122,   36,  132,  134,   22,    9,   18,   21,   45,    8,
-          147,   62,  153,   63,   64,    2,  162
+        -32768,   47,   82,   41,  152,   45,   48,  106,   55,  144,
+           98,   73,   33,   34,   38,  103,   39,  105,   53,   54,
+          111,  114,   32,  117,  119,   18,   52,   50,   44,  122,
+           40,  125,   37,  135,  137,   23,    9,   19,   22,   46,
+            8,  150,   62,  156,   63,   64,    2,  165
     ];
 
     protected $yylhs = [
@@ -184,17 +186,17 @@ class Parser extends \Kmyacc\AbstractParser {
             4,    5,    6,    6,    7,    7,    8,    8,    9,    9,
            10,   10,   11,   11,   12,   13,   13,   14,   14,   15,
            16,   17,   17,   18,   18,   19,   19,   20,    1,   21,
-           21,   22,   22,   23,   24,   25,   25,   29,   29,   30,
-           30,   26,   26,   27,   27,   28,   28,   31,   31,   32,
-           33,   34,   34,   35,   35,   36,   36,   37,   37,   38,
-           38,   38,   39,   39,   40,   40,   40,   40,   40,   40,
-           40,   40,   40,   43,   43,   44,   44,   45,   45,   46,
-           46,   42,   42,   42,   42,   42,   42,   42,   42,   42,
-           42,   42,   42,   42,   42,   42,   42,   42,   42,   42,
-           42,   42,   42,   42,   42,   42,   42,   42,   42,   42,
-           42,   42,   42,   42,   42,   42,   42,   42,   42,   42,
-           42,   42,   42,   42,   42,   42,   42,   42,   42,   42,
-           41,   41
+           21,   22,   22,   23,   24,   24,   25,   27,   27,   30,
+           30,   31,   31,   28,   28,   29,   29,   26,   26,   32,
+           32,   33,   34,   35,   35,   36,   36,   37,   37,   38,
+           38,   39,   39,   39,   40,   40,   41,   41,   41,   41,
+           41,   41,   41,   41,   41,   44,   44,   45,   45,   46,
+           46,   47,   47,   43,   43,   43,   43,   43,   43,   43,
+           43,   43,   43,   43,   43,   43,   43,   43,   43,   43,
+           43,   43,   43,   43,   43,   43,   43,   43,   43,   43,
+           43,   43,   43,   43,   43,   43,   43,   43,   43,   43,
+           43,   43,   43,   43,   43,   43,   43,   43,   43,   43,
+           43,   43,   42,   42
     ];
 
     protected $yylen = [
@@ -202,17 +204,17 @@ class Parser extends \Kmyacc\AbstractParser {
             1,    1,    1,    3,    1,    2,    1,    3,    1,    2,
             0,    1,    1,    1,    0,    0,    1,    1,    2,    3,
             1,    0,    3,    0,    1,    1,    3,    1,    1,    0,
-            1,    1,    2,    1,   12,    0,    1,    1,    2,    1,
-            2,    0,    2,    0,    2,    0,    1,    1,    2,    1,
-            9,    0,    1,    1,    1,    0,    2,    0,    3,    1,
-            1,    1,    1,    2,    1,    1,    1,    1,    1,    1,
-            3,    3,    3,    0,    1,    0,    1,    1,    2,    1,
+            1,    1,    2,    1,    6,    3,    7,    0,    1,    1,
+            2,    1,    2,    0,    2,    0,    2,    0,    1,    1,
+            2,    1,    9,    0,    1,    1,    1,    0,    2,    0,
+            3,    1,    1,    1,    1,    2,    1,    1,    1,    1,
+            1,    1,    3,    3,    3,    0,    1,    0,    1,    1,
+            2,    1,    1,    1,    1,    1,    1,    1,    1,    1,
             1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-            1,    1,    1,    1,    1,    1,    1,    1,    1,    2,
+            1,    2,    2,    2,    2,    2,    2,    2,    2,    2,
             2,    2,    2,    2,    2,    2,    2,    2,    2,    2,
-            2,    2,    2,    2,    2,    2,    2,    2,    2,    2,
-            2,    2,    2,    2,    3,    3,    3,    3,    3,    3,
-            1,    2
+            2,    2,    2,    2,    2,    2,    3,    3,    3,    3,
+            3,    3,    1,    2
     ];
 
     public function __construct(\JLexPHP\AbstractLexer $lexer) {
@@ -374,50 +376,54 @@ class Parser extends \Kmyacc\AbstractParser {
             },
             44 => function ($yysp) {
                 
+            $this->yyval = (function($class, $fields) {
+                $class->fields = $fields;
+
+                return $class;
+            })($this->yyastk[$yysp - (6 - 1)], $this->yyastk[$yysp - (6 - 4)]);
+        
+            },
+            45 => function ($yysp) {
+                 $this->yyval = $this->yyastk[$yysp - (3 - 1)]; 
+            },
+            46 => function ($yysp) {
+                
             $this->yyval = new Node\Class_([
-                'name' => $this->yyastk[$yysp - (12 - 5)],
+                'name' => $this->yyastk[$yysp - (7 - 5)],
 
-                'flags' => $this->yyastk[$yysp - (12 - 3)],
+                'flags' => $this->yyastk[$yysp - (7 - 3)],
 
-                'extends'    => $this->yyastk[$yysp - (12 - 6)],
-                'implements' => $this->yyastk[$yysp - (12 - 7)],
-
-                'fields' => $this->yyastk[$yysp - (12 - 10)],
+                'extends'    => $this->yyastk[$yysp - (7 - 6)],
+                'implements' => $this->yyastk[$yysp - (7 - 7)],
 
                 'attributes' => [
-                    'comments'    => $this->yyastk[$yysp - (12 - 1)],
-                    'annotations' => $this->yyastk[$yysp - (12 - 2)]
+                    'comments'    => $this->yyastk[$yysp - (7 - 1)],
+                    'annotations' => $this->yyastk[$yysp - (7 - 2)]
                 ]
 
             ]);
         
             },
-            45 => function ($yysp) {
+            47 => function ($yysp) {
                  $this->yyval = 0; 
             },
-            46 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
-            },
-            47 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
-            },
             48 => function ($yysp) {
-                 $this->yyval = static::applyFlag($this->yyastk[$yysp - (2 - 1)], $this->yyastk[$yysp - (2 - 2)]); 
+                $this->yyval = $this->yyastk[$yysp] ?? '';
             },
             49 => function ($yysp) {
-                 $this->yyval = Node\Class_::FLAG_FINAL; 
+                $this->yyval = $this->yyastk[$yysp] ?? '';
             },
             50 => function ($yysp) {
-                 $this->yyval = Node\Class_::FLAG_FINAL_FINAL; 
+                 $this->yyval = static::applyFlag($this->yyastk[$yysp - (2 - 1)], $this->yyastk[$yysp - (2 - 2)]); 
             },
             51 => function ($yysp) {
-                 $this->yyval = null; 
+                 $this->yyval = Node\Class_::FLAG_FINAL; 
             },
             52 => function ($yysp) {
-                 $this->yyval = $this->yyastk[$yysp - (2 - 2)]; 
+                 $this->yyval = Node\Class_::FLAG_FINAL_FINAL; 
             },
             53 => function ($yysp) {
-                 $this->yyval = []; 
+                 $this->yyval = null; 
             },
             54 => function ($yysp) {
                  $this->yyval = $this->yyastk[$yysp - (2 - 2)]; 
@@ -426,18 +432,24 @@ class Parser extends \Kmyacc\AbstractParser {
                  $this->yyval = []; 
             },
             56 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = $this->yyastk[$yysp - (2 - 2)]; 
             },
             57 => function ($yysp) {
-                 $this->yyval = [$this->yyastk[$yysp - (1 - 1)]]; 
+                 $this->yyval = []; 
             },
             58 => function ($yysp) {
-                 $this->yyval = array_merge($this->yyastk[$yysp - (2 - 1)], [$this->yyastk[$yysp - (2 - 2)]]); 
-            },
-            59 => function ($yysp) {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
             },
+            59 => function ($yysp) {
+                 $this->yyval = [$this->yyastk[$yysp - (1 - 1)]]; 
+            },
             60 => function ($yysp) {
+                 $this->yyval = array_merge($this->yyastk[$yysp - (2 - 1)], [$this->yyastk[$yysp - (2 - 2)]]); 
+            },
+            61 => function ($yysp) {
+                $this->yyval = $this->yyastk[$yysp] ?? '';
+            },
+            62 => function ($yysp) {
                 
             $this->yyval = new Node\Field([
                 'name' => $this->yyastk[$yysp - (9 - 5)],
@@ -458,50 +470,44 @@ class Parser extends \Kmyacc\AbstractParser {
             $this->lexer->sendGaps = false;
         
             },
-            61 => function ($yysp) {
-                 $this->yyval = 0; 
-            },
-            62 => function ($yysp) {
-                 $this->yyval = Node\Field::FLAG_DIRECT; 
-            },
             63 => function ($yysp) {
                  $this->yyval = 0; 
             },
             64 => function ($yysp) {
-                 $this->yyval = Node\Field::FLAG_EDITABLE; 
+                 $this->yyval = Node\Field::FLAG_DIRECT; 
             },
             65 => function ($yysp) {
-                 $this->yyval = new Type('mixed', false); 
+                 $this->yyval = 0; 
             },
             66 => function ($yysp) {
-                 $this->yyval = $this->yyastk[$yysp - (2 - 2)]; 
+                 $this->yyval = Node\Field::FLAG_EDITABLE; 
             },
             67 => function ($yysp) {
-                 $this->yyval = ['assign' => 0, 'value' => null]; 
+                 $this->yyval = new Type('mixed', false); 
             },
             68 => function ($yysp) {
-                 $this->yyval = ['assign' => $this->yyastk[$yysp - (3 - 1)], 'value'  => $this->yyastk[$yysp - (3 - 3)]]; 
+                 $this->yyval = $this->yyastk[$yysp - (2 - 2)]; 
             },
             69 => function ($yysp) {
-                 $this->lexer->sendGaps = true; $this->yyval = Node\Field::FLAG_FILTER_DEFAULT; 
+                 $this->yyval = ['assign' => 0, 'value' => null]; 
             },
             70 => function ($yysp) {
-                 $this->lexer->sendGaps = true; $this->yyval = 0; 
+                 $this->yyval = ['assign' => $this->yyastk[$yysp - (3 - 1)], 'value'  => $this->yyastk[$yysp - (3 - 3)]]; 
             },
             71 => function ($yysp) {
-                 $this->lexer->sendGaps = true; $this->yyval = Node\Field::FLAG_DIRECT_DEFINING; 
+                 $this->lexer->sendGaps = true; $this->yyval = Node\Field::FLAG_FILTER_DEFAULT; 
             },
             72 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->lexer->sendGaps = true; $this->yyval = 0; 
             },
             73 => function ($yysp) {
-                 $this->yyval = $this->yyastk[$yysp - (2 - 1)].$this->yyastk[$yysp - (2 - 2)]; 
+                 $this->lexer->sendGaps = true; $this->yyval = Node\Field::FLAG_DIRECT_DEFINING; 
             },
             74 => function ($yysp) {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
             },
             75 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = $this->yyastk[$yysp - (2 - 1)].$this->yyastk[$yysp - (2 - 2)]; 
             },
             76 => function ($yysp) {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
@@ -516,19 +522,19 @@ class Parser extends \Kmyacc\AbstractParser {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
             },
             80 => function ($yysp) {
-                 $this->yyval = $this->yyastk[$yysp - (3 - 1)].$this->yyastk[$yysp - (3 - 2)].$this->yyastk[$yysp - (3 - 3)]; 
+                $this->yyval = $this->yyastk[$yysp] ?? '';
             },
             81 => function ($yysp) {
-                 $this->yyval = $this->yyastk[$yysp - (3 - 1)].$this->yyastk[$yysp - (3 - 2)].$this->yyastk[$yysp - (3 - 3)]; 
+                $this->yyval = $this->yyastk[$yysp] ?? '';
             },
             82 => function ($yysp) {
                  $this->yyval = $this->yyastk[$yysp - (3 - 1)].$this->yyastk[$yysp - (3 - 2)].$this->yyastk[$yysp - (3 - 3)]; 
             },
             83 => function ($yysp) {
-                 $this->yyval = ''; 
+                 $this->yyval = $this->yyastk[$yysp - (3 - 1)].$this->yyastk[$yysp - (3 - 2)].$this->yyastk[$yysp - (3 - 3)]; 
             },
             84 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = $this->yyastk[$yysp - (3 - 1)].$this->yyastk[$yysp - (3 - 2)].$this->yyastk[$yysp - (3 - 3)]; 
             },
             85 => function ($yysp) {
                  $this->yyval = ''; 
@@ -537,16 +543,16 @@ class Parser extends \Kmyacc\AbstractParser {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
             },
             87 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = ''; 
             },
             88 => function ($yysp) {
-                 $this->yyval = $this->yyastk[$yysp - (2 - 1)].$this->yyastk[$yysp - (2 - 2)]; 
+                $this->yyval = $this->yyastk[$yysp] ?? '';
             },
             89 => function ($yysp) {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
             },
             90 => function ($yysp) {
-                $this->yyval = $this->yyastk[$yysp] ?? '';
+                 $this->yyval = $this->yyastk[$yysp - (2 - 1)].$this->yyastk[$yysp - (2 - 2)]; 
             },
             91 => function ($yysp) {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
@@ -603,102 +609,108 @@ class Parser extends \Kmyacc\AbstractParser {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
             },
             109 => function ($yysp) {
-                 $this->yyval = "**"; 
-            },
-            110 => function ($yysp) {
-                 $this->yyval = "++"; 
-            },
-            111 => function ($yysp) {
-                 $this->yyval = "--"; 
-            },
-            112 => function ($yysp) {
-                 $this->yyval = "<<"; 
-            },
-            113 => function ($yysp) {
-                 $this->yyval = ">>"; 
-            },
-            114 => function ($yysp) {
-                 $this->yyval = "<="; 
-            },
-            115 => function ($yysp) {
-                 $this->yyval = ">="; 
-            },
-            116 => function ($yysp) {
-                 $this->yyval = "=="; 
-            },
-            117 => function ($yysp) {
-                 $this->yyval = "!="; 
-            },
-            118 => function ($yysp) {
-                 $this->yyval = "<>"; 
-            },
-            119 => function ($yysp) {
-                 $this->yyval = "&&"; 
-            },
-            120 => function ($yysp) {
-                 $this->yyval = "||"; 
-            },
-            121 => function ($yysp) {
-                 $this->yyval = "??"; 
-            },
-            122 => function ($yysp) {
-                 $this->yyval = "?:"; 
-            },
-            123 => function ($yysp) {
-                 $this->yyval = "+="; 
-            },
-            124 => function ($yysp) {
-                 $this->yyval = "-="; 
-            },
-            125 => function ($yysp) {
-                 $this->yyval = "*="; 
-            },
-            126 => function ($yysp) {
-                 $this->yyval = "/="; 
-            },
-            127 => function ($yysp) {
-                 $this->yyval = ".="; 
-            },
-            128 => function ($yysp) {
-                 $this->yyval = "%="; 
-            },
-            129 => function ($yysp) {
-                 $this->yyval = "&="; 
-            },
-            130 => function ($yysp) {
-                 $this->yyval = "|="; 
-            },
-            131 => function ($yysp) {
-                 $this->yyval = "^="; 
-            },
-            132 => function ($yysp) {
-                 $this->yyval = "=>"; 
-            },
-            133 => function ($yysp) {
-                 $this->yyval = "->"; 
-            },
-            134 => function ($yysp) {
-                 $this->yyval = "==="; 
-            },
-            135 => function ($yysp) {
-                 $this->yyval = "!=="; 
-            },
-            136 => function ($yysp) {
-                 $this->yyval = "<=>"; 
-            },
-            137 => function ($yysp) {
-                 $this->yyval = "**="; 
-            },
-            138 => function ($yysp) {
-                 $this->yyval = "<<="; 
-            },
-            139 => function ($yysp) {
-                 $this->yyval = ">>="; 
-            },
-            140 => function ($yysp) {
                 $this->yyval = $this->yyastk[$yysp] ?? '';
             },
+            110 => function ($yysp) {
+                $this->yyval = $this->yyastk[$yysp] ?? '';
+            },
+            111 => function ($yysp) {
+                 $this->yyval = "**"; 
+            },
+            112 => function ($yysp) {
+                 $this->yyval = "++"; 
+            },
+            113 => function ($yysp) {
+                 $this->yyval = "--"; 
+            },
+            114 => function ($yysp) {
+                 $this->yyval = "<<"; 
+            },
+            115 => function ($yysp) {
+                 $this->yyval = ">>"; 
+            },
+            116 => function ($yysp) {
+                 $this->yyval = "<="; 
+            },
+            117 => function ($yysp) {
+                 $this->yyval = ">="; 
+            },
+            118 => function ($yysp) {
+                 $this->yyval = "=="; 
+            },
+            119 => function ($yysp) {
+                 $this->yyval = "!="; 
+            },
+            120 => function ($yysp) {
+                 $this->yyval = "<>"; 
+            },
+            121 => function ($yysp) {
+                 $this->yyval = "&&"; 
+            },
+            122 => function ($yysp) {
+                 $this->yyval = "||"; 
+            },
+            123 => function ($yysp) {
+                 $this->yyval = "??"; 
+            },
+            124 => function ($yysp) {
+                 $this->yyval = "?:"; 
+            },
+            125 => function ($yysp) {
+                 $this->yyval = "+="; 
+            },
+            126 => function ($yysp) {
+                 $this->yyval = "-="; 
+            },
+            127 => function ($yysp) {
+                 $this->yyval = "*="; 
+            },
+            128 => function ($yysp) {
+                 $this->yyval = "/="; 
+            },
+            129 => function ($yysp) {
+                 $this->yyval = ".="; 
+            },
+            130 => function ($yysp) {
+                 $this->yyval = "%="; 
+            },
+            131 => function ($yysp) {
+                 $this->yyval = "&="; 
+            },
+            132 => function ($yysp) {
+                 $this->yyval = "|="; 
+            },
+            133 => function ($yysp) {
+                 $this->yyval = "^="; 
+            },
+            134 => function ($yysp) {
+                 $this->yyval = "=>"; 
+            },
+            135 => function ($yysp) {
+                 $this->yyval = "->"; 
+            },
+            136 => function ($yysp) {
+                 $this->yyval = "==="; 
+            },
+            137 => function ($yysp) {
+                 $this->yyval = "!=="; 
+            },
+            138 => function ($yysp) {
+                 $this->yyval = "<=>"; 
+            },
+            139 => function ($yysp) {
+                 $this->yyval = "**="; 
+            },
+            140 => function ($yysp) {
+                 $this->yyval = "<<="; 
+            },
             141 => function ($yysp) {
+                 $this->yyval = ">>="; 
+            },
+            142 => function ($yysp) {
+                $this->yyval = $this->yyastk[$yysp] ?? '';
+            },
+            143 => function ($yysp) {
                  $this->yyval = $this->yyastk[$yysp - (2 - 1)].$this->yyastk[$yysp - (2 - 2)]; 
             },
         ];

@@ -18,8 +18,9 @@ use <Class full name> [as <Class alias>];
 // - <Class name> - Name of class (result name is also depends from `final` modifier and prefix configuration)
 // - extends <Class name> - Name of class that was been extended
 // - <Interface names> - Names of interfaces that was been implemented
+// - { ... }/; - Class body can be skipped or replaced to semicolon
 //
-[final[!]] class <Class name>[ extends <Class name>][ implements <Interface names>] {
+[final[!]] class <Class name>[ extends <Class name>][ implements <Interface names>] [{
 
     // Field declaration
     //
@@ -37,6 +38,6 @@ use <Class full name> [as <Class alias>];
     // - ; - Semicolon can be skipped if you do not set default value. Else it is required
     //
     [direct] <val/var> <Field name>[: <Type name>][ <:/</>= <Default value>][;]
-}
+}/;]
 */
 ```

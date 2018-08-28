@@ -7,6 +7,8 @@ use Foo\Bar\Baz as Foo;
 
 /**pdgl
 
+class TestEmpty
+
 @abc
 @aaa(test)
 @aaa(test, sgxgch)

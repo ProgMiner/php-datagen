@@ -166,7 +166,19 @@ file_stmt
     ;
 
 class
-    : comments annotations class_mods T_CLASS identifier class_extends class_implements '{' comments class_stmts '}' comments
+    : class_def '{' comments class_stmts '}' comments
+        {
+            $$ = (function($class, $fields) {
+                $class->fields = $fields;
+
+                return $class;
+            })($1, $4);
+        }
+    | class_def stmt_end comments   { $$ = $1; }
+    ;
+
+class_def
+    : comments annotations class_mods T_CLASS identifier class_extends class_implements
         {
             $$ = new Node\Class_([
                 'name' => $5,
@@ -175,8 +187,6 @@ class
 
                 'extends'    => $6,
                 'implements' => $7,
-
-                'fields' => $10,
 
                 'attributes' => [
                     'comments'    => $1,
