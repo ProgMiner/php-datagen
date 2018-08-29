@@ -31,6 +31,10 @@ abstract class Data_Test
     protected $D3 = null;
     protected $D4 = '';
     protected $D5 = '';
+    protected static function getFields() : array
+    {
+        return array_merge(parent::getFields(), self::FIELDS);
+    }
     public function __construct(array $init = [])
     {
         $this->A2 = $this->validateA2("Foo");

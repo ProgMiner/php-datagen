@@ -170,6 +170,20 @@ class Compiler {
         // Fields const
         $result->addStmt($this->buildClassFieldsConst($node, $factory));
 
+        // getFields
+        $result->addStmt(
+            $factory->method('getFields')->
+                makeProtected()->
+                makeStatic()->
+                setReturnType('array')->
+                addStmt(new PHPNode\Stmt\Return_(
+                    $factory->funcCall('array_merge', [
+                        $factory->staticCall('parent', 'getFields'),
+                        $factory->classConstFetch('self', 'FIELDS')
+                    ])
+                ))
+        );
+
         // Properties
         foreach ($node->fields as $field) {
             $builder = $factory->property($field->name);
