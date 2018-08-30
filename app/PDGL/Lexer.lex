@@ -116,8 +116,9 @@ L = {W}({W}|{N})*
 <YYINITIAL> "public"        { return $this->createToken(PDGL::T_PUBLIC); }
 <YYINITIAL> "protected"     { return $this->createToken(PDGL::T_PROTECTED); }
 <YYINITIAL> "private"       { return $this->createToken(PDGL::T_PRIVATE); }
+<YYINITIAL> "enum"          { return $this->createToken(PDGL::T_ENUM); }
 
-<YYINITIAL> {N}+                    { return $this->createToken(PDGL::T_NUMBER); }
+<YYINITIAL> "-"?{N}+                { return $this->createToken(PDGL::T_NUMBER); }
 <YYINITIAL> "'"(\\.|[^\\\'])*"'"    { return $this->createToken(PDGL::T_STRING_SQ); }
 
 <YYINITIAL> "```"   { return $this->createToken(PDGL::T_TRIPLE_BACKQUOTE); }

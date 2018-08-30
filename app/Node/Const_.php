@@ -40,6 +40,6 @@ final class Const_ extends Node {
 
     var flags: int <= 0;
 
-    var value: PHPNode\Expr;
+    var value: PHPNode\Expr?;
 }
 */

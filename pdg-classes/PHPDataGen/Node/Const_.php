@@ -44,15 +44,15 @@ class Const_ extends \PHPDataGen\Node
         $this->flags = $this->validateFlags($value);
         return $oldValue;
     }
-    public function &getValue() : \PhpParser\Node\Expr
+    public function &getValue() : ?\PhpParser\Node\Expr
     {
         return $this->value;
     }
-    protected function validateValue($value) : \PhpParser\Node\Expr
+    protected function validateValue($value) : ?\PhpParser\Node\Expr
     {
         return $value;
     }
-    public function setValue($value) : \PhpParser\Node\Expr
+    public function setValue($value) : ?\PhpParser\Node\Expr
     {
         $oldValue = $this->value;
         $this->value = $this->validateValue($value);

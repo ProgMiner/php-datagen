@@ -15,6 +15,7 @@
 %token T_PUBLIC
 %token T_PROTECTED
 %token T_PRIVATE
+%token T_ENUM
 
 %token T_TRIPLE_BACKQUOTE
 %token T_COLON_ASSIGN
@@ -87,7 +88,7 @@ type
     ;
 
 gap
-    :       { $$ = ''; }
+    :
     | T_GAP
     ;
 
@@ -168,6 +169,78 @@ file_stmts_req
 
 file_stmt
     : class
+    | enum
+    ;
+
+enum
+    : comments annotations class_mods T_ENUM identifier class_extends class_implements '{' comments enum_body '}' comments
+        {
+            $$ = (function($class, $stmts) {
+                foreach ($stmts as $stmt) {
+                    if (is_a($stmt, Node\Const_::__CLASS__)) {
+                        $class->consts[] = $stmt;
+                    } else if (is_a($stmt, Node\Field::__CLASS__)) {
+                        $class->fields[] = $stmt;
+                    }
+                }
+
+                return $class;
+            })(new Node\Class_([
+                'name' => $5,
+
+                'flags' => $3,
+
+                'extends'    => $6,
+                'implements' => $7,
+
+                'attributes' => [
+                    'comments'    => $1,
+                    'annotations' => $2
+                ]
+
+            ]), $10);
+        }
+    ;
+
+enum_body
+    : enum_consts                   { $$ = $1; }
+    | enum_consts ';' class_stmts   { $$ = array_merge($1, $3); }
+    ;
+
+enum_consts
+    :
+    | enum_consts_req   { $$ = $1; }
+    ;
+
+enum_consts_req
+    : enum_const                        { $$ = [$1]; }
+    | enum_consts_req ',' enum_const    { $$ = array_merge($1, [$3]); }
+    ;
+
+enum_const
+    : comments annotations identifier enum_const_value comments
+        {
+            $$ = new Node\Const_([
+                'name' => $3,
+
+                'flags' => 0,
+
+                'value' => is_null($4)?
+                    null: static::parsePHP($4),
+
+                'attributes' => [
+                    'comments'    => $1,
+                    'annotations' => $2
+                ]
+            ]);
+
+            $this->lexer->sendGaps = false;
+        }
+    ;
+
+enum_const_value
+    :                           { $$ = null; }
+    | const_assign gap T_NUMBER { $$ = $3; }
     ;
 
 class
@@ -258,8 +331,7 @@ const
                 'flags' => $3,
 
                 'value' => is_null($6)?
-                    new PHPNode\Scalar\LNumber($this->constCounter++):
-                    static::parsePHP($6),
+                    null: static::parsePHP($6),
 
                 'attributes' => [
                     'comments'    => $1,
@@ -412,8 +484,6 @@ php_string_dq
     ;
 
 %%
-
-    protected $constCounter = 0;
 
     protected function getComments(): array {
         $ret = [];

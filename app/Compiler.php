@@ -171,6 +171,7 @@ class Compiler {
         $result->addStmt($this->buildClassFieldsConst($node, $factory));
 
         // Constants
+        $constCounter = 0;
         foreach ($node->consts as $const) {
             static $phpParserModifier = [
                 0                           => 0,
@@ -185,8 +186,12 @@ class Compiler {
                 Node\Const_::FLAG_PRIVATE
             ;
 
+            if (!is_null($const->value) && is_a($const->value, PHPNode\Scalar\LNumber::class)) {
+                $constCounter = $const->value->value + 1;
+            }
+
             $result->addStmt(new PHPNode\Stmt\ClassConst(
-                [new PHPNode\Const_($const->name, $const->value)],
+                [new PHPNode\Const_($const->name, $const->value ?? $factory->val($constCounter++))],
                 $phpParserModifier[$const->flags & $modifiersMask]
             ));
         }

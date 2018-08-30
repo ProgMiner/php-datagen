@@ -8,11 +8,11 @@ abstract class Data_Test
     private const FIELDS = ['A' => 'A', 'A1' => 'A1', 'A2' => 'A2', 'A3' => 'A3', 'A4' => 'A4', 'A5' => 'A5', 'B' => 'B', 'B1' => 'B1', 'B2' => 'B2', 'B3' => 'B3', 'B4' => 'B4', 'B5' => 'B5', 'fuckParser' => 'FuckParser', 'C' => 'C', 'C1' => 'C1', 'C2' => 'C2', 'C3' => 'C3', 'C4' => 'C4', 'C5' => 'C5', 'D' => 'D', 'D1' => 'D1', 'D2' => 'D2', 'D3' => 'D3', 'D4' => 'D4', 'D5' => 'D5'];
     public const A = 0;
     public const A1 = 1;
-    private const B = 1;
+    private const B = 2;
     private const B1 = 1;
     protected const C = 2;
     protected const C1 = 1;
-    public const D = 3;
+    public const D = 2;
     public const D1 = 1;
     private $A = null;
     private $A1 = '';

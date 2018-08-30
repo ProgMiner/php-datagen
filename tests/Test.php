@@ -11,6 +11,16 @@ class TestEmpty
 
 class TestExtending extends Data_Test
 
+enum TestEnum {
+    ONE = 1, TWO, THREE
+}
+
+enum TestEnum1 {
+    ONE, TWO = 2, THREE;
+
+    val A
+}
+
 @abc
 @aaa(test)
 @aaa(test, sgxgch)
