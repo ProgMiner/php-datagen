@@ -20,6 +20,20 @@
         "symfony/console": "^4.0",
         "symfony/finder": "^4.1"
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:ProgMiner/jlex-php-lib"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:ProgMiner/kmyacc-lib"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:ProgMiner/php-datagen-lib"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "PHPDataGen\\": "app"
