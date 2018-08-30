@@ -41,15 +41,15 @@ class File extends \PHPDataGen\Node
         $this->uses = $this->validateUses($value);
         return $oldValue;
     }
-    public function &getClass() : ?\PHPDataGen\Node\Class_
+    public function &getClass() : ?\PHPDataGen\Node
     {
         return $this->class;
     }
-    protected function validateClass($value) : ?\PHPDataGen\Node\Class_
+    protected function validateClass($value) : ?\PHPDataGen\Node
     {
         return $value;
     }
-    public function setClass($value) : ?\PHPDataGen\Node\Class_
+    public function setClass($value) : ?\PHPDataGen\Node
     {
         $oldValue = $this->class;
         $this->class = $this->validateClass($value);

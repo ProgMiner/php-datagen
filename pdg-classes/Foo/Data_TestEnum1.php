@@ -9,6 +9,7 @@ abstract class Data_TestEnum1
     public const ONE = 0;
     public const TWO = 2;
     public const THREE = 3;
+    private const CONSTS = ['ONE' => 0, 'TWO' => 2, 'THREE' => 3];
     private $A = null;
     public function __construct(array $init = [])
     {

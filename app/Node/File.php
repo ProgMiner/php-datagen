@@ -35,6 +35,6 @@ final class File extends Node {
     var namespace: PHPNode\Name?;
     var uses:      array;  // \PhpParser\PHPNode\Stmt\Use_[]
 
-    var class: Class_?;
+    var class: ClassLike?;
 }
 */

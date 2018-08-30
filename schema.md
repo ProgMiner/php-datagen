@@ -54,12 +54,14 @@ use <Class full name> [as <Class alias>];
 // Enum declaration
 //
 // - [; /* Regular consts and fields */ - After enum's consts you can declare regular consts and fields
-[final[!]] enum <Class name>[ extends <Class name>][ implements <Interface names>] {
+enum <Enum name> {
 
     // Enum's consts declaration
-    <Const name> [= <Const value>][, <Other consts>][;
-
-    /* Regular consts and fields */]
+    //
+    // - Const name - Constant name
+    // - Const value - Constant value. Only int type
+    // - Other consts - Other consts
+    <Const name> [= <Const value>][, <Other consts>]
 }
 */
 ```

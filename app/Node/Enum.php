@@ -28,16 +28,8 @@ use PhpParser\Node as PHPNode;
 
 /**pdgl
 
-final class Class_ extends ClassLike {
-
-    const FLAG_FINAL       = 1;
-    const FLAG_FINAL_FINAL = 3;
-    const FLAG_DATA        = 4;
-
-    var extends:    PHPNode\Name?;
-    var implements: array; // PHPNode\Name[]
+final class Enum extends ClassLike {
 
     var consts: array; // Const_[]
-    var fields: array; // Field[]
 }
 */

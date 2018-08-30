@@ -26,18 +26,14 @@ namespace PHPDataGen\Node;
 
 use PhpParser\Node as PHPNode;
 
+use PHPDataGen\Node;
+
 /**pdgl
 
-final class Class_ extends ClassLike {
+final class ClassLike extends Node {
 
-    const FLAG_FINAL       = 1;
-    const FLAG_FINAL_FINAL = 3;
-    const FLAG_DATA        = 4;
+    var name: PHPNode\Identifier;
 
-    var extends:    PHPNode\Name?;
-    var implements: array; // PHPNode\Name[]
-
-    var consts: array; // Const_[]
-    var fields: array; // Field[]
+    var flags: int = 0;
 }
 */

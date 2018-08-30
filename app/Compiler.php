@@ -102,7 +102,11 @@ class Compiler {
 
         $result = $node->uses;
 
-        $result[] = $this->compileClass($node->class);
+        if (is_a($node->class, Node\Class_::class)) {
+            $result[] = $this->compileClass($node->class);
+        } else if (is_a($node->class, Node\Enum::class)) {
+            $result[] = $this->compileEnum($node->class);
+        }
 
         if (!is_null($node->namespace)) {
             $result = [new PHPNode\Stmt\Namespace_($node->namespace, $result)];
@@ -123,7 +127,7 @@ class Compiler {
         return ($flags & $flag) === $flag;
     }
 
-    protected function makeClassName(Node\Class_ $node): PHPNode\Identifier {
+    protected function makeClassName(Node\ClassLike $node): PHPNode\Identifier {
         $ret = '';
 
         if (!$this->testFlag($node, Node\Class_::FLAG_FINAL)) {
@@ -137,6 +141,68 @@ class Compiler {
 
     protected function convertFieldNameForMethod(string $name, string $prefix = ''): string {
         return $prefix.ucwords($name);
+    }
+
+    protected function compileEnum(Node\Enum_ $node): PHPNode\Stmt\Class_ {
+        $factory = new BuilderFactory();
+
+        $result = $factory->class($node);
+
+        $result->makeAbstract();
+
+        // TODO Library use disabling
+        $result->addStmt(
+            new PHPNode\Stmt\TraitUse([
+                new PHPNode\Name\FullyQualified('PHPDataGen\\EnumTrait')
+            ])
+        );
+
+        // Constants
+        $constCounter = 0;
+        foreach ($node->consts as $const) {
+            static $phpParserModifier = [
+                0                           => 0,
+                Node\Const_::FLAG_PUBLIC    => PHPNode\Stmt\Class_::MODIFIER_PUBLIC,
+                Node\Const_::FLAG_PROTECTED => PHPNode\Stmt\Class_::MODIFIER_PROTECTED,
+                Node\Const_::FLAG_PRIVATE   => PHPNode\Stmt\Class_::MODIFIER_PRIVATE
+            ];
+
+            static $modifiersMask =
+                Node\Const_::FLAG_PUBLIC    |
+                Node\Const_::FLAG_PROTECTED |
+                Node\Const_::FLAG_PRIVATE
+            ;
+
+            if (!is_null($const->value) && is_a($const->value, PHPNode\Scalar\LNumber::class)) {
+                $constCounter = $const->value->value + 1;
+            } else if (!is_null($const->value)) {
+                throw new \UnexpectedValueException('Not integer values of enum consts is not supported');
+            }
+
+            if (is_null($const->value)) {
+                $const->value = $factory->val($constCounter++);
+            }
+
+            $result->addStmt(new PHPNode\Stmt\ClassConst(
+                [new PHPNode\Const_($const->name, $const->value)],
+                $phpParserModifier[$const->flags & $modifiersMask]
+            ));
+        }
+
+        { // Enum's consts const
+            $consts = [];
+
+            foreach ($node->consts as $const) {
+                $consts[(string) $const->name] = $const->value->value;
+            }
+
+            $result->addStmt(new PHPNode\Stmt\ClassConst(
+                [new PHPNode\Const_('CONSTS', $factory->val($consts))],
+                PHPNode\Stmt\Class_::MODIFIER_PRIVATE
+            ));
+        }
+
+        return $result->getNode();
     }
 
     protected function compileClass(Node\Class_ $node): PHPNode\Stmt\Class_ {
@@ -163,7 +229,7 @@ class Compiler {
         // TODO Library use disabling
         $result->addStmt(
             new PHPNode\Stmt\TraitUse([
-                new PHPNode\Name\FullyQualified('PHPDataGen\\DataClassTrait')
+                new PHPNode\Name\FullyQualified('PHPDataGen\\ClassTrait')
             ])
         );
 
@@ -190,8 +256,12 @@ class Compiler {
                 $constCounter = $const->value->value + 1;
             }
 
+            if (is_null($const->value)) {
+                $const->value = $factory->val($constCounter++);
+            }
+
             $result->addStmt(new PHPNode\Stmt\ClassConst(
-                [new PHPNode\Const_($const->name, $const->value ?? $factory->val($constCounter++))],
+                [new PHPNode\Const_($const->name, $const->value)],
                 $phpParserModifier[$const->flags & $modifiersMask]
             ));
         }

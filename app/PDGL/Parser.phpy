@@ -16,6 +16,7 @@
 %token T_PROTECTED
 %token T_PRIVATE
 %token T_ENUM
+%token T_DATA
 
 %token T_TRIPLE_BACKQUOTE
 %token T_COLON_ASSIGN
@@ -173,38 +174,19 @@ file_stmt
     ;
 
 enum
-    : comments annotations class_mods T_ENUM identifier class_extends class_implements '{' comments enum_body '}' comments
+    : comments annotations T_ENUM identifier '{' comments enum_consts '}' comments
         {
-            $$ = (function($class, $stmts) {
-                foreach ($stmts as $stmt) {
-                    if (is_a($stmt, Node\Const_::__CLASS__)) {
-                        $class->consts[] = $stmt;
-                    } else if (is_a($stmt, Node\Field::__CLASS__)) {
-                        $class->fields[] = $stmt;
-                    }
-                }
+            $$ = new Node\Enum([
+                'name' => $4,
 
-                return $class;
-            })(new Node\Class_([
-                'name' => $5,
-
-                'flags' => $3,
-
-                'extends'    => $6,
-                'implements' => $7,
+                'consts' => $7,
 
                 'attributes' => [
                     'comments'    => $1,
                     'annotations' => $2
                 ]
-
-            ]), $10);
+            ]);
         }
-    ;
-
-enum_body
-    : enum_consts                   { $$ = $1; }
-    | enum_consts ';' class_stmts   { $$ = array_merge($1, $3); }
     ;
 
 enum_consts
@@ -294,7 +276,7 @@ class_mods_req
 class_mod
     : T_FINAL       { $$ = Node\Class_::FLAG_FINAL; }
     | T_FINAL '!'   { $$ = Node\Class_::FLAG_FINAL_FINAL; }
-//  | T_DATA        { $$ = Node\Class_::FLAG_DATA; }
+    | T_DATA        { $$ = Node\Class_::FLAG_DATA; }
     ;
 
 class_extends

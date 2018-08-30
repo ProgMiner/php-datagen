@@ -50,12 +50,13 @@ final class PDGL {
     const T_PROTECTED = 266;
     const T_PRIVATE = 267;
     const T_ENUM = 268;
-    const T_TRIPLE_BACKQUOTE = 269;
-    const T_COLON_ASSIGN = 270;
-    const T_ARROW_ASSIGN = 271;
-    const T_LITERAL = 272;
-    const T_NUMBER = 273;
-    const T_STRING_SQ = 274;
-    const T_STRING_DQ = 275;
-    const T_GAP = 276;
+    const T_DATA = 269;
+    const T_TRIPLE_BACKQUOTE = 270;
+    const T_COLON_ASSIGN = 271;
+    const T_ARROW_ASSIGN = 272;
+    const T_LITERAL = 273;
+    const T_NUMBER = 274;
+    const T_STRING_SQ = 275;
+    const T_STRING_DQ = 276;
+    const T_GAP = 277;
 }
