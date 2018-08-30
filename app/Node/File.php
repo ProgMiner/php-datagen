@@ -36,7 +36,5 @@ final class File extends Node {
     var uses:      array;  // \PhpParser\PHPNode\Stmt\Use_[]
 
     var class: Class_?;
-
-    var attributes: array; // TODO
 }
 */

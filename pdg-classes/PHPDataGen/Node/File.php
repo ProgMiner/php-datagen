@@ -5,16 +5,13 @@ namespace PHPDataGen\Node;
 class File extends \PHPDataGen\Node
 {
     use \PHPDataGen\DataClassTrait;
-    private const FIELDS = ['namespace' => 'Namespace', 'uses' => 'Uses', 'class' => 'Class', 'attributes' => 'Attributes'];
+    private const FIELDS = ['namespace' => 'Namespace', 'uses' => 'Uses', 'class' => 'Class'];
     private $namespace = null;
     private $uses = [];
     private $class = null;
-    private $attributes = [];
     public function __construct(array $init = [])
     {
-        foreach ($init as $field => $value) {
-            $this->{$field} = $this->{'validate' . self::FIELDS[$field]}($value);
-        }
+        $this->_PDG_construct($init);
     }
     public function &getNamespace() : ?\PhpParser\Node\Name
     {
@@ -56,20 +53,6 @@ class File extends \PHPDataGen\Node
     {
         $oldValue = $this->class;
         $this->class = $this->validateClass($value);
-        return $oldValue;
-    }
-    public function &getAttributes() : array
-    {
-        return $this->attributes;
-    }
-    protected function validateAttributes($value) : array
-    {
-        return $value;
-    }
-    public function setAttributes($value) : array
-    {
-        $oldValue = $this->attributes;
-        $this->attributes = $this->validateAttributes($value);
         return $oldValue;
     }
 }

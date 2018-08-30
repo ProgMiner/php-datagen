@@ -40,8 +40,6 @@ class Class_ extends Node {
     var implements: array; // PHPNode\Name[]
 
     var fields: array; // Field[]
-
-    var attributes: array; // TODO
 }
 */
 

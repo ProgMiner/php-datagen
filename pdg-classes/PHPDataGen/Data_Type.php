@@ -12,9 +12,7 @@ abstract class Data_Type
     private $class = false;
     public function __construct(array $init = [])
     {
-        foreach ($init as $field => $value) {
-            $this->{$field} = $this->{'validate' . self::FIELDS[$field]}($value);
-        }
+        $this->_PDG_construct($init);
     }
     public function &getName() : string
     {

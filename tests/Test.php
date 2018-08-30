@@ -9,6 +9,8 @@ use Foo\Bar\Baz as Foo;
 
 class TestEmpty
 
+class TestExtending extends Data_Test
+
 @abc
 @aaa(test)
 @aaa(test, sgxgch)

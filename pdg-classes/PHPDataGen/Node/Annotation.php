@@ -11,9 +11,7 @@ class Annotation extends \PHPDataGen\Node
     private $attributes = [];
     public function __construct(array $init = [])
     {
-        foreach ($init as $field => $value) {
-            $this->{$field} = $this->{'validate' . self::FIELDS[$field]}($value);
-        }
+        $this->_PDG_construct($init);
     }
     public function &getName() : \PhpParser\Node\Name
     {

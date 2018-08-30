@@ -170,20 +170,6 @@ class Compiler {
         // Fields const
         $result->addStmt($this->buildClassFieldsConst($node, $factory));
 
-        // getFields
-        $result->addStmt(
-            $factory->method('getFields')->
-                makeProtected()->
-                makeStatic()->
-                setReturnType('array')->
-                addStmt(new PHPNode\Stmt\Return_(
-                    $factory->funcCall('array_merge', [
-                        $factory->staticCall('parent', 'getFields'),
-                        $factory->classConstFetch('self', 'FIELDS')
-                    ])
-                ))
-        );
-
         // Properties
         foreach ($node->fields as $field) {
             $builder = $factory->property($field->name);
@@ -345,32 +331,8 @@ class Compiler {
             ));
         }
 
-        // foreach ($init as $field => $value) {
-        //     $this->{$field} = $this->{'validate' . self::FIELDS[$field]}($value);
-        // }
-        $result->addStmt(new PHPNode\Stmt\Foreach_(
-            new PHPNode\Expr\Variable('init'),
-            new PHPNode\Expr\Variable('value'),
-            [
-                'keyVar' => new PHPNode\Expr\Variable('field'),
-                'stmts' => [new PHPNode\Stmt\Expression(
-                    new PHPNode\Expr\Assign(
-                        new PHPNode\Expr\PropertyFetch(
-                            new PHPNode\Expr\Variable('this'),
-                            new PHPNode\Expr\Variable('field')
-                        ),
-                        $factory->methodCall(
-                            new PHPNode\Expr\Variable('this'),
-                            $factory->concat('validate', new PHPNode\Expr\ArrayDimFetch(
-                                $factory->classConstFetch('self', 'FIELDS'),
-                                new PHPNode\Expr\Variable('field')
-                            )),
-                            [new PHPNode\Expr\Variable('value')]
-                        )
-                    )
-                )]
-            ]
-        ));
+        // $this->_PDG_construct($init);
+        $result->addStmt($factory->methodCall(new PHPNode\Expr\Variable('this'), '_PDG_construct', [new PHPNode\Expr\Variable('init')]));
 
         return $result->getNode();
     }

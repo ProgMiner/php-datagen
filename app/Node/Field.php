@@ -39,8 +39,6 @@ class Field extends Node {
     var type:  Type;
 
     var default: PHPNode\Expr?;
-
-    var attributes: array; // TODO
 }
 */
 

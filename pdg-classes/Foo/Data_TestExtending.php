@@ -2,7 +2,7 @@
 
 namespace Foo;
 
-abstract class Data_TestEmpty
+abstract class Data_TestExtending extends \Foo\Data_Test
 {
     use \PHPDataGen\DataClassTrait;
     private const FIELDS = [];

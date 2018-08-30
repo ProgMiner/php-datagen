@@ -5,18 +5,15 @@ namespace PHPDataGen\Node;
 abstract class Data_Field extends \PHPDataGen\Node
 {
     use \PHPDataGen\DataClassTrait;
-    private const FIELDS = ['name' => 'Name', 'flags' => 'Flags', 'type' => 'Type', 'default' => 'Default', 'attributes' => 'Attributes'];
+    private const FIELDS = ['name' => 'Name', 'flags' => 'Flags', 'type' => 'Type', 'default' => 'Default'];
     private $name = null;
     private $flags = 0;
     private $type = null;
     private $default = null;
-    private $attributes = [];
     public function __construct(array $init = [])
     {
         $this->flags = $this->validateFlags(4);
-        foreach ($init as $field => $value) {
-            $this->{$field} = $this->{'validate' . self::FIELDS[$field]}($value);
-        }
+        $this->_PDG_construct($init);
     }
     public function &getName() : \PhpParser\Node\Identifier
     {
@@ -72,20 +69,6 @@ abstract class Data_Field extends \PHPDataGen\Node
     {
         $oldValue = $this->default;
         $this->default = $this->validateDefault($value);
-        return $oldValue;
-    }
-    public function &getAttributes() : array
-    {
-        return $this->attributes;
-    }
-    protected function validateAttributes($value) : array
-    {
-        return $value;
-    }
-    public function setAttributes($value) : array
-    {
-        $oldValue = $this->attributes;
-        $this->attributes = $this->validateAttributes($value);
         return $oldValue;
     }
 }

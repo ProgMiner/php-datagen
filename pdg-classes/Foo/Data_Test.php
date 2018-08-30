@@ -31,10 +31,6 @@ abstract class Data_Test
     protected $D3 = null;
     protected $D4 = '';
     protected $D5 = '';
-    protected static function getFields() : array
-    {
-        return array_merge(parent::getFields(), self::FIELDS);
-    }
     public function __construct(array $init = [])
     {
         $this->A2 = $this->validateA2("Foo");
@@ -62,9 +58,7 @@ abstract class Data_Test
         $this->D3 = "Fee";
         $this->D4 = $this->validateD4("Bar");
         $this->D5 = "Baz";
-        foreach ($init as $field => $value) {
-            $this->{$field} = $this->{'validate' . self::FIELDS[$field]}($value);
-        }
+        $this->_PDG_construct($init);
     }
     public function getA()
     {
