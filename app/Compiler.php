@@ -170,6 +170,27 @@ class Compiler {
         // Fields const
         $result->addStmt($this->buildClassFieldsConst($node, $factory));
 
+        // Constants
+        foreach ($node->consts as $const) {
+            static $phpParserModifier = [
+                0                           => 0,
+                Node\Const_::FLAG_PUBLIC    => PHPNode\Stmt\Class_::MODIFIER_PUBLIC,
+                Node\Const_::FLAG_PROTECTED => PHPNode\Stmt\Class_::MODIFIER_PROTECTED,
+                Node\Const_::FLAG_PRIVATE   => PHPNode\Stmt\Class_::MODIFIER_PRIVATE
+            ];
+
+            static $modifiersMask =
+                Node\Const_::FLAG_PUBLIC    |
+                Node\Const_::FLAG_PROTECTED |
+                Node\Const_::FLAG_PRIVATE
+            ;
+
+            $result->addStmt(new PHPNode\Stmt\ClassConst(
+                [new PHPNode\Const_($const->name, $const->value)],
+                $phpParserModifier[$const->flags & $modifiersMask]
+            ));
+        }
+
         // Properties
         foreach ($node->fields as $field) {
             $builder = $factory->property($field->name);

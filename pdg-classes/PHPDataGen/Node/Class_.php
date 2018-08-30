@@ -2,10 +2,13 @@
 
 namespace PHPDataGen\Node;
 
-abstract class Data_Class_ extends \PHPDataGen\Node
+class Class_ extends \PHPDataGen\Node
 {
     use \PHPDataGen\DataClassTrait;
     private const FIELDS = ['name' => 'Name', 'flags' => 'Flags', 'extends' => 'Extends', 'implements' => 'Implements', 'consts' => 'Consts', 'fields' => 'Fields'];
+    public const FLAG_FINAL = 1;
+    public const FLAG_FINAL_FINAL = 3;
+    public const FLAG_DATA = 4;
     private $name = null;
     private $flags = 0;
     private $extends = null;

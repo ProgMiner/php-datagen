@@ -2,14 +2,13 @@
 
 namespace PHPDataGen\Node;
 
-abstract class Data_Field extends \PHPDataGen\Node
+abstract class Data_Const_ extends \PHPDataGen\Node
 {
     use \PHPDataGen\DataClassTrait;
-    private const FIELDS = ['name' => 'Name', 'flags' => 'Flags', 'type' => 'Type', 'default' => 'Default'];
+    private const FIELDS = ['name' => 'Name', 'flags' => 'Flags', 'value' => 'Value'];
     private $name = null;
-    private $flags = 4;
-    private $type = null;
-    private $default = null;
+    private $flags = 0;
+    private $value = null;
     public function __construct(array $init = [])
     {
         $this->_PDG_construct($init);
@@ -42,32 +41,18 @@ abstract class Data_Field extends \PHPDataGen\Node
         $this->flags = $this->validateFlags($value);
         return $oldValue;
     }
-    public function &getType() : \PHPDataGen\Type
+    public function &getValue() : \PhpParser\Node\Expr
     {
-        return $this->type;
+        return $this->value;
     }
-    protected function validateType($value) : \PHPDataGen\Type
+    protected function validateValue($value) : \PhpParser\Node\Expr
     {
         return $value;
     }
-    public function setType($value) : \PHPDataGen\Type
+    public function setValue($value) : \PhpParser\Node\Expr
     {
-        $oldValue = $this->type;
-        $this->type = $this->validateType($value);
-        return $oldValue;
-    }
-    public function &getDefault() : ?\PhpParser\Node\Expr
-    {
-        return $this->default;
-    }
-    protected function validateDefault($value) : ?\PhpParser\Node\Expr
-    {
-        return $value;
-    }
-    public function setDefault($value) : ?\PhpParser\Node\Expr
-    {
-        $oldValue = $this->default;
-        $this->default = $this->validateDefault($value);
+        $oldValue = $this->value;
+        $this->value = $this->validateValue($value);
         return $oldValue;
     }
 }

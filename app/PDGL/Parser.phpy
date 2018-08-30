@@ -10,6 +10,11 @@
 %token T_DIRECT
 %token T_VAL
 %token T_VAR
+%token T_CONST
+%token T_CONST
+%token T_PUBLIC
+%token T_PROTECTED
+%token T_PRIVATE
 
 %token T_TRIPLE_BACKQUOTE
 %token T_COLON_ASSIGN
@@ -168,8 +173,14 @@ file_stmt
 class
     : class_def '{' comments class_stmts '}' comments
         {
-            $$ = (function($class, $fields) {
-                $class->fields = $fields;
+            $$ = (function($class, $stmts) {
+                foreach ($stmts as $stmt) {
+                    if (is_a($stmt, Node\Const_::__CLASS__)) {
+                        $class->consts[] = $stmt;
+                    } else if (is_a($stmt, Node\Field::__CLASS__)) {
+                        $class->fields[] = $stmt;
+                    }
+                }
 
                 return $class;
             })($1, $4);
@@ -235,6 +246,45 @@ class_stmts_req
 
 class_stmt
     : field
+    | const
+    ;
+
+const
+    : comments annotations const_mods T_CONST identifier const_value stmt_end comments
+        {
+            $$ = new Node\Const_([
+                'name' => $5,
+
+                'flags' => $3,
+
+                'value' => is_null($6)?
+                    new PHPNode\Scalar\LNumber($this->constCounter++):
+                    static::parsePHP($6),
+
+                'attributes' => [
+                    'comments'    => $1,
+                    'annotations' => $2
+                ]
+            ]);
+
+            $this->lexer->sendGaps = false;
+        }
+    ;
+
+const_mods
+    :               { $$ = 0; }
+    | T_PUBLIC      { $$ = Node\Const_::FLAG_PUBLIC; }
+    | T_PROTECTED   { $$ = Node\Const_::FLAG_PROTECTED; }
+    | T_PRIVATE     { $$ = Node\Const_::FLAG_PRIVATE; }
+    ;
+
+const_value
+    :                           { $$ = null; }
+    | const_assign gap php_expr { $$ = $3; }
+    ;
+
+const_assign
+    : '='   { $this->lexer->sendGaps = true; }
     ;
 
 field
@@ -276,11 +326,11 @@ field_type
     ;
 
 field_defval
-    :                       { $$ = ['assign' => 0, 'value' => null]; }
-    | assign gap php_expr   { $$ = ['assign' => $1, 'value'  => $3]; }
+    :                           { $$ = ['assign' => 0, 'value' => null]; }
+    | field_assign gap php_expr { $$ = ['assign' => $1, 'value'  => $3]; }
     ;
 
-assign
+field_assign
     : '='               { $this->lexer->sendGaps = true; $$ = Node\Field::FLAG_FILTER_DEFAULT; }
     | T_COLON_ASSIGN    { $this->lexer->sendGaps = true; $$ = 0; }
     | T_ARROW_ASSIGN    { $this->lexer->sendGaps = true; $$ = Node\Field::FLAG_DIRECT_DEFINING; }
@@ -362,6 +412,8 @@ php_string_dq
     ;
 
 %%
+
+    protected $constCounter = 0;
 
     protected function getComments(): array {
         $ret = [];

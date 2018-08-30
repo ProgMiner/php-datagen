@@ -30,7 +30,11 @@ use PHPDataGen\Node;
 
 /**pdgl
 
-class Class_ extends Node {
+final class Class_ extends Node {
+
+    const FLAG_FINAL       = 1;
+    const FLAG_FINAL_FINAL = 3;
+    const FLAG_DATA        = 4;
 
     var name: PHPNode\Identifier;
 
@@ -39,16 +43,7 @@ class Class_ extends Node {
     var extends:    PHPNode\Name?;
     var implements: array; // PHPNode\Name[]
 
+    var consts: array; // Const_[]
     var fields: array; // Field[]
 }
 */
-
-/**
- * @author Eridan Domoratskiy
- */
-class Class_ extends Data_Class_ {
-
-    const FLAG_FINAL       = 1;
-    const FLAG_FINAL_FINAL = 3;
-    const FLAG_DATA        = 4;
-}

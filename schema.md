@@ -22,6 +22,17 @@ use <Class full name> [as <Class alias>];
 //
 [final[!]] class <Class name>[ extends <Class name>][ implements <Interface names>] [{
 
+    // Constant declaration
+    //
+    // - [public/protected/private] - Const visibility modifier
+    // - const- Const declaration keyword
+    // - <Const name> - Name of result const
+    // - = - Assign value operator
+    // - <Const value> - A valid code on PHP that can be default value
+    // - ; - Semicolon can be skipped if you do not set default value. Else it is required
+    //
+    [public/protected/private] const <Const name> [= <Const value>][;]
+
     // Field declaration
     //
     // - direct - Makes access to result property direct (sets `protected` modifier instead of `private`)

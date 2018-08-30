@@ -16,6 +16,15 @@ class TestExtending extends Data_Test
 @aaa(test, sgxgch)
 class Test {
 
+    const A
+    const A1 = 1;
+    private const B
+    private const B1 = 1;
+    protected const C
+    protected const C1 = 1;
+    public const D
+    public const D1 = 1;
+
     val A
     val A1: string
     val A2 = "Foo";

@@ -202,8 +202,14 @@ function regen_parser($dir = 'app', $debug = 'false') {
         $name = explode(DIRECTORY_SEPARATOR, $matches[1]);
         $name = $name[count($name) - 1];
 
-        $model = $matches[1].".php.tpl";
+        $model = "{$matches[1]}.php.tpl";
         _system("kmyacc/kmyacc $options -l -p $name -m $model $file");
+
+        $resultName = "{$matches[1]}.php";
+        file_put_contents(
+            $resultName,
+            str_replace('::__CLASS__', '::class', file_get_contents($resultName))
+        );
 
         if ($file !== "$dir/PDGL.phpy") {
             copy($file, "$dir/PDGL.phpy");

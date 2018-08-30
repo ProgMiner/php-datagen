@@ -112,6 +112,10 @@ L = {W}({W}|{N})*
 <YYINITIAL> "direct"        { return $this->createToken(PDGL::T_DIRECT); }
 <YYINITIAL> "val"           { return $this->createToken(PDGL::T_VAL); }
 <YYINITIAL> "var"           { return $this->createToken(PDGL::T_VAR); }
+<YYINITIAL> "const"         { return $this->createToken(PDGL::T_CONST); }
+<YYINITIAL> "public"        { return $this->createToken(PDGL::T_PUBLIC); }
+<YYINITIAL> "protected"     { return $this->createToken(PDGL::T_PROTECTED); }
+<YYINITIAL> "private"       { return $this->createToken(PDGL::T_PRIVATE); }
 
 <YYINITIAL> {N}+                    { return $this->createToken(PDGL::T_NUMBER); }
 <YYINITIAL> "'"(\\.|[^\\\'])*"'"    { return $this->createToken(PDGL::T_STRING_SQ); }

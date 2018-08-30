@@ -1,7 +1,5 @@
 <?php
 
-// vim: syntax=php
-
 /* MIT License
 
 Copyright (c) 2018 Eridan Domoratskiy
@@ -24,37 +22,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE. */
 
-namespace PHPDataGen;
+namespace PHPDataGen\Node;
 
-/**
- * This is an automatically GENERATED file, which should not be manually edited.
- *
- * Based on prototype file of PHP parser
- * written by Masato Bito
- *
- * @author Eridan Domoratskiy
- * @author Masato Bito
- */
-final class PDGL {
+use PhpParser\Node as PHPNode;
 
-    const YYERRTOK = 256;
-    const T_FINAL = 257;
-    const T_CLASS = 258;
-    const T_EXTENDS = 259;
-    const T_IMPLEMENTS = 260;
-    const T_DIRECT = 261;
-    const T_VAL = 262;
-    const T_VAR = 263;
-    const T_CONST = 264;
-    const T_PUBLIC = 265;
-    const T_PROTECTED = 266;
-    const T_PRIVATE = 267;
-    const T_TRIPLE_BACKQUOTE = 268;
-    const T_COLON_ASSIGN = 269;
-    const T_ARROW_ASSIGN = 270;
-    const T_LITERAL = 271;
-    const T_NUMBER = 272;
-    const T_STRING_SQ = 273;
-    const T_STRING_DQ = 274;
-    const T_GAP = 275;
+use PHPDataGen\Node;
+
+/**pdgl
+
+final class Const_ extends Node {
+
+    const FLAG_PUBLIC          = 0;
+    const FLAG_PROTECTED       = 1;
+    const FLAG_PRIVATE         = 2;
+
+    var name: PHPNode\Identifier;
+
+    var flags: int <= 0;
+
+    var value: PHPNode\Expr;
 }
+*/

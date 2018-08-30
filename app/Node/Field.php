@@ -31,24 +31,18 @@ use PHPDataGen\Node;
 
 /**pdgl
 
-class Field extends Node {
-
-    var name: PHPNode\Identifier;
-
-    var flags: int = 4;
-    var type:  Type;
-
-    var default: PHPNode\Expr?;
-}
-*/
-
-/**
- * @author Eridan Domoratskiy
- */
-class Field extends Data_Field {
+final class Field extends Node {
 
     const FLAG_EDITABLE        = 1;
     const FLAG_DIRECT          = 2;
     const FLAG_FILTER_DEFAULT  = 4;
     const FLAG_DIRECT_DEFINING = 8;
+
+    var name: PHPNode\Identifier;
+
+    var flags: int <= 4;
+    var type:  Type;
+
+    var default: PHPNode\Expr?;
 }
+*/
